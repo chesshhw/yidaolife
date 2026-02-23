@@ -4,14 +4,14 @@ import Link from "next/link";
 import HomeContactBar from "@/components/HomeContactBar";
 
 export const metadata: Metadata = {
-  title: "一天学会救命技能｜AHA急救培训",
+  title: "AHA急救培训｜美国心脏协会认证CPR & AED课程｜全国开班｜都会急救",
   description:
-    "都会急救（AHA授权培训中心）提供 Heartsaver 急救员认证课程：CPR、AED、急救技能。小班实操，证书全球通用，全国多城市可约。",
+    "都会急救提供美国心脏协会（AHA）HeartSaver急救员认证培训课程，涵盖CPR心肺复苏、AED使用、气道异物梗阻等内容。全国多城市开班，支持企业团建培训与个人认证报名，正规证书，全国通用。",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "一天学会救命技能｜AHA急救培训",
+    title: "AHA急救培训｜美国心脏协会认证CPR & AED课程｜全国开班｜都会急救",
     description:
-      "Heartsaver 急救员认证：CPR + AED + 急救技能｜小班实操｜证书全球通用｜全国多城市可约。",
+      "都会急救提供美国心脏协会（AHA）HeartSaver急救员认证培训课程，涵盖CPR心肺复苏、AED使用、气道异物梗阻等内容。全国多城市开班，支持企业团建培训与个人认证报名，正规证书，全国通用。",
     url: "https://yidaolife.com/",
     images: [{ url: "/images/hero.jpg", width: 1200, height: 630, alt: "AHA急救培训" }],
   },
@@ -21,6 +21,13 @@ const SELLING_POINTS = [
   { label: "证书全球通用", icon: "check" },
   { label: "开课前一周可退改", icon: "check" },
   { label: "全国协同排期", icon: "check" },
+];
+
+const CITY_LINKS = [
+  { name: "北京", href: "/cities/beijing" },
+  { name: "天津", href: "/cities/tianjin" },
+  { name: "上海", href: "/cities/shanghai" },
+  { name: "广州", href: "/cities/guangzhou" },
 ];
 
 export default function HomePage() {
@@ -42,7 +49,7 @@ export default function HomePage() {
         {/* 文案容器：最上层，整体上移避免挡住人脸 */}
         <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center p-6 sm:p-12 lg:p-16 translate-y-[-15vh]">
           <h1 className="text-5xl md:text-6xl font-medium text-white tracking-tight max-w-2xl">
-            一天学会救命技能
+            AHA急救培训｜美国心脏协会认证课程
           </h1>
           <p className="mt-3 sm:mt-4 text-sm sm:text-base text-white opacity-90 max-w-lg">
             AHA官方授权培训中心 · 全国68城可约
@@ -64,15 +71,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. 主课程卡（含优势条） */}
-      <section id="course-card" className="pt-12 sm:pt-16 lg:pt-20 px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16 scroll-mt-24">
+      {/* 2. CPR与AED培训 · 主课程卡 */}
+      <section id="course-card" className="pt-12 sm:pt-16 lg:pt-20 px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16 scroll-mt-24" aria-labelledby="section-cpr">
+        <h2 id="section-cpr" className="sr-only">CPR心肺复苏与AED使用培训</h2>
         <div className="mx-auto max-w-5xl">
           <article className="mx-auto py-10 px-6 sm:px-10 rounded-3xl border border-[var(--border)] shadow-xl overflow-hidden bg-white dark:bg-black">
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
               <div className="min-w-0 flex-1 overflow-hidden">
-                <h2 className="text-base sm:text-lg md:text-xl font-medium tracking-tight text-[var(--foreground)] whitespace-nowrap overflow-hidden text-ellipsis">
+                <h3 className="text-base sm:text-lg md:text-xl font-medium tracking-tight text-[var(--foreground)] whitespace-nowrap overflow-hidden text-ellipsis">
                   AHA HeartSaver 国际急救员认证
-                </h2>
+                </h3>
               </div>
               <span className="shrink-0 text-xs tracking-wide text-[var(--muted)] border border-[var(--border)] px-3 py-1.5 rounded">
                 全国开课
@@ -104,12 +112,34 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. 课程实拍（图片墙 g1–g6） */}
-      <section className="px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24">
-        <div className="mx-auto max-w-4xl">
+      {/* 全国AHA急救培训城市 */}
+      <section className="py-10 sm:py-12 px-4 sm:px-6 lg:px-8 border-t border-[var(--border)]">
+        <div className="mx-auto max-w-5xl">
           <h2 className="text-lg sm:text-xl font-medium tracking-tight text-[var(--foreground)]">
-            课程实拍
+            全国AHA急救培训城市
           </h2>
+          <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 list-none p-0 m-0">
+            {CITY_LINKS.map(({ name, href }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+                >
+                  {name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* 3. 全国多城市开班 · 课程实拍 */}
+      <section className="px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24" aria-labelledby="section-cities">
+        <h2 id="section-cities" className="sr-only">全国多城市开班</h2>
+        <div className="mx-auto max-w-4xl">
+          <h3 className="text-lg sm:text-xl font-medium tracking-tight text-[var(--foreground)]">
+            课程实拍
+          </h3>
           <ul className="mt-3 sm:mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 list-none p-0 m-0">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <li key={i} className="relative aspect-[4/3] rounded-2xl overflow-hidden transition-transform duration-300 hover:scale-[1.03] hover:shadow-xl">
@@ -126,8 +156,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. 联系闭环条 */}
-      <HomeContactBar />
+      {/* 4. 企业急救培训解决方案 · 联系闭环 */}
+      <section aria-labelledby="section-enterprise">
+        <h2 id="section-enterprise" className="sr-only">企业急救培训解决方案</h2>
+        <HomeContactBar />
+      </section>
     </>
   );
 }
