@@ -3,24 +3,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { getAllCitiesForListing, cleanAddress, isTentativeAddress } from "@/data/cities";
-
-const FALLBACK_ADDRESS = "城市内常用固定培训场地（报名后告知具体教室）";
-
-function getDisplayLocations(locations: string[]): string[] {
-  return locations.map((raw) => {
-    const cleaned = cleanAddress(raw);
-    if (isTentativeAddress(raw) || !cleaned) return FALLBACK_ADDRESS;
-    return cleaned;
-  });
-}
+import { getCitiesByRegion, getDisplayLocations } from "@/data/cities";
 
 export default function CitiesPage() {
   const [q, setQ] = useState("");
-  const allCities = useMemo(() => getAllCitiesForListing(), []);
+  const regionsWithCities = useMemo(() => getCitiesByRegion(), []);
   const filtered = useMemo(
-    () => (q.trim() ? allCities.filter((c) => c.name.includes(q.trim())) : allCities),
-    [allCities, q]
+    () =>
+      q.trim()
+        ? regionsWithCities.map(({ region, cities }) => ({
+            region,
+            cities: cities.filter((c) => c.name.includes(q.trim())),
+          })).filter((r) => r.cities.length > 0)
+        : regionsWithCities,
+    [regionsWithCities, q]
   );
 
   return (
@@ -65,44 +61,50 @@ export default function CitiesPage() {
       </section>
 
       <section className="py-10 pb-24 px-4 sm:px-6">
-        <div className="max-w-2xl mx-auto space-y-6">
+        <div className="max-w-2xl mx-auto space-y-10">
           {filtered.length === 0 ? (
             <p className="text-neutral-500 text-center py-8">暂无匹配城市</p>
           ) : (
-            filtered.map((city) => {
-              const displayLocations = getDisplayLocations(city.locations);
-              return (
-                <article
-                  key={city.slug}
-                  className="rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-sm"
-                >
-                  <h2 className="text-lg font-semibold text-neutral-900 mb-3">
-                    <Link
-                      href={`/city/${city.slug}`}
-                      className="hover:text-neutral-600 transition-colors"
-                    >
-                      {city.name}AHA急救培训
-                    </Link>
-                  </h2>
-                  <div className="space-y-2">
-                    {displayLocations.map((addr, i) => (
-                      <address
-                        key={i}
-                        className="text-neutral-700 not-italic text-sm leading-relaxed"
-                      >
-                        {addr}
-                      </address>
-                    ))}
-                  </div>
-                  <Link
-                    href={`/city/${city.slug}`}
-                    className="inline-block mt-4 text-sm font-medium text-neutral-900 hover:underline"
-                  >
-                    查看详情与报名 →
-                  </Link>
-                </article>
-              );
-            })
+            filtered.map(({ region, cities }) => (
+              <div key={region}>
+                <h2 className="text-lg font-semibold text-neutral-900 mb-4">{region}</h2>
+                <ul className="space-y-4 list-none p-0 m-0">
+                  {cities.map((city) => {
+                    const addrs = getDisplayLocations(city.locations);
+                    return (
+                      <li key={city.slug}>
+                        <article className="rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-sm">
+                          <h3 className="text-lg font-semibold text-neutral-900 mb-3">
+                            <Link
+                              href={`/city/${city.slug}`}
+                              className="hover:text-neutral-600 transition-colors"
+                            >
+                              {city.name}AHA急救培训
+                            </Link>
+                          </h3>
+                          <div className="space-y-2">
+                            {addrs.map((addr, i) => (
+                              <address
+                                key={i}
+                                className="text-neutral-700 not-italic text-sm leading-relaxed"
+                              >
+                                {addr}
+                              </address>
+                            ))}
+                          </div>
+                          <Link
+                            href={`/city/${city.slug}`}
+                            className="inline-block mt-4 text-sm font-medium text-neutral-900 hover:underline"
+                          >
+                            查看详情与报名 →
+                          </Link>
+                        </article>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))
           )}
         </div>
       </section>
