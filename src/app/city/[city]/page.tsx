@@ -57,7 +57,7 @@ export default async function CityPage({ params }: Props) {
           <p className="text-neutral-700 leading-relaxed max-w-[75ch]">
             在{name}参加美国心脏协会（AHA）HeartSaver急救员认证课程，
             本课程涵盖 CPR、AED 使用、成人及儿童急救处理，
-            通过考核颁发 AHA 官方电子证书，全国统一标准，全球通用。
+            通过考核颁发 AHA 官方纸质证书，全国统一标准，全球通用。
           </p>
           <p className="text-neutral-700 leading-relaxed mt-3 max-w-[75ch]">
             {name}AHA急救培训由全国AHA HeartSaver急救员认证中心统一授课体系，
@@ -112,10 +112,10 @@ export default async function CityPage({ params }: Props) {
           <h2 className="text-lg font-semibold text-neutral-900 mb-3">证书说明</h2>
           <p className="text-neutral-700 leading-relaxed max-w-[75ch]">
             课程采用 American Heart Association (AHA) 官方 HeartSaver 教学体系，
-            考试合格后获得 AHA 官方电子证书，证书全球通用。
+            考试合格后获得 AHA 官方纸质证书，证书全球通用。
           </p>
           <p className="text-neutral-700 leading-relaxed mt-2 max-w-[75ch]">
-            在{name}完成培训并通过考核的学员，将获得与全国其他城市相同的AHA官方电子证书。
+            在{name}完成培训并通过考核的学员，将获得与全国其他城市相同的AHA官方纸质证书。
           </p>
         </section>
 
@@ -155,7 +155,7 @@ export default async function CityPage({ params }: Props) {
             </div>
             <div>
               <dt className="font-medium text-neutral-900">Q2：证书多久下发？</dt>
-              <dd className="mt-1 text-neutral-700">A：考试通过后发放官方电子证书。</dd>
+              <dd className="mt-1 text-neutral-700">A：考试通过后发放官方纸质证书。</dd>
             </div>
             <div>
               <dt className="font-medium text-neutral-900">Q3：是否国际通用？</dt>
