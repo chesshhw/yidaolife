@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "城市与排期｜全国多城市可约",
+  title: "全国AHA HeartSaver急救员认证开课城市",
   description:
-    "都会急救覆盖全国多城市培训与排期：北京、天津、上海、广州、深圳等。按区域查看与预约，支持企业内训与公开班。",
+    "全国AHA HeartSaver急救员认证中心开课城市：北京、天津、上海、广州等。全国统一AHA体系、同步排期、企业团训、官方电子证书。按区域查看并预约。",
   alternates: { canonical: "/cities" },
   openGraph: {
-    title: "城市与排期｜全国多城市可约",
+    title: "全国AHA HeartSaver急救员认证开课城市",
     description:
-      "按区域查看 AHA 急救培训城市与排期：京津冀、长三角、珠三角、西南、东北等。",
+      "全国统一认证、多城可约。按区域查看京津冀、长三角、珠三角等开课城市，支持企业团训与个人报名。",
     url: "https://yidaolife.com/cities",
-    images: [{ url: "/images/china-map.jpg", width: 1200, height: 630, alt: "服务城市地图" }],
+    images: [{ url: "/images/china-map.jpg", width: 1200, height: 630, alt: "全国AHA急救培训开课城市地图" }],
   },
 };
 

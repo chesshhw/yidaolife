@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "picsum.photos", pathname: "/**" },
     ],
   },
+  async redirects() {
+    return [
+      { source: "/cities/:city", destination: "/city/:city", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

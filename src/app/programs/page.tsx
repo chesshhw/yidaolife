@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     description:
       "Heartsaver 急救员认证（CPR/AED/急救技能）+ 企业团体培训｜官方授权｜小班实操。",
     url: "https://yidaolife.com/programs",
-    images: [{ url: "/images/hero.jpg", width: 1200, height: 630, alt: "AHA课程体系" }],
+    images: [{ url: "/images/hero.webp", width: 1200, height: 630, alt: "AHA课程体系" }],
   },
 };
 
@@ -99,7 +99,7 @@ export default function ProgramsPage() {
       <section className="bg-neutral-50 dark:bg-neutral-900/30 py-20 px-4 sm:px-6 lg:px-8 border-t border-neutral-200 dark:border-neutral-800 border-b border-neutral-200 dark:border-neutral-800">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-lg md:text-xl font-medium tracking-wide text-center mb-2 text-[var(--foreground)]">
-            美国心脏协会授权培训中心
+            全国AHA HeartSaver急救员认证中心
           </h2>
           <p className="text-sm md:text-base text-neutral-500 dark:text-neutral-400 text-center mb-10">
             AHA Authorized Training Center

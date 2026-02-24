@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "关于我们｜AHA授权培训中心",
+  title: "关于我们｜全国AHA HeartSaver急救员认证中心",
   description:
-    "了解都会急救：AHA授权培训中心，专注 CPR、AED 与急救技能培训；以实操为核心，小班教学，支持企业团体与个人公开课。",
+    "了解都会急救：全国AHA HeartSaver急救员认证中心，专注 CPR、AED 与急救技能培训；以实操为核心，小班教学，支持企业团体与个人公开课。",
   alternates: { canonical: "/about" },
   openGraph: {
-    title: "关于我们｜AHA授权培训中心",
+    title: "关于我们｜全国AHA HeartSaver急救员认证中心",
     description:
-      "AHA授权培训中心｜以实操为核心的小班急救培训｜企业团体与公开课。",
+      "全国AHA HeartSaver急救员认证中心｜以实操为核心的小班急救培训｜企业团体与公开课。",
     url: "https://yidaolife.com/about",
-    images: [{ url: "/images/hero.jpg", width: 1200, height: 630, alt: "关于都会急救" }],
+    images: [{ url: "/images/hero.webp", width: 1200, height: 630, alt: "关于都会急救" }],
   },
 };
 

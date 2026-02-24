@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import HomeContactBar from "@/components/HomeContactBar";
+import PerformanceSelfCheck from "@/components/PerformanceSelfCheck";
 
 export const metadata: Metadata = {
   title: "AHA急救培训｜美国心脏协会认证CPR & AED课程｜全国开班｜都会急救",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
     description:
       "都会急救提供美国心脏协会（AHA）HeartSaver急救员认证培训课程，涵盖CPR心肺复苏、AED使用、气道异物梗阻等内容。全国多城市开班，支持企业团建培训与个人认证报名，正规证书，全国通用。",
     url: "https://yidaolife.com/",
-    images: [{ url: "/images/hero.jpg", width: 1200, height: 630, alt: "AHA急救培训" }],
+    images: [{ url: "/images/hero.webp", width: 1200, height: 630, alt: "AHA急救培训" }],
   },
 };
 
@@ -24,27 +25,38 @@ const SELLING_POINTS = [
 ];
 
 const CITY_LINKS = [
-  { name: "北京", href: "/cities/beijing" },
-  { name: "天津", href: "/cities/tianjin" },
-  { name: "上海", href: "/cities/shanghai" },
-  { name: "广州", href: "/cities/guangzhou" },
+  { name: "北京", href: "/city/beijing" },
+  { name: "天津", href: "/city/tianjin" },
+  { name: "上海", href: "/city/shanghai" },
+  { name: "广州", href: "/city/guangzhou" },
 ];
+
+/** 首屏 Hero 图：next/image 优化，仅此图用 priority */
+const HERO_IMAGE_SRC = "/images/hero.webp";
+const HERO_SIZES = "100vw";
+const HERO_BLUR =
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBEQ";
 
 export default function HomePage() {
   return (
     <>
-      {/* 1. Hero：public/images/hero.jpg 背景 + 遮罩 + 文案最上层 */}
-      <section className="relative w-full min-h-[65vh] flex flex-col">
-        {/* 背景图层 */}
-        <div
-          className="absolute inset-0 bg-no-repeat"
-          style={{
-            backgroundImage: "url('/images/hero.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "left center",
-          }}
-        />
-        {/* 黑色遮罩 */}
+      {/* 1. Hero：next/image 优化（Network 应见 /_next/image?url=...&w=...&q=...） */}
+      <section className="relative w-full h-[65vh] min-h-[520px] md:h-[70vh] md:min-h-[620px] flex flex-col">
+        <div className="absolute inset-0">
+          <Image
+            src={HERO_IMAGE_SRC}
+            alt=""
+            fill
+            priority
+            sizes={HERO_SIZES}
+            quality={72}
+            placeholder="blur"
+            blurDataURL={HERO_BLUR}
+            className="object-cover object-left"
+            style={{ objectFit: "cover" }}
+            data-hero="1"
+          />
+        </div>
         <div className="absolute inset-0 bg-black/40" aria-hidden />
         {/* 文案容器：最上层，整体上移避免挡住人脸 */}
         <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center p-6 sm:p-12 lg:p-16 translate-y-[-15vh]">
@@ -52,7 +64,7 @@ export default function HomePage() {
             AHA急救培训｜美国心脏协会认证课程
           </h1>
           <p className="mt-3 sm:mt-4 text-sm sm:text-base text-white opacity-90 max-w-lg">
-            AHA官方授权培训中心 · 全国68城可约
+            全国AHA HeartSaver急救员认证中心 · 全国68城可约
           </p>
           <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             <a
@@ -161,6 +173,10 @@ export default function HomePage() {
         <h2 id="section-enterprise" className="sr-only">企业急救培训解决方案</h2>
         <HomeContactBar />
       </section>
+
+      {process.env.NODE_ENV === "development" && (
+        <PerformanceSelfCheck heroFile={HERO_IMAGE_SRC} heroPriority heroSizes={HERO_SIZES} />
+      )}
     </>
   );
 }

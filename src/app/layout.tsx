@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingContact from "@/components/FloatingContact";
-
-const inter = Inter({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
 const SITE_NAME = "都会急救";
 const SITE_URL = "https://yidaolife.com";
@@ -36,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | 都会急救",
   },
   description:
-    "都会急救（AHA授权培训中心）提供 Heartsaver 急救员认证课程：CPR、AED、急救技能，小班教学，全国多城市可约。",
+    "全国AHA HeartSaver急救员认证中心：都会急救提供 Heartsaver 急救员认证课程，CPR、AED、急救技能，小班教学，全国多城市可约。",
   applicationName: "都会急救",
   keywords: ["AHA", "美国心脏协会", "急救培训", "CPR", "AED", "Heartsaver", "急救员认证"],
   alternates: { canonical: "/" },
@@ -47,17 +41,17 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: "都会急救｜AHA急救培训",
     description:
-      "AHA授权培训中心｜Heartsaver 急救员认证｜CPR + AED + 急救技能｜小班教学｜全国多城市可约。",
+      "全国AHA HeartSaver急救员认证中心｜Heartsaver 急救员认证｜CPR + AED + 急救技能｜小班教学｜全国多城市可约。",
     images: [
-      { url: "/images/hero.jpg", width: 1200, height: 630, alt: "都会急救 AHA 急救培训" },
+      { url: "/images/hero.webp", width: 1200, height: 630, alt: "都会急救 AHA 急救培训" },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "都会急救｜AHA急救培训",
     description:
-      "AHA授权培训中心｜Heartsaver 急救员认证｜CPR + AED + 急救技能｜全国多城市可约。",
-    images: ["/images/hero.jpg"],
+      "全国AHA HeartSaver急救员认证中心｜Heartsaver 急救员认证｜CPR + AED + 急救技能｜全国多城市可约。",
+    images: ["/images/hero.webp"],
   },
   robots: {
     index: true,
@@ -80,7 +74,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body className={`${inter.variable} antialiased font-sans min-h-screen flex flex-col`}>
+      <body className="antialiased font-sans min-h-screen flex flex-col">
         <Header />
         <main className="flex-1 pt-16 sm:pt-20">{children}</main>
         <Footer />
