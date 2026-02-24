@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import BeijingEnrollModal from "@/components/BeijingEnrollModal";
 
 const SITE_URL = "https://yidaolife.com";
 
 const TITLE = "北京AHA急救培训-HeartSaver急救员认证课程";
 const DESC =
-  "北京AHA急救培训，美国心脏协会HeartSaver急救员认证，CPR心肺复苏、AED使用。培训地址：北京市丰台区石榴中心2号楼、朝阳区三星大厦。证书全球通用。";
+  "北京AHA急救培训，美国心脏协会HeartSaver急救员认证，CPR心肺复苏、AED使用。培训地址：北京市丰台区石榴中心2号楼714-715。证书全球通用。";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -36,42 +37,30 @@ export default function BeijingCityPage() {
             本课程在北京长期稳定开课，涵盖 CPR 心肺复苏、AED 自动体外除颤仪使用、成人及儿童急救处理。
           </p>
           <p className={P_CLASS}>
-            北京AHA急救培训采用 American Heart Association 官方教学体系，考试通过后颁发 AHA 官方电子证书，证书全球通用。
+            北京AHA急救培训采用 American Heart Association 官方教学体系，考试通过后颁发 AHA 官方纸质证书，证书全球通用。
           </p>
         </section>
 
-        {/* 一、北京近期排期 */}
+        {/* 一、北京近期排期 + 培训地点（统一） */}
         <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>一、北京近期排期</h2>
-          <p className={P_SHORT}>北京长期滚动开班：</p>
-          <ul className="list-none p-0 m-0 space-y-2 text-neutral-700">
-            <li>朝阳区 2026年3月14日</li>
-            <li>丰台区 持续排期</li>
-          </ul>
-          <p className={`${P_CLASS} mt-3`}>
+          <h2 className={H2_CLASS}>一、北京培训地点</h2>
+          <address className="text-neutral-700 not-italic mb-4">
+            北京市，丰台区石榴中心2号楼714-715
+          </address>
+          <p className={P_SHORT}>
+            北京长期滚动开班，每月开课2次，一般安排在周末时间。
+          </p>
+          <p className={P_SHORT}>
+            也可单独预约开课时间，建议6人起开班。
+          </p>
+          <p className={P_CLASS}>
             建议提前预约，北京AHA急救培训名额有限。
           </p>
         </section>
 
-        {/* 二、北京培训地点 */}
+        {/* 二、培训现场实拍 */}
         <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>二、北京培训地点</h2>
-          <p className="text-neutral-800 font-medium mb-1">丰台区</p>
-          <address className="text-neutral-700 not-italic mb-4">
-            北京市，丰台区石榴中心2号楼
-          </address>
-          <p className="text-neutral-800 font-medium mb-1">朝阳区</p>
-          <address className="text-neutral-700 not-italic">
-            北京市，朝阳区三星大厦
-          </address>
-          <p className={`${P_CLASS} mt-3`}>
-            北京培训地点交通便利，场地规范，配备标准急救模拟设备。
-          </p>
-        </section>
-
-        {/* 三、培训现场实拍 */}
-        <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>三、培训现场实拍</h2>
+          <h2 className={H2_CLASS}>二、培训现场实拍</h2>
           <ul className="grid grid-cols-1 sm:grid-cols-3 gap-4 list-none p-0 m-0">
             {["/images/g3.jpg", "/images/g5.jpg", "/images/g6.jpg"].map((src) => (
               <li key={src} className="relative aspect-[4/3] rounded-lg overflow-hidden">
@@ -90,9 +79,9 @@ export default function BeijingCityPage() {
           </p>
         </section>
 
-        {/* 四、课程内容 */}
+        {/* 三、课程内容 */}
         <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>四、课程内容</h2>
+          <h2 className={H2_CLASS}>三、课程内容</h2>
           <p className={P_SHORT}>北京HeartSaver急救培训包括：</p>
           <ul className="list-disc list-inside text-neutral-700 space-y-2">
             <li>成人CPR实操</li>
@@ -106,34 +95,34 @@ export default function BeijingCityPage() {
           </p>
         </section>
 
-        {/* 五、AHA官方体系介绍 */}
+        {/* 四、AHA官方体系介绍 */}
         <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>五、AHA官方体系介绍</h2>
+          <h2 className={H2_CLASS}>四、AHA官方体系介绍</h2>
           <p className={P_CLASS}>
             American Heart Association（AHA）是全球知名心血管急救培训机构，HeartSaver课程为非医护人员设计，符合国际急救标准。
           </p>
         </section>
 
-        {/* 六、证书样式展示 */}
+        {/* 五、证书样式展示 */}
         <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>六、证书样式展示</h2>
+          <h2 className={H2_CLASS}>五、证书样式展示</h2>
           <div className="relative aspect-[4/3] max-w-md rounded-lg overflow-hidden">
             <Image
               src="/images/cert-sample.jpg"
-              alt="北京AHA急救培训官方证书样式（电子证书）"
+              alt="北京AHA急救培训官方证书样式（纸质证书）"
               fill
               className="object-contain"
               sizes="(max-width: 768px) 100vw, 28rem"
             />
           </div>
           <p className="text-neutral-600 text-sm mt-3 text-center">
-            北京AHA急救培训官方证书样式（电子证书）
+            北京AHA急救培训官方证书样式（纸质证书）
           </p>
         </section>
 
-        {/* 七、报名方式 */}
+        {/* 六、报名方式 */}
         <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>七、报名方式</h2>
+          <h2 className={H2_CLASS}>六、报名方式</h2>
           <div className="relative w-48 h-48 mx-auto rounded-lg overflow-hidden">
             <Image
               src="/images/app.jpg"
@@ -148,9 +137,9 @@ export default function BeijingCityPage() {
           </p>
         </section>
 
-        {/* 八、常见问题 FAQ */}
+        {/* 七、常见问题 FAQ */}
         <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>八、常见问题 FAQ</h2>
+          <h2 className={H2_CLASS}>七、常见问题 FAQ</h2>
           <dl className="space-y-4">
             <div>
               <dt className="font-medium text-neutral-900">Q1：北京AHA急救培训多少钱？</dt>
@@ -158,7 +147,7 @@ export default function BeijingCityPage() {
             </div>
             <div>
               <dt className="font-medium text-neutral-900">Q2：证书多久下发？</dt>
-              <dd className="mt-1 text-neutral-700">A：考试通过后发放官方电子证书。</dd>
+              <dd className="mt-1 text-neutral-700">A：考试通过后发放官方纸质证书。</dd>
             </div>
             <div>
               <dt className="font-medium text-neutral-900">Q3：是否国际通用？</dt>
@@ -175,9 +164,9 @@ export default function BeijingCityPage() {
           </dl>
         </section>
 
-        {/* 九、企业团训模块 */}
+        {/* 八、企业团训模块 */}
         <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>九、企业团训模块</h2>
+          <h2 className={H2_CLASS}>八、企业团训模块</h2>
           <p className={P_SHORT}>北京支持企业上门急救培训：</p>
           <ul className="list-disc list-inside text-neutral-700 space-y-2">
             <li>可定制时间</li>
@@ -188,12 +177,7 @@ export default function BeijingCityPage() {
         </section>
 
         <div className="flex flex-wrap gap-4 pt-4">
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center rounded-xl bg-neutral-900 text-white px-6 py-3 text-sm font-medium hover:bg-neutral-800"
-          >
-            立即报名
-          </Link>
+          <BeijingEnrollModal />
           <Link
             href="/cities"
             className="inline-flex items-center justify-center rounded-xl border border-neutral-300 text-neutral-700 px-6 py-3 text-sm font-medium hover:bg-neutral-50"
