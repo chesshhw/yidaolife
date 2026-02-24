@@ -48,13 +48,10 @@ export default function BeijingCityPage() {
             北京市，丰台区石榴中心2号楼714-715
           </address>
           <p className={P_SHORT}>
-            北京长期滚动开班，每月开课2次，一般安排在周末时间。
-          </p>
-          <p className={P_SHORT}>
-            也可单独预约开课时间，建议6人起开班。
+            北京长期滚动开班，每月开课2次，一般安排在周末时间，建议提前预约，北京AHA急救培训名额有限。
           </p>
           <p className={P_CLASS}>
-            建议提前预约，北京AHA急救培训名额有限。
+            也可单独预约开课时间，建议6人起开班。
           </p>
         </section>
 
@@ -74,9 +71,6 @@ export default function BeijingCityPage() {
               </li>
             ))}
           </ul>
-          <p className="text-neutral-600 text-sm mt-3 text-center">
-            北京AHA急救培训现场实拍
-          </p>
         </section>
 
         {/* 三、课程内容 */}
