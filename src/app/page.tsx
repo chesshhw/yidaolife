@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import HomeContactBar from "@/components/HomeContactBar";
 import PerformanceSelfCheck from "@/components/PerformanceSelfCheck";
+import { getHomepageCitySlugs, getCityBySlug } from "@/data/cities";
 
 export const metadata: Metadata = {
   title: "AHA急救培训｜美国心脏协会认证CPR & AED课程｜全国开班｜都会急救",
@@ -25,10 +26,11 @@ const SELLING_POINTS = [
 ];
 
 const CITY_LINKS = [
-  { name: "北京", href: "/city/beijing" },
-  { name: "天津", href: "/city/tianjin" },
-  { name: "上海", href: "/city/shanghai" },
-  { name: "广州", href: "/city/guangzhou" },
+  ...getHomepageCitySlugs().map((slug) => ({
+    name: getCityBySlug(slug)!.name,
+    href: `/city/${slug}`,
+  })),
+  { name: "其他城市", href: "/cities" },
 ];
 
 /** 首屏 Hero 图：next/image 优化，仅此图用 priority */

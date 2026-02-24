@@ -1,87 +1,92 @@
 /**
- * 城市数据：新增城市即自动生成 /city/[slug] 静态页（generateStaticParams）
+ * 城市数据：全量城市 + 地址，用于 /city/[slug] 与 /cities、首页
+ * 新增城市只改此处，无需新建页面
  */
 
+/** 清洗展示用地址：去掉 暂定、待定、（暂定）、； 等 */
+export function cleanAddress(raw: string): string {
+  return raw
+    .replace(/\s*[；;]\s*$/g, "")
+    .replace(/\s*（?\s*暂定\s*）?/g, "")
+    .replace(/\s*待定\s*/g, "")
+    .replace(/\s*（?\s*待定\s*）?/g, "")
+    .trim();
+}
+
+/** 是否为“待定”类地址（仅城市名或含待定），展示时可用 fallback 文案 */
+export function isTentativeAddress(raw: string): boolean {
+  const c = cleanAddress(raw);
+  return !c || /待定|暂定/i.test(raw);
+}
+
 export type CityData = {
-  slug: string;
   name: string;
-  regionId: string;
-  /** 区名，用于交通说明 */
-  district: string;
-  /** 完整地址：区、街道、大厦、门牌号 */
-  addressFull: string;
-  /** 近期培训时间：具体日期或 "近期均有排期，详情请咨询" */
-  schedule: string;
+  slug: string;
+  /** 一个城市多个地址（深圳两条，其它通常一条） */
+  locations: string[];
+  /** 可选，近期排期文案，如 "2026年3月8日、3月22日有课" */
+  scheduleText?: string;
+  /** 首页是否展示为前 6 个核心城市（北京、天津、上海、广州、深圳、重庆） */
+  isCore?: boolean;
+  /** 北京/上海/天津/深圳：每月开课2次；其它：每月开课 */
+  twicePerMonth?: boolean;
 };
 
-export const REGIONS: { id: string; name: string }[] = [
-  { id: "bj", name: "京津冀" },
-  { id: "yj", name: "长三角" },
-  { id: "zj", name: "珠三角" },
-  { id: "xn", name: "西南" },
-  { id: "xb", name: "西北" },
-  { id: "db", name: "东北" },
-  { id: "other", name: "其他" },
-];
+/** 首页展示顺序：北京、天津、上海、广州、深圳、重庆 */
+const CORE_ORDER = ["beijing", "tianjin", "shanghai", "guangzhou", "shenzhen", "chongqing"];
 
 export const CITIES: CityData[] = [
   {
-    slug: "beijing",
     name: "北京",
-    regionId: "bj",
-    district: "朝阳区",
-    addressFull: "北京市朝阳区建国路88号SOHO现代城A座2306室",
-    schedule: "近期均有排期，详情请咨询",
+    slug: "beijing",
+    locations: ["北京市，丰台区石榴中心2号楼714-715"],
+    isCore: true,
+    twicePerMonth: true,
   },
   {
-    slug: "tianjin",
     name: "天津",
-    regionId: "bj",
-    district: "河西区",
-    addressFull: "天津市河西区友谊北路与永安道交口罗马花园1座2门302室",
-    schedule: "近期均有排期，详情请咨询",
+    slug: "tianjin",
+    locations: ["天津市，和平区大沽北路与徐州道交口万通中心20层培训教室"],
+    isCore: true,
+    twicePerMonth: true,
   },
   {
-    slug: "shanghai",
     name: "上海",
-    regionId: "yj",
-    district: "浦东新区",
-    addressFull: "上海市浦东新区张杨路500号华润时代广场写字楼20层2008室",
-    schedule: "近期均有排期，详情请咨询",
+    slug: "shanghai",
+    locations: ["上海市，徐汇区吴中路8号锦辉大厦714室"],
+    isCore: true,
+    twicePerMonth: true,
   },
   {
-    slug: "guangzhou",
     name: "广州",
-    regionId: "zj",
-    district: "荔湾区",
-    addressFull: "广州市，荔湾区南岸路63号城启大厦513室",
-    schedule: "近期均有排期，详情请咨询",
+    slug: "guangzhou",
+    locations: ["广州市，荔湾区南岸路63号城启大厦513室"],
+    isCore: true,
+    twicePerMonth: false,
   },
   {
-    slug: "shenzhen",
     name: "深圳",
-    regionId: "zj",
-    district: "南山区",
-    addressFull: "深圳市，南山区新西路9号兰光科技园C栋603A",
-    schedule: "近期均有排期，详情请咨询",
+    slug: "shenzhen",
+    locations: [
+      "深圳市，南山区新西路9号兰光科技园C栋603A",
+      "深圳市，福田区八卦岭工业区511栋",
+    ],
+    isCore: true,
+    twicePerMonth: true,
   },
   {
-    slug: "chongqing",
     name: "重庆",
-    regionId: "xn",
-    district: "渝中区",
-    addressFull: "重庆市，渝中区南纪门街道复旦中学飞腾游泳馆",
-    schedule: "近期均有排期，详情请咨询",
+    slug: "chongqing",
+    locations: ["重庆市，渝中区南纪门街道复旦中学飞腾游泳馆"],
+    isCore: true,
+    twicePerMonth: false,
   },
 ];
 
-export const CITIES_BY_REGION: Record<string, CityData[]> = (() => {
-  const map: Record<string, CityData[]> = {};
-  for (const r of REGIONS) {
-    map[r.id] = CITIES.filter((c) => c.regionId === r.id);
-  }
-  return map;
-})();
+/** 首页展示：前 6 个核心城市（按 CORE_ORDER 顺序）+ “其他城市” 入口用 */
+export function getHomepageCitySlugs(): string[] {
+  return [...CORE_ORDER];
+}
 
 export function getCityBySlug(slug: string): CityData | undefined {
   return CITIES.find((c) => c.slug === slug);
@@ -89,4 +94,11 @@ export function getCityBySlug(slug: string): CityData | undefined {
 
 export function getAllCitySlugs(): string[] {
   return CITIES.map((c) => c.slug);
+}
+
+/** 所有城市（顺序：核心 6 个按 CORE_ORDER，其余按 CITIES 顺序） */
+export function getAllCitiesForListing(): CityData[] {
+  const rest = CITIES.filter((c) => !CORE_ORDER.includes(c.slug));
+  const core = CORE_ORDER.map((s) => CITIES.find((c) => c.slug === s)).filter(Boolean) as CityData[];
+  return [...core, ...rest];
 }

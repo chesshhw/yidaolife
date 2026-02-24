@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "全国AHA HeartSaver急救员认证开课城市",
   description:
-    "全国AHA HeartSaver急救员认证中心开课城市：北京、天津、上海、广州等。全国统一AHA体系、同步排期、企业团训、官方电子证书。按区域查看并预约。",
+    "全国AHA急救培训城市：北京、天津、上海、广州、深圳、重庆等。查看每城详细培训地址与报名入口。全国统一AHA体系、纸质证书、企业团训。",
   alternates: { canonical: "/cities" },
   openGraph: {
     title: "全国AHA HeartSaver急救员认证开课城市",
