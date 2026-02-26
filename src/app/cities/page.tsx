@@ -71,34 +71,46 @@ export default function CitiesPage() {
                 <ul className="space-y-4 list-none p-0 m-0">
                   {cities.map((city) => {
                     const addrs = getDisplayLocations(city.locations);
+                    const displayName = city.name.replace(/市$/, "");
                     return (
                       <li key={city.slug}>
-                        <article className="rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-sm">
-                          <h3 className="text-lg font-semibold text-neutral-900 mb-3">
-                            <Link
-                              href={`/city/${city.slug}`}
-                              className="hover:text-neutral-600 transition-colors"
+                        <Link
+                          href={`/city/${city.slug}`}
+                          className="group block rounded-2xl border border-neutral-200 bg-white p-4 md:p-5 shadow-sm hover:shadow-md hover:border-neutral-300 transition cursor-pointer"
+                          aria-label={`查看${city.name}AHA急救培训详情与报名`}
+                        >
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0 flex-1">
+                              <h3 className="text-base md:text-lg font-semibold text-neutral-900 group-hover:text-neutral-700 transition-colors">
+                                {displayName}
+                                <span className="text-neutral-500 font-normal">｜AHA急救培训</span>
+                              </h3>
+                              <p className="mt-1 text-sm text-neutral-600">
+                                HeartSaver急救员认证课程（纸质证书）
+                              </p>
+                            </div>
+                            <span
+                              className="shrink-0 inline-flex items-center gap-1 rounded-full bg-neutral-900 text-white text-sm px-3 py-1.5 group-hover:opacity-90 group-hover:shadow-md transition"
+                              aria-hidden
                             >
-                              {city.name}AHA急救培训
-                            </Link>
-                          </h3>
-                          <div className="space-y-2">
+                              查看详情与报名
+                              <span aria-hidden>→</span>
+                            </span>
+                          </div>
+                          <div className="mt-3 space-y-2">
                             {addrs.map((addr, i) => (
                               <address
                                 key={i}
-                                className="text-neutral-700 not-italic text-sm leading-relaxed"
+                                className="not-italic text-sm text-neutral-700 leading-relaxed"
                               >
                                 {addr}
                               </address>
                             ))}
                           </div>
-                          <Link
-                            href={`/city/${city.slug}`}
-                            className="inline-block mt-4 text-sm font-medium text-neutral-900 hover:underline"
-                          >
-                            查看详情与报名 →
-                          </Link>
-                        </article>
+                          <p className="mt-4 text-xs text-neutral-500">
+                            点击卡片任意位置进入详情与报名
+                          </p>
+                        </Link>
                       </li>
                     );
                   })}
