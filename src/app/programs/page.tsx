@@ -57,14 +57,14 @@ const courses: Course[] = [
   {
     id: 3,
     title: "企业团体急救培训（可定制）",
-    subtitle: "企业内训/团建/安全生产合规｜上门授课",
+    subtitle: "企业内训/团建/安全生产合规｜上门授课｜2小时/半天/全天（含证书）",
     highlights: ["方案定制与交付", "支持全国协调", "可开发票"],
     badge: "企业定制",
     image: "/images/g3.jpg",
     ctaPrimary: "预约方案",
     ctaSecondary: "了解详情",
-    hrefPrimary: "/contact",
-    hrefSecondary: "/programs#enterprise",
+    hrefPrimary: "/program/enterprise-first-aid-training",
+    hrefSecondary: "/program/enterprise-first-aid-training",
   },
 ];
 
@@ -116,54 +116,84 @@ export default function ProgramsPage() {
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {courses.map((c) => (
-              <article
-                key={c.id}
-                className="rounded-3xl border border-neutral-200 bg-white dark:bg-neutral-900 dark:border-neutral-800 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-              >
-                {/* 头图 16:9 */}
-                <div className="relative w-full aspect-video overflow-hidden rounded-t-3xl bg-neutral-100 dark:bg-neutral-800 group">
-                  <Image
-                    src={c.image}
-                    alt={c.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                  <span className="absolute left-4 top-4 rounded-full bg-black/70 text-white text-xs px-3 py-1 backdrop-blur">
-                    {c.badge}
-                  </span>
-                </div>
-
-                <div className="p-5 sm:p-6">
-                  <h2 className="text-lg font-semibold text-neutral-900 dark:text-white truncate">
-                    {c.title}
-                  </h2>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2 mt-2">
-                    {c.subtitle}
-                  </p>
-                  <ul className="text-sm text-neutral-700 dark:text-neutral-300 mt-4 space-y-2">
-                    {c.highlights.map((h) => (
-                      <li key={h}>{h}</li>
-                    ))}
-                  </ul>
-                  <div className="mt-6 flex items-center justify-between gap-3">
-                    <Link
-                      href={c.hrefPrimary}
-                      className="inline-flex items-center rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-4 py-2 text-sm font-medium hover:bg-neutral-800 dark:hover:bg-neutral-100 transition-colors"
-                    >
-                      {c.ctaPrimary}
-                    </Link>
-                    <Link
-                      href={c.hrefSecondary}
-                      className="text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
-                    >
-                      {c.ctaSecondary}
-                    </Link>
+            {courses.map((c) => {
+              const isEnterprise = c.id === 3;
+              const cardClass =
+                "rounded-3xl border border-neutral-200 bg-white dark:bg-neutral-900 dark:border-neutral-800 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden";
+              const cardContent = (
+                <>
+                  {/* 头图 16:9 */}
+                  <div className="relative w-full aspect-video overflow-hidden rounded-t-3xl bg-neutral-100 dark:bg-neutral-800 group">
+                    <Image
+                      src={c.image}
+                      alt={c.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    <span className="absolute left-4 top-4 rounded-full bg-black/70 text-white text-xs px-3 py-1 backdrop-blur">
+                      {c.badge}
+                    </span>
                   </div>
-                </div>
-              </article>
-            ))}
+
+                  <div className="p-5 sm:p-6">
+                    <h2 className="text-lg font-semibold text-neutral-900 dark:text-white truncate">
+                      {c.title}
+                    </h2>
+                    <p className="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2 mt-2">
+                      {c.subtitle}
+                    </p>
+                    <ul className="text-sm text-neutral-700 dark:text-neutral-300 mt-4 space-y-2">
+                      {c.highlights.map((h) => (
+                        <li key={h}>{h}</li>
+                      ))}
+                    </ul>
+                    <div className="mt-6 flex items-center justify-between gap-3">
+                      {isEnterprise ? (
+                        <>
+                          <span className="inline-flex items-center rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-4 py-2 text-sm font-medium">
+                            {c.ctaPrimary}
+                          </span>
+                          <span className="text-sm text-neutral-600 dark:text-neutral-400">
+                            {c.ctaSecondary}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <Link
+                            href={c.hrefPrimary}
+                            className="inline-flex items-center rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-4 py-2 text-sm font-medium hover:bg-neutral-800 dark:hover:bg-neutral-100 transition-colors"
+                          >
+                            {c.ctaPrimary}
+                          </Link>
+                          <Link
+                            href={c.hrefSecondary}
+                            className="text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
+                          >
+                            {c.ctaSecondary}
+                          </Link>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </>
+              );
+
+              return isEnterprise ? (
+                <Link
+                  key={c.id}
+                  href={c.hrefPrimary}
+                  className={`block ${cardClass}`}
+                  aria-label={`${c.title}，${c.subtitle}`}
+                >
+                  {cardContent}
+                </Link>
+              ) : (
+                <article key={c.id} className={cardClass}>
+                  {cardContent}
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
