@@ -51,8 +51,8 @@ const courses: Course[] = [
     image: "/images/g2.jpg",
     ctaPrimary: "咨询晋升",
     ctaSecondary: "了解详情",
-    hrefPrimary: "/contact",
-    hrefSecondary: "/programs#instructor",
+    hrefPrimary: "/instructor",
+    hrefSecondary: "/instructor",
   },
   {
     id: 3,
