@@ -119,19 +119,16 @@ export default function InstructorPage() {
           </a>
         </div>
 
-        {/* Cover / certificate related image */}
+        {/* 首屏核心视觉：报名二维码 */}
         <div className="pt-6">
           <Image
-            src="/images/instructor.jpg"
-            alt="AHA导师认证证书与报名通道"
-            width={1200}
-            height={675}
+            src="/images/wxpay.png"
+            alt="导师报名咨询二维码"
+            width={800}
+            height={800}
             priority
-            className="h-auto w-full rounded-2xl border border-neutral-200"
+            className="h-auto w-full max-w-sm rounded-2xl border border-neutral-200"
           />
-          <p className="mt-2 text-sm text-neutral-500">
-            提示：本页为导师报名通道说明与申请入口，具体安排以当期培训通知为准。
-          </p>
         </div>
       </header>
 
@@ -159,7 +156,7 @@ export default function InstructorPage() {
           <h2 className="text-xl font-semibold text-neutral-900">导师报名条件（基础要求）</h2>
           <p>通常需满足：</p>
           <ul className="list-disc space-y-2 pl-5">
-            <li>已完成 Heartsaver 急救员相关学习（或具备同等基础）</li>
+            <li>已完成 Heartsaver 急救员相关学习</li>
             <li>具备良好表达与授课意愿</li>
             <li>认同标准化教学与考核流程</li>
           </ul>
@@ -211,11 +208,14 @@ export default function InstructorPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold text-neutral-900">证书样本与资质说明</h2>
-          <p>
-            导师相关证书/记录以体系规则为准，可按要求提供示例说明与查询指引。
-            （如需展示更多资质/授权材料，可在此区块增加 1–2 张图片与简短说明，但不要堆太多，避免影响转化。）
-          </p>
+          <h2 className="text-xl font-semibold text-neutral-900">证书样本</h2>
+          <Image
+            src="/images/instructor.jpg"
+            alt="AHA导师证书样本"
+            width={1200}
+            height={675}
+            className="h-auto w-full rounded-2xl border border-neutral-200"
+          />
         </section>
 
         <section className="space-y-4">
@@ -275,10 +275,6 @@ export default function InstructorPage() {
                 className="h-auto w-64 max-w-full rounded-2xl border border-neutral-200"
               />
             </div>
-
-            <p className="text-sm text-neutral-500">
-              如需网站表单：字段建议（姓名、手机、所在城市、是否已有急救员证书、备注）。提交后显示成功提示并埋点（若项目已集成统计）。
-            </p>
           </div>
 
           {/* CTA #3 bottom */}
