@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
 
+const SITE_URL = "https://yidaolife.com";
+
 export const metadata: Metadata = {
-  title: "联系咨询｜报名与企业内训",
+  title: "联系我们｜企业急救培训与AHA导师咨询｜都会急救",
   description:
-    "联系都会急救咨询报名：公开课排期、企业团体内训与定制方案。支持微信咨询与快速确认。",
+    "企业急救培训（CPR+AED）团体课程定制，支持2小时/半天/全天（含证书）方案与全国排期；AHA导师认证咨询与合作。电话/微信：13512456138。",
   alternates: { canonical: "/contact" },
   openGraph: {
-    title: "联系咨询｜报名与企业内训",
+    title: "联系我们｜企业急救培训与AHA导师咨询｜都会急救",
     description:
-      "公开课排期、企业内训与定制方案｜微信咨询，快速确认。",
-    url: "https://yidaolife.com/contact",
-    images: [{ url: "/images/wechat.png", width: 1200, height: 630, alt: "微信咨询" }],
+      "企业急救培训（CPR+AED）团体课程定制，支持2小时/半天/全天（含证书）方案与全国排期；AHA导师认证咨询与合作。电话/微信：13512456138。",
+    type: "website",
+    url: `${SITE_URL}/contact`,
+    images: [{ url: `${SITE_URL}/images/hero.webp`, width: 1200, height: 630, alt: "企业急救培训与咨询" }],
   },
 };
 
