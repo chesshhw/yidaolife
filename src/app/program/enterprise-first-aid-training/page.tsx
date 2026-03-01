@@ -290,8 +290,8 @@ export default function EnterpriseFirstAidTrainingPage() {
             <p className="mt-1 text-sm text-neutral-500">工作日 9:00–18:00</p>
             <div className="mt-4">
               <Image
-                src="/images/wxpay.png"
-                alt="企业团训咨询二维码"
+                src="/images/wechat.png"
+                alt="课程顾问个人微信二维码"
                 width={240}
                 height={240}
                 loading="lazy"
