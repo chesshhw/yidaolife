@@ -2,116 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useCallback } from "react";
 
 const PHONE = "13512456138";
 const EMAIL = "13512456138@163.com";
 
-const CITIES = [
-  "北京",
-  "上海",
-  "深圳",
-  "广州",
-  "杭州",
-  "苏州",
-  "南京",
-  "成都",
-  "重庆",
-  "其他",
-];
-
-const HEADCOUNTS = [
-  { value: "10-20", label: "10-20人" },
-  { value: "20-50", label: "20-50人" },
-  { value: "50-100", label: "50-100人" },
-  { value: "100+", label: "100人以上" },
-];
-
-const DURATIONS = [
-  { value: "2小时", label: "2小时" },
-  { value: "半天", label: "半天" },
-  { value: "全天-含证书", label: "全天（含证书）" },
-];
-
-type FormState = {
-  company: string;
-  name: string;
-  phone: string;
-  city: string;
-  headcount: string;
-  duration: string;
-  note: string;
-};
-
-const initialForm: FormState = {
-  company: "",
-  name: "",
-  phone: "",
-  city: "",
-  headcount: "",
-  duration: "",
-  note: "",
-};
-
 export default function ContactPage() {
-  const [form, setForm] = useState<FormState>(initialForm);
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [toast, setToast] = useState<{ show: boolean; message: string }>({ show: false, message: "" });
-
-  const showToast = useCallback((message: string) => {
-    setToast({ show: true, message });
-    const t = setTimeout(() => setToast((prev) => ({ ...prev, show: false })), 3500);
-    return () => clearTimeout(t);
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const { company, name, phone, city, headcount, duration, note } = form;
-    if (!name.trim() || !phone.trim() || !city || !headcount || !duration) {
-      showToast("请填写必填项：姓名、手机、城市、培训人数、课程时长");
-      return;
-    }
-    setSubmitting(true);
-    const payload = {
-      company: company.trim() || undefined,
-      name: name.trim(),
-      phone: phone.trim(),
-      city,
-      headcount,
-      duration,
-      note: note.trim() || undefined,
-      pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
-      userAgent: typeof navigator !== "undefined" ? navigator.userAgent : undefined,
-      ts: Date.now(),
-    };
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && data.ok === true) {
-        setSubmitted(true);
-        setForm(initialForm);
-        if (typeof window !== "undefined" && (window as unknown as { gtag?: (a: string, b: string, c: object) => void }).gtag) {
-          (window as unknown as { gtag: (a: string, b: string, c: object) => void }).gtag("event", "form_submit", { form_name: "contact" });
-        }
-      } else {
-        showToast(data?.error || "提交失败，请稍后重试");
-      }
-    } catch {
-      showToast("网络错误，请检查网络后重试");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const update = (key: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setForm((prev) => ({ ...prev, [key]: e.target.value }));
-  };
-
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
@@ -194,7 +89,7 @@ export default function ContactPage() {
                 href="#contact"
                 className="mt-4 inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-4 py-2 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
               >
-                提交需求
+                查看联系方式
               </a>
             </div>
 
@@ -296,115 +191,14 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* 预约表单 #contact */}
+      {/* 联系与预约 #contact */}
       <section id="contact" className="scroll-mt-24 py-12 sm:py-16">
         <div className="mx-auto max-w-[1120px] px-4">
-          <h2 className="text-xl font-semibold text-neutral-900">提交需求，获取方案与报价</h2>
-
-          {submitted ? (
-            <div className="mt-6 rounded-2xl border border-green-200 bg-green-50 p-6 text-center">
-              <p className="font-medium text-green-800">已收到，我们将尽快联系您。</p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="mt-6 max-w-xl space-y-4">
-              <div>
-                <label htmlFor="company" className="block text-sm font-medium text-neutral-700">公司/机构名称（选填）</label>
-                <input
-                  id="company"
-                  type="text"
-                  value={form.company}
-                  onChange={update("company")}
-                  className="mt-1 w-full rounded-xl border border-neutral-300 px-4 py-2.5 text-neutral-900 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
-                />
-              </div>
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-neutral-700">姓名（必填）</label>
-                <input
-                  id="name"
-                  type="text"
-                  required
-                  value={form.name}
-                  onChange={update("name")}
-                  className="mt-1 w-full rounded-xl border border-neutral-300 px-4 py-2.5 text-neutral-900 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
-                />
-              </div>
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-neutral-700">手机（必填）</label>
-                <input
-                  id="phone"
-                  type="tel"
-                  required
-                  value={form.phone}
-                  onChange={update("phone")}
-                  className="mt-1 w-full rounded-xl border border-neutral-300 px-4 py-2.5 text-neutral-900 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
-                />
-              </div>
-              <div>
-                <label htmlFor="city" className="block text-sm font-medium text-neutral-700">城市（必填）</label>
-                <select
-                  id="city"
-                  required
-                  value={form.city}
-                  onChange={update("city")}
-                  className="mt-1 w-full rounded-xl border border-neutral-300 px-4 py-2.5 text-neutral-900 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
-                >
-                  <option value="">请选择</option>
-                  {CITIES.map((c) => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="headcount" className="block text-sm font-medium text-neutral-700">培训人数（必填）</label>
-                <select
-                  id="headcount"
-                  required
-                  value={form.headcount}
-                  onChange={update("headcount")}
-                  className="mt-1 w-full rounded-xl border border-neutral-300 px-4 py-2.5 text-neutral-900 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
-                >
-                  <option value="">请选择</option>
-                  {HEADCOUNTS.map((h) => (
-                    <option key={h.value} value={h.value}>{h.label}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="duration" className="block text-sm font-medium text-neutral-700">课程时长（必填）</label>
-                <select
-                  id="duration"
-                  required
-                  value={form.duration}
-                  onChange={update("duration")}
-                  className="mt-1 w-full rounded-xl border border-neutral-300 px-4 py-2.5 text-neutral-900 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
-                >
-                  <option value="">请选择</option>
-                  {DURATIONS.map((d) => (
-                    <option key={d.value} value={d.value}>{d.label}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="note" className="block text-sm font-medium text-neutral-700">备注（选填）</label>
-                <textarea
-                  id="note"
-                  rows={3}
-                  value={form.note}
-                  onChange={update("note")}
-                  className="mt-1 w-full rounded-xl border border-neutral-300 px-4 py-2.5 text-neutral-900 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={submitting}
-                className="w-full rounded-xl bg-red-600 py-3 text-sm font-medium text-white hover:bg-red-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed sm:w-auto sm:px-8"
-              >
-                {submitting ? "提交中…" : "提交"}
-              </button>
-            </form>
-          )}
-
-          <div className="mt-10 flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-10">
+          <h2 className="text-xl font-semibold text-neutral-900">联系与预约</h2>
+          <p className="mt-3 text-neutral-700">
+            如需了解课程安排或企业团训方案，欢迎通过以下方式联系。
+          </p>
+          <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-10">
             <div>
               <p className="text-sm font-medium text-neutral-900">电话</p>
               <a href={`tel:${PHONE}`} className="text-lg font-semibold text-neutral-900 hover:text-red-600 transition-colors">
@@ -424,16 +218,6 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-
-      {toast.show && (
-        <div
-          className="fixed bottom-6 left-1/2 z-[100] max-w-[90vw] -translate-x-1/2 rounded-lg bg-neutral-900 px-4 py-3 text-sm text-white shadow-lg"
-          role="status"
-          aria-live="polite"
-        >
-          {toast.message}
-        </div>
-      )}
     </div>
   );
 }
