@@ -56,25 +56,55 @@ const initialForm: FormState = {
 export default function ContactPage() {
   const [form, setForm] = useState<FormState>(initialForm);
   const [submitted, setSubmitted] = useState(false);
-  const [toast, setToast] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [toast, setToast] = useState<{ show: boolean; message: string }>({ show: false, message: "" });
 
   const showToast = useCallback((message: string) => {
-    setToast(true);
-    const t = setTimeout(() => setToast(false), 2500);
+    setToast({ show: true, message });
+    const t = setTimeout(() => setToast((prev) => ({ ...prev, show: false })), 3500);
     return () => clearTimeout(t);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { name, phone, city, headcount, duration } = form;
+    const { company, name, phone, city, headcount, duration, note } = form;
     if (!name.trim() || !phone.trim() || !city || !headcount || !duration) {
       showToast("请填写必填项：姓名、手机、城市、培训人数、课程时长");
       return;
     }
-    setSubmitted(true);
-    // 若项目已集成统计，在此触发表单提交事件
-    if (typeof window !== "undefined" && (window as unknown as { gtag?: (a: string, b: string, c: object) => void }).gtag) {
-      (window as unknown as { gtag: (a: string, b: string, c: object) => void }).gtag("event", "form_submit", { form_name: "contact" });
+    setSubmitting(true);
+    const payload = {
+      company: company.trim() || undefined,
+      name: name.trim(),
+      phone: phone.trim(),
+      city,
+      headcount,
+      duration,
+      note: note.trim() || undefined,
+      pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
+      userAgent: typeof navigator !== "undefined" ? navigator.userAgent : undefined,
+      ts: Date.now(),
+    };
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok === true) {
+        setSubmitted(true);
+        setForm(initialForm);
+        if (typeof window !== "undefined" && (window as unknown as { gtag?: (a: string, b: string, c: object) => void }).gtag) {
+          (window as unknown as { gtag: (a: string, b: string, c: object) => void }).gtag("event", "form_submit", { form_name: "contact" });
+        }
+      } else {
+        showToast(data?.error || "提交失败，请稍后重试");
+      }
+    } catch {
+      showToast("网络错误，请检查网络后重试");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -366,9 +396,10 @@ export default function ContactPage() {
               </div>
               <button
                 type="submit"
-                className="w-full rounded-xl bg-red-600 py-3 text-sm font-medium text-white hover:bg-red-700 transition-colors sm:w-auto sm:px-8"
+                disabled={submitting}
+                className="w-full rounded-xl bg-red-600 py-3 text-sm font-medium text-white hover:bg-red-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed sm:w-auto sm:px-8"
               >
-                提交
+                {submitting ? "提交中…" : "提交"}
               </button>
             </form>
           )}
@@ -394,13 +425,13 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {toast && (
+      {toast.show && (
         <div
-          className="fixed bottom-6 left-1/2 z-[100] -translate-x-1/2 rounded-lg bg-neutral-900 px-4 py-3 text-sm text-white shadow-lg"
+          className="fixed bottom-6 left-1/2 z-[100] max-w-[90vw] -translate-x-1/2 rounded-lg bg-neutral-900 px-4 py-3 text-sm text-white shadow-lg"
           role="status"
           aria-live="polite"
         >
-          请填写必填项
+          {toast.message}
         </div>
       )}
     </div>
