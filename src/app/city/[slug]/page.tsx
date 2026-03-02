@@ -53,7 +53,7 @@ export default async function CityPage({ params }: Props) {
     );
   }
 
-  const { name, locations } = data;
+  const { name, locations, scheduleDates } = data;
   const twicePerMonth = isTwicePerMonth(name);
   const scheduleLine = twicePerMonth
     ? `${name}长期滚动开班，每月开课2次，一般安排在周末时间，建议提前预约，${name}AHA急救培训名额有限。`
@@ -97,6 +97,11 @@ export default async function CityPage({ params }: Props) {
             </>
           ) : (
             <address className="text-neutral-700 not-italic mb-4">{displayLocations[0]}</address>
+          )}
+          {scheduleDates && (
+            <p className={`${P_SHORT} font-medium text-neutral-800`}>
+              最近急救培训时间：{scheduleDates}
+            </p>
           )}
           <p className={P_SHORT}>{scheduleLine}</p>
           <p className={P_CLASS}>也可单独预约开课时间，建议6人起开班。</p>

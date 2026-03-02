@@ -3,6 +3,7 @@
  */
 
 import { RAW_DATA } from "./cities.raw";
+import { CITY_SCHEDULE_DATES } from "./city-dates";
 
 /** 清洗展示用地址：删括号内容、日期、暂定/待定、多余标点、合并空格。页面不得出现日期。 */
 export function sanitizeLocation(text: string): string {
@@ -25,6 +26,8 @@ export type City = {
   locations: string[];
   isCore: boolean;
   region: string;
+  /** 最近急救培训时间（用于城市页展示） */
+  scheduleDates?: string;
 };
 
 /** 核心城市：北京、天津、上海、广州、深圳、重庆 */
@@ -432,6 +435,7 @@ function buildCities(): City[] {
       locations: locs,
       isCore: CORE_NAMES.has(cityName),
       region: getRegion(cityName),
+      scheduleDates: CITY_SCHEDULE_DATES[cityName],
     });
   }
   return cities;
