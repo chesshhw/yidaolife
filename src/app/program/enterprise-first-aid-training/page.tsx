@@ -4,7 +4,7 @@ import Link from "next/link";
 import { EnterpriseContactButtons } from "@/components/EnterpriseContactButtons";
 
 const SITE_URL = "https://yidaolife.com";
-const PAGE_URL = `${SITE_URL}/program/enterprise-first-aid-training`;
+const CANONICAL_URL = `${SITE_URL}/enterprise-training`;
 const PAGE_TITLE = "企业急救培训团体定制方案 | AHA Heartsaver CPR AED 企业内训（2026）";
 const PAGE_DESC =
   "提供企业急救培训（CPR+AED）团体定制服务，支持2小时/半天/全天（含证书）多种方案与分级报价。覆盖北京、上海、深圳、广州、杭州、苏州、南京、成都、重庆等城市，可上门培训，主任导师授课，预约咨询。";
@@ -71,12 +71,13 @@ export const metadata: Metadata = {
     "上海企业CPR培训",
     "深圳AED培训",
   ],
-  alternates: { canonical: PAGE_URL },
+  alternates: { canonical: CANONICAL_URL },
+  robots: { index: false, follow: true },
   openGraph: {
     title: PAGE_TITLE,
     description: PAGE_DESC,
     type: "website",
-    url: PAGE_URL,
+    url: CANONICAL_URL,
     images: [{ url: `${SITE_URL}/images/hero.webp`, width: 1200, height: 630, alt: "企业急救培训团体定制" }],
   },
   twitter: {
@@ -274,6 +275,30 @@ export default function EnterpriseFirstAidTrainingPage() {
                 <p className="border-t border-neutral-100 px-4 py-3 text-sm text-neutral-600">{a}</p>
               </details>
             ))}
+          </div>
+        </section>
+
+        <section className="mt-14 space-y-4">
+          <h2 className="text-xl font-semibold text-neutral-900">相关文章推荐</h2>
+          <div className="grid gap-3">
+            <Link
+              href="/blog/why-companies-need-first-aid-training"
+              className="rounded-xl border border-neutral-200 px-4 py-3 text-sm text-neutral-800 hover:bg-neutral-50 transition-colors"
+            >
+              企业为什么需要急救培训？
+            </Link>
+            <Link
+              href="/blog/aed-why-important"
+              className="rounded-xl border border-neutral-200 px-4 py-3 text-sm text-neutral-800 hover:bg-neutral-50 transition-colors"
+            >
+              AED为什么重要？
+            </Link>
+            <Link
+              href="/blog/golden-four-minutes"
+              className="rounded-xl border border-neutral-200 px-4 py-3 text-sm text-neutral-800 hover:bg-neutral-50 transition-colors"
+            >
+              猝死黄金4分钟是什么意思？
+            </Link>
           </div>
         </section>
 

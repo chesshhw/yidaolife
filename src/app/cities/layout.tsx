@@ -1,16 +1,22 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "全国AHA HeartSaver急救员认证开课城市",
+  title: "全国急救培训城市 | AHA Heartsaver急救员认证培训",
   description:
-    "全国AHA急救培训城市：北京、天津、上海、广州、深圳、重庆等。查看每城详细培训地址与报名入口。全国统一AHA体系、纸质证书、企业团训。",
+    "提供全国多个城市 AHA Heartsaver 急救员认证培训课程，包括 CPR 心肺复苏、AED 使用等急救技能培训，支持企业急救培训服务。",
   alternates: { canonical: "/cities" },
   openGraph: {
-    title: "全国AHA HeartSaver急救员认证开课城市",
+    title: "全国急救培训城市 | AHA Heartsaver急救员认证培训",
     description:
-      "全国统一认证、多城可约。按区域查看京津冀、长三角、珠三角等开课城市，支持企业团训与个人报名。",
+      "提供全国多个城市 AHA Heartsaver 急救员认证培训课程，包括 CPR 心肺复苏、AED 使用等急救技能培训，支持企业急救培训服务。",
     url: "https://yidaolife.com/cities",
     images: [{ url: "/images/china-map.jpg", width: 1200, height: 630, alt: "全国AHA急救培训开课城市地图" }],
+  },
+  twitter: {
+    title: "全国急救培训城市 | AHA Heartsaver急救员认证培训",
+    description:
+      "提供全国多个城市 AHA Heartsaver 急救员认证培训课程，包括 CPR 心肺复苏、AED 使用等急救技能培训，支持企业急救培训服务。",
+    images: ["/images/china-map.jpg"],
   },
 };
 

@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 const PHONE = "13512456138";
-const EMAIL = "13512456138@163.com";
 
 export default function ContactPage() {
   return (
@@ -15,24 +14,18 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr,minmax(280px,1fr)] lg:items-center">
             <div>
               <h1 className="text-2xl font-semibold tracking-tight text-neutral-900 sm:text-3xl">
-                企业合作与培训预约
+                咨询与联系
               </h1>
               <p className="mt-3 text-base text-neutral-600 sm:text-lg">
-                AHA Heartsaver CPR AED｜企业团体培训可定制｜导师认证咨询
+                无论您是想报名急救课程，了解所在城市培训安排，还是咨询企业团体培训服务，都可以通过以下方式联系我们。
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <a
-                  href="#contact"
-                  className="inline-flex items-center justify-center rounded-xl bg-red-600 px-5 py-3 text-sm font-medium text-white shadow-sm hover:bg-red-700 transition-colors"
-                >
-                  预约企业团训
+                <a href="#contact-main" className="inline-flex items-center justify-center rounded-xl bg-red-600 px-5 py-3 text-sm font-medium text-white shadow-sm hover:bg-red-700 transition-colors">
+                  微信咨询
                 </a>
-                <Link
-                  href="/program/enterprise-first-aid-training"
-                  className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
-                >
-                  查看企业团训方案
-                </Link>
+                <a href={`tel:${PHONE}`} className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors">
+                  电话咨询
+                </a>
               </div>
             </div>
             <div className="relative aspect-video overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100 lg:aspect-[4/3]">
@@ -49,172 +42,152 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* 联系方式模块 */}
+      {/* 咨询分流卡片区 */}
       <section className="border-b border-neutral-100 py-12 sm:py-16">
         <div className="mx-auto max-w-[1120px] px-4">
-          <h2 className="sr-only">联系方式</h2>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {/* 卡片A：微信 */}
-            <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
-              <h3 className="text-sm font-semibold text-neutral-900">微信咨询（推荐）</h3>
-              <p className="mt-1 text-sm text-neutral-600">扫码添加课程顾问，工作日 9:00–18:00 优先回复</p>
-              <div className="mt-4">
-                <Image
-                  src="/images/wechat.png"
-                  alt="都会急救课程顾问微信二维码"
-                  width={160}
-                  height={160}
-                  className="h-40 w-40 rounded-xl border border-neutral-100"
-                />
-              </div>
-            </div>
+          <h2 className="text-xl font-semibold text-neutral-900">请选择您的咨询需求</h2>
+          <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">
+            <article className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+              <h3 className="text-base font-semibold text-neutral-900">个人课程报名</h3>
+              <p className="mt-2 text-sm text-neutral-600 leading-relaxed">
+                适合想报名 AHA Heartsaver 急救员课程、了解课程安排与证书信息的学员。
+              </p>
+              <Link
+                href="/programs"
+                className="mt-4 inline-flex items-center justify-center rounded-xl border border-neutral-300 px-4 py-2.5 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+              >
+                查看课程与城市
+              </Link>
+            </article>
 
-            {/* 卡片B：电话 */}
-            <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
-              <h3 className="text-sm font-semibold text-neutral-900">电话咨询</h3>
-              <p className="mt-1 text-sm text-neutral-600">同微信</p>
+            <article className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+              <h3 className="text-base font-semibold text-neutral-900">培训城市查询</h3>
+              <p className="mt-2 text-sm text-neutral-600 leading-relaxed">
+                适合想查看北京、上海、深圳、广州、天津等城市培训安排的用户。
+              </p>
+              <Link
+                href="/cities"
+                className="mt-4 inline-flex items-center justify-center rounded-xl border border-neutral-300 px-4 py-2.5 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+              >
+                查看培训城市
+              </Link>
+            </article>
+
+            <article className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+              <h3 className="text-base font-semibold text-neutral-900">企业培训咨询</h3>
+              <p className="mt-2 text-sm text-neutral-600 leading-relaxed">
+                适合企业、学校、健身房、赛事组织、物业等机构咨询急救培训方案。
+              </p>
+              <Link
+                href="/enterprise-training"
+                className="mt-4 inline-flex items-center justify-center rounded-xl bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-neutral-800 transition-colors"
+              >
+                查看企业急救培训
+              </Link>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* 联系方式主区域 */}
+      <section id="contact-main" className="border-b border-neutral-100 bg-neutral-50/50 py-12 sm:py-16 scroll-mt-24">
+        <div className="mx-auto max-w-[1120px] px-4">
+          <h2 className="text-xl font-semibold text-neutral-900">联系方式</h2>
+          <div className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-2">
+            <article className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+              <h3 className="text-base font-semibold text-neutral-900">微信咨询</h3>
+              <p className="mt-2 text-sm text-neutral-600 leading-relaxed">
+                可通过微信咨询课程安排、报名流程、企业培训等问题。
+              </p>
+              <div className="mt-4">
+                <Image src="/images/wechat.png" alt="都会急救课程顾问微信二维码" width={160} height={160} className="h-40 w-40 rounded-xl border border-neutral-100" />
+              </div>
+              <a
+                href="#contact-main"
+                className="mt-4 inline-flex items-center justify-center rounded-xl border border-neutral-300 px-4 py-2.5 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+              >
+                微信咨询
+              </a>
+            </article>
+
+            <article className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+              <h3 className="text-base font-semibold text-neutral-900">电话咨询</h3>
+              <p className="mt-2 text-sm text-neutral-600 leading-relaxed">
+                如需直接沟通课程安排或企业培训需求，可电话联系。
+              </p>
+              <a href={`tel:${PHONE}`} className="mt-3 inline-block text-xl font-semibold text-neutral-900 hover:text-red-600 transition-colors">
+                {PHONE}
+              </a>
               <a
                 href={`tel:${PHONE}`}
-                className="mt-3 inline-block text-lg font-semibold text-neutral-900 hover:text-red-600 transition-colors"
+                className="mt-4 inline-flex items-center justify-center rounded-xl bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-neutral-800 transition-colors"
               >
-                {PHONE}
+                拨打电话
               </a>
-            </div>
-
-            {/* 卡片C：企业合作 */}
-            <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
-              <h3 className="text-sm font-semibold text-neutral-900">企业合作</h3>
-              <p className="mt-1 text-sm text-neutral-600">企业团训 / 长期合作 / 年度安全培训</p>
-              <a
-                href="#contact"
-                className="mt-4 inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-4 py-2 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
-              >
-                查看联系方式
-              </a>
-            </div>
-
-            {/* 卡片D：邮箱 */}
-            <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
-              <h3 className="text-sm font-semibold text-neutral-900">邮箱</h3>
-              <p className="mt-1 text-sm text-neutral-600">企业合作与咨询</p>
-              <a
-                href={`mailto:${EMAIL}`}
-                className="mt-3 block text-sm font-medium text-neutral-900 break-all hover:text-red-600 transition-colors"
-              >
-                {EMAIL}
-              </a>
-            </div>
+            </article>
           </div>
         </div>
       </section>
 
-      {/* 快速入口 */}
+      {/* 常见咨询场景说明 */}
       <section className="border-b border-neutral-100 bg-neutral-50/50 py-12 sm:py-16">
         <div className="mx-auto max-w-[1120px] px-4">
-          <h2 className="sr-only">快速入口</h2>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <Link
-              href="/program/enterprise-first-aid-training"
-              className="group block rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-neutral-300 transition"
-            >
-              <h3 className="text-lg font-semibold text-neutral-900">企业急救培训（可定制）</h3>
-              <ul className="mt-3 space-y-1 text-sm text-neutral-600">
-                <li>· 按人数分级报价</li>
-                <li>· 2小时/半天/全天（含证书）</li>
-                <li>· 支持上门 / 分批 / 全国排期</li>
-              </ul>
-              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-red-600 group-hover:gap-2 transition-all">
-                查看企业团训方案 →
-              </span>
-            </Link>
-
-            <Link
-              href="/instructor"
-              className="group block rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-neutral-300 transition"
-            >
-              <h3 className="text-lg font-semibold text-neutral-900">AHA 导师认证咨询</h3>
-              <ul className="mt-3 space-y-1 text-sm text-neutral-600">
-                <li>· 申请条件与流程说明</li>
-                <li>· 排期与带教支持</li>
-                <li>· 全国开放城市可协调</li>
-              </ul>
-              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-red-600 group-hover:gap-2 transition-all">
-                查看导师认证 →
-              </span>
-            </Link>
-          </div>
+          <h2 className="text-xl font-semibold text-neutral-900">您可以咨询哪些内容？</h2>
+          <ul className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 text-neutral-700">
+            <li>个人课程报名与上课时间</li>
+            <li>所在城市培训安排</li>
+            <li>证书相关问题</li>
+            <li>企业团体培训方案</li>
+            <li>企业上门培训安排</li>
+            <li>其他合作咨询</li>
+          </ul>
         </div>
       </section>
 
-      {/* 信任背书 */}
+      {/* 企业培训咨询入口 */}
       <section className="border-b border-neutral-100 py-12 sm:py-16">
         <div className="mx-auto max-w-[1120px] px-4">
-          <h2 className="text-xl font-semibold text-neutral-900">资质与体系</h2>
-          <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-start">
-            <div className="space-y-4 text-neutral-700">
-              <p>
-                课程依托 AHA 授权培训体系开展，遵循标准化教学流程。证书按体系规则发放并可查询。
-              </p>
-            </div>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Image
-                src="/images/license.png"
-                alt="AHA 授权证明"
-                width={400}
-                height={300}
-                loading="lazy"
-                sizes="(max-width: 640px) 100vw, 50vw"
-                className="h-auto w-full rounded-xl border border-neutral-200"
-              />
-              <Image
-                src="/images/cert-sample.jpg"
-                alt="AHA Heartsaver 证书样本"
-                width={400}
-                height={300}
-                loading="lazy"
-                sizes="(max-width: 640px) 100vw, 50vw"
-                className="h-auto w-full rounded-xl border border-neutral-200"
-              />
-            </div>
+          <h2 className="text-xl font-semibold text-neutral-900">企业急救培训咨询</h2>
+          <p className="mt-3 text-neutral-700 leading-relaxed max-w-3xl">
+            如果您希望为企业、学校、健身房、赛事组织或其他机构安排急救培训，可查看企业急救培训页面，了解培训内容、适用场景与服务方式。
+          </p>
+          <div className="mt-5">
+            <Link
+              href="/enterprise-training"
+              className="inline-flex items-center justify-center rounded-xl bg-red-600 px-5 py-3 text-sm font-medium text-white hover:bg-red-700 transition-colors"
+            >
+              查看企业急救培训
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* 覆盖城市 */}
-      <section className="border-b border-neutral-100 bg-neutral-50/50 py-10 sm:py-12">
+      {/* 页面底部 CTA */}
+      <section className="py-12 sm:py-16">
         <div className="mx-auto max-w-[1120px] px-4">
-          <h2 className="text-lg font-semibold text-neutral-900">支持排期城市（可上门/集中培训）</h2>
+          <h2 className="text-xl font-semibold text-neutral-900">欢迎咨询课程与培训安排</h2>
           <p className="mt-3 text-neutral-700">
-            北京、上海、深圳、广州、杭州、苏州、南京、成都、重庆等。
+            如果您已经确定想报名课程，或希望进一步了解企业培训服务，欢迎通过微信或电话联系我们。
           </p>
-          <p className="mt-1 text-sm text-neutral-600">更多城市可沟通排期。</p>
-        </div>
-      </section>
-
-      {/* 联系与预约 #contact */}
-      <section id="contact" className="scroll-mt-24 py-12 sm:py-16">
-        <div className="mx-auto max-w-[1120px] px-4">
-          <h2 className="text-xl font-semibold text-neutral-900">联系与预约</h2>
-          <p className="mt-3 text-neutral-700">
-            如需了解课程安排或企业团训方案，欢迎通过以下方式联系。
-          </p>
-          <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-10">
-            <div>
-              <p className="text-sm font-medium text-neutral-900">电话</p>
-              <a href={`tel:${PHONE}`} className="text-lg font-semibold text-neutral-900 hover:text-red-600 transition-colors">
-                {PHONE}
-              </a>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-neutral-900">微信</p>
-              <Image
-                src="/images/wechat.png"
-                alt="课程顾问微信二维码"
-                width={120}
-                height={120}
-                className="mt-2 h-28 w-28 rounded-xl border border-neutral-200"
-              />
-            </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a
+              href="#contact-main"
+              className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+            >
+              微信咨询
+            </a>
+            <a
+              href={`tel:${PHONE}`}
+              className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+            >
+              电话咨询
+            </a>
+            <Link
+              href="/cities"
+              className="inline-flex items-center justify-center rounded-xl bg-red-600 px-5 py-3 text-sm font-medium text-white hover:bg-red-700 transition-colors"
+            >
+              查看培训城市
+            </Link>
           </div>
         </div>
       </section>

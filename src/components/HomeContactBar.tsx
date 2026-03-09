@@ -30,18 +30,24 @@ export default function HomeContactBar() {
           需要改期/城市不确定？24小时内专人确认排期
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+          <a
+            href="/contact"
+            className="btn-subtle w-full sm:w-auto min-w-[140px] text-center no-underline"
+          >
+            咨询课程安排
+          </a>
           <button
             type="button"
             onClick={copyWechat}
             className="btn-subtle w-full sm:w-auto min-w-[140px]"
           >
-            复制微信
+            微信咨询
           </button>
           <a
             href={`tel:${WECHAT_NUM}`}
             className="btn-subtle w-full sm:w-auto min-w-[140px] text-center no-underline"
           >
-            拨打电话
+            电话咨询
           </a>
         </div>
       </div>

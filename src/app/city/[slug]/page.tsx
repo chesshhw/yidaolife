@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import {
   getCityBySlug,
   getAllCitySlugs,
   getDisplayLocations,
-  isTwicePerMonth,
 } from "@/data/cities";
-import { EnrollModal, EnrollModalTrigger } from "@/components/EnrollModal";
+import { EnrollModal } from "@/components/EnrollModal";
 
 const SITE_URL = "https://yidaolife.com";
 
@@ -15,6 +15,32 @@ const SECTION_CLASS = "mb-10";
 const H2_CLASS = "text-lg font-semibold text-neutral-900 mb-3";
 const P_CLASS = "text-neutral-700 leading-relaxed max-w-[75ch]";
 const P_SHORT = "text-neutral-700 leading-relaxed max-w-[75ch] mb-3";
+
+function getCityServiceCopy(city: string, slug: string): string {
+  const openers = [
+    `${city}目前已开展 AHA Heartsaver 急救员培训课程，服务对象覆盖个人学习者与企业团体，课程安排更贴近本地培训需求。`,
+    `在${city}，AHA Heartsaver 急救员课程已形成稳定培训服务，既适合个人系统学习，也适合企业组织员工统一参训。`,
+    `${city}的 AHA Heartsaver 急救培训服务持续推进，课程面向希望提升急救能力的个人和需要内训方案的企业团队。`,
+  ];
+  const trends = [
+    `近年来不少单位开始把急救能力纳入安全管理，通过 CPR 心肺复苏与 AED 使用训练，可以在突发心脏骤停等场景中争取关键处置时间。`,
+    `随着安全培训意识提升，越来越多机构选择把 CPR 和 AED 实操列入常规培训，以便在紧急事件发生时更快做出有效响应。`,
+    `在公共安全意识不断提升的背景下，CPR 与 AED 已成为重点培训内容，有助于在突发情况下提升现场应对效率与协作能力。`,
+  ];
+  const endings = [
+    `${city}课程通常采用小班教学，由认证导师现场示范与纠错，帮助学员把关键动作练到可执行、可应用。`,
+    `${city}培训多为小班实操模式，认证导师会进行分步骤指导，让学员在练习中真正掌握规范急救操作。`,
+    `${city}课堂以小班实操为主，认证导师会结合真实场景演练，确保学员形成可落地的急救处理能力。`,
+  ];
+
+  const hash = [...slug].reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+  const opener = openers[hash % openers.length];
+  const trend = trends[(hash + 1) % trends.length];
+  const ending = endings[(hash + 2) % endings.length];
+
+  const keywordLine = `不少学员会先通过${city}急救培训建立基础认知，再结合${city}CPR培训与${city}AED培训，完善面对突发情况时的处置步骤。`;
+  return `${opener}${keywordLine}${trend}${ending}`;
+}
 
 export async function generateStaticParams() {
   return getAllCitySlugs().map((slug) => ({ slug }));
@@ -25,16 +51,15 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const data = getCityBySlug(slug);
-  if (!data) return { title: "城市课程 | 全国AHA HeartSaver急救员认证中心" };
-  const title = `${data.name}AHA急救培训-HeartSaver急救员认证课程`;
-  const firstAddr = getDisplayLocations(data.locations)[0];
-  const addrForMeta = firstAddr?.startsWith("城市内常用") ? `${data.name}培训点` : firstAddr;
-  const description = `${data.name}AHA急救培训，美国心脏协会HeartSaver急救员认证，CPR心肺复苏、AED使用。培训地址：${addrForMeta}。证书全球通用。`;
+  if (!data) return { title: "城市课程 | AHA Heartsaver急救员认证培训" };
+  const title = `${data.name}急救培训 | AHA Heartsaver CPR AED培训`;
+  const description = `提供${data.name} AHA Heartsaver 急救员认证培训课程，课程内容包括 CPR 心肺复苏、AED 使用、气道异物梗阻急救等技能培训。`;
   return {
     title,
     description,
     alternates: { canonical: `${SITE_URL}/city/${slug}` },
     openGraph: { title, description, url: `${SITE_URL}/city/${slug}` },
+    twitter: { title, description },
   };
 }
 
@@ -54,67 +79,119 @@ export default async function CityPage({ params }: Props) {
   }
 
   const { name, locations, scheduleDates } = data;
-  const twicePerMonth = isTwicePerMonth(name);
-  const scheduleLine = twicePerMonth
-    ? `${name}长期滚动开班，每月开课2次，一般安排在周末时间，建议提前预约，${name}AHA急救培训名额有限。`
-    : `${name}长期滚动开班，每月开课，一般安排在周末时间，建议提前预约，${name}AHA急救培训名额有限。`;
-
-  const displayLocations = getDisplayLocations(locations);
+  const displayLocations = getDisplayLocations(locations).slice(0, 3);
+  const title = `${name}急救培训 | AHA Heartsaver急救员认证课程`;
+  const cityServiceCopy = getCityServiceCopy(name, slug);
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "首页", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "培训城市", item: `${SITE_URL}/cities` },
+      { "@type": "ListItem", position: 3, name, item: `${SITE_URL}/city/${slug}` },
+    ],
+  };
 
   return (
     <div className="min-h-screen bg-white">
       <article className="max-w-2xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-        <h1 className="text-xl sm:text-2xl font-semibold text-neutral-900 mb-6">
-          {name}AHA急救培训｜HeartSaver急救员认证课程
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        />
+        <div className="mb-4">
+          <Breadcrumbs
+            items={[
+              { label: "首页", href: "/" },
+              { label: "培训城市", href: "/cities" },
+              { label: name },
+            ]}
+          />
+        </div>
+        <h1 className="text-xl sm:text-2xl font-semibold text-neutral-900">
+          {title}
         </h1>
+        <p className="mt-2 text-sm sm:text-base text-neutral-600">
+          CPR 心肺复苏 · AED 使用 · 气道异物梗阻急救
+        </p>
 
-        <section className={SECTION_CLASS}>
-          <p className={P_SHORT}>
-            在{name}参加美国心脏协会（AHA）HeartSaver急救员认证课程，是目前{name}地区广受认可的国际急救培训项目。
-            本课程在{name}长期稳定开课，涵盖 CPR 心肺复苏、AED 自动体外除颤仪使用、成人及儿童急救处理。
-          </p>
+        <section className="mt-8 mb-10">
+          <h2 className={H2_CLASS}>{name}急救培训</h2>
           <p className={P_CLASS}>
-            {name}AHA急救培训采用 American Heart Association 官方教学体系，考试通过后颁发 AHA 官方纸质证书，证书全球通用。
+            {name}急救培训课程采用 AHA Heartsaver 急救员培训体系，课程内容包括 CPR 心肺复苏、AED 自动体外除颤仪使用以及气道异物梗阻急救等技能。
+          </p>
+          <p className="mt-3 text-neutral-700 leading-relaxed">培训课程适用于：</p>
+          <ul className="mt-1 list-disc list-inside text-neutral-700 space-y-1">
+            <li>个人急救技能学习</li>
+            <li>企业员工安全培训</li>
+            <li>学校及公共机构培训</li>
+          </ul>
+          <p className="mt-3 text-neutral-700 leading-relaxed">
+            完成培训与考核后可获得 AHA 官方急救员证书，证书有效期2年。
           </p>
         </section>
 
         <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>一、{name}培训地点</h2>
-          {displayLocations.length > 1 ? (
-            <>
-              <p className="text-neutral-800 font-medium mb-1">A)</p>
-              <address className="text-neutral-700 not-italic mb-2">{displayLocations[0]}</address>
-              <p className="text-neutral-600 text-sm mb-3">可就近选择培训地点</p>
-              {displayLocations.slice(1).map((addr, i) => (
-                <div key={i} className="mb-2">
-                  <p className="text-neutral-800 font-medium mb-1">
-                    {String.fromCharCode(66 + i)})
-                  </p>
-                  <address className="text-neutral-700 not-italic">{addr}</address>
-                </div>
-              ))}
-              <div className="mb-4" />
-            </>
-          ) : (
-            <address className="text-neutral-700 not-italic mb-4">{displayLocations[0]}</address>
-          )}
+          <h2 className={H2_CLASS}>{name}急救培训服务</h2>
+          <p className={P_CLASS}>{cityServiceCopy}</p>
+        </section>
+
+        <section className={SECTION_CLASS}>
+          <h2 className={H2_CLASS}>{name}急救培训适用人群</h2>
+          <p className={P_SHORT}>{name}急救培训课程适合以下人群参加：</p>
+          <ul className="list-disc list-inside text-neutral-700 space-y-1">
+            <li>希望学习 CPR 心肺复苏技能的个人</li>
+            <li>企业员工安全培训</li>
+            <li>学校及教育机构工作人员</li>
+            <li>健身房、赛事组织、物业管理人员</li>
+          </ul>
+          <p className="mt-3 text-neutral-700 leading-relaxed">
+            通过系统培训，学员可以掌握基本急救技能，在紧急情况下及时提供帮助。
+          </p>
+        </section>
+
+        <section className={SECTION_CLASS}>
+          <h2 className={H2_CLASS}>{name}培训地点</h2>
+          <p className={P_SHORT}>目前{name}培训地点包括：</p>
+          <ul className="space-y-2 list-none p-0 m-0">
+            {displayLocations.map((addr, i) => (
+              <li key={i}>
+                <address className="not-italic text-neutral-700 leading-relaxed">{addr}</address>
+              </li>
+            ))}
+          </ul>
           {scheduleDates && (
-            <p className={`${P_SHORT} font-medium text-neutral-800`}>
+            <p className="mt-3 text-neutral-700 font-medium leading-relaxed">
               最近急救培训时间：{scheduleDates}
             </p>
           )}
-          <p className={P_SHORT}>{scheduleLine}</p>
-          <p className={P_CLASS}>也可单独预约开课时间，建议6人起开班。</p>
+          <p className="mt-3 text-neutral-700 leading-relaxed">
+            具体培训地址将在报名确认后通知。
+          </p>
         </section>
 
         <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>二、培训现场实拍</h2>
+          <h2 className={H2_CLASS}>课程内容</h2>
+          <p className={P_SHORT}>培训课程主要包括以下内容：</p>
+          <ul className="list-disc list-inside text-neutral-700 space-y-2">
+            <li>CPR 心肺复苏操作</li>
+            <li>AED 自动体外除颤仪使用</li>
+            <li>气道异物梗阻急救</li>
+            <li>紧急情况现场应对流程</li>
+          </ul>
+          <p className="mt-3 text-neutral-700 leading-relaxed">
+            课程采用理论讲解 + 实操训练相结合的方式。
+          </p>
+        </section>
+
+        <section className={SECTION_CLASS}>
+          <h2 className={H2_CLASS}>培训现场</h2>
           <ul className="grid grid-cols-1 sm:grid-cols-3 gap-4 list-none p-0 m-0">
             {["/images/g3.jpg", "/images/g5.jpg", "/images/g6.jpg"].map((src) => (
               <li key={src} className="relative aspect-[4/3] rounded-lg overflow-hidden">
                 <Image
                   src={src}
-                  alt={`${name}AHA急救培训现场`}
+                  alt={`${name}急救培训现场`}
                   fill
                   className="object-cover"
                   sizes="(max-width: 640px) 100vw, 33vw"
@@ -125,102 +202,70 @@ export default async function CityPage({ params }: Props) {
         </section>
 
         <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>三、课程内容</h2>
-          <p className={P_SHORT}>{name}HeartSaver急救培训包括：</p>
+          <h2 className={H2_CLASS}>{name}企业急救培训</h2>
+          <p className={P_SHORT}>
+            如果您的企业需要组织员工急救培训，我们可以提供企业团体培训服务。
+          </p>
+          <p className="text-neutral-700 leading-relaxed mb-2">培训内容包括：</p>
           <ul className="list-disc list-inside text-neutral-700 space-y-2">
-            <li>成人CPR实操</li>
-            <li>儿童CPR实操</li>
-            <li>AED使用演练</li>
-            <li>气道异物梗阻处理</li>
-            <li>创伤急救基础处理</li>
+            <li>CPR 心肺复苏</li>
+            <li>AED 使用</li>
+            <li>气道异物梗阻急救</li>
           </ul>
-          <p className={`${P_CLASS} mt-3`}>课程以实操为主，{name}培训现场设备齐全。</p>
-        </section>
-
-        <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>四、AHA官方体系介绍</h2>
-          <p className={P_CLASS}>
-            American Heart Association（AHA）是全球知名心血管急救培训机构，HeartSaver课程为非医护人员设计，符合国际急救标准。
-          </p>
-        </section>
-
-        <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>五、证书样式展示</h2>
-          <div className="relative aspect-[4/3] max-w-md rounded-lg overflow-hidden">
-            <Image
-              src="/images/cert-sample.jpg"
-              alt={`${name}AHA急救培训官方证书样式（纸质证书）`}
-              fill
-              className="object-contain"
-              sizes="(max-width: 768px) 100vw, 28rem"
-            />
+          <p className="mt-3 text-neutral-700 leading-relaxed">支持企业上门培训或集中培训。</p>
+          <div className="mt-5">
+            <Link
+              href="/enterprise-training"
+              className="inline-flex items-center justify-center rounded-xl border border-neutral-300 text-neutral-700 px-5 py-2.5 text-sm font-medium hover:bg-neutral-50"
+            >
+              咨询企业培训
+            </Link>
           </div>
-          <p className="text-neutral-600 text-sm mt-3 text-center">
-            {name}AHA急救培训官方证书样式（纸质证书）
-          </p>
         </section>
 
         <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>六、报名方式</h2>
-          <EnrollModalTrigger className="relative w-48 h-48 mx-auto rounded-lg overflow-hidden cursor-pointer">
-            <Image
-              src="/images/app.jpg"
-              alt={`扫描二维码报名${name}AHA急救培训课程`}
-              fill
-              className="object-cover"
-              sizes="12rem"
-            />
-          </EnrollModalTrigger>
-          <p className="text-neutral-600 text-sm mt-3 text-center">
-            扫描二维码报名{name}AHA急救培训课程
-          </p>
-        </section>
-
-        <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>七、常见问题 FAQ</h2>
+          <h2 className={H2_CLASS}>{name}急救培训常见问题</h2>
           <dl className="space-y-4">
             <div>
-              <dt className="font-medium text-neutral-900">Q1：{name}AHA急救培训多少钱？</dt>
-              <dd className="mt-1 text-neutral-700">A：根据班型不同，详情咨询。</dd>
+              <dt className="font-medium text-neutral-900">{name}急救培训课程需要多久？</dt>
+              <dd className="mt-1 text-neutral-700">
+                AHA Heartsaver 急救员课程通常一天即可完成培训与考核。
+              </dd>
             </div>
             <div>
-              <dt className="font-medium text-neutral-900">Q2：证书多久下发？</dt>
-              <dd className="mt-1 text-neutral-700">A：考试通过后发放官方纸质证书。</dd>
+              <dt className="font-medium text-neutral-900">证书是否可以查询？</dt>
+              <dd className="mt-1 text-neutral-700">证书由美国心脏协会授权体系签发，可官方查询。</dd>
             </div>
             <div>
-              <dt className="font-medium text-neutral-900">Q3：是否国际通用？</dt>
-              <dd className="mt-1 text-neutral-700">A：是，美国心脏协会官方体系证书。</dd>
-            </div>
-            <div>
-              <dt className="font-medium text-neutral-900">Q4：{name}是否支持企业团训？</dt>
-              <dd className="mt-1 text-neutral-700">A：支持，可上门培训。</dd>
-            </div>
-            <div>
-              <dt className="font-medium text-neutral-900">Q5：是否包含AED实操？</dt>
-              <dd className="mt-1 text-neutral-700">A：包含完整AED实操训练。</dd>
+              <dt className="font-medium text-neutral-900">企业是否可以组织培训？</dt>
+              <dd className="mt-1 text-neutral-700">可以，我们支持企业团体培训及上门培训服务。</dd>
             </div>
           </dl>
         </section>
 
-        <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>八、企业团训模块</h2>
-          <p className={P_SHORT}>{name}支持企业上门急救培训：</p>
-          <ul className="list-disc list-inside text-neutral-700 space-y-2">
-            <li>可定制时间</li>
-            <li>可开具发票</li>
-            <li>可纳入企业安全培训体系</li>
-            <li>支持企业专场</li>
-          </ul>
-        </section>
-
-        <div className="flex flex-wrap gap-4 pt-4">
-          <EnrollModal cityName={name} />
-          <Link
-            href="/cities"
-            className="inline-flex items-center justify-center rounded-xl border border-neutral-300 text-neutral-700 px-6 py-3 text-sm font-medium hover:bg-neutral-50"
-          >
-            查看全国开课城市
-          </Link>
+        <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-5 sm:p-6">
+          <p className="text-base font-medium text-neutral-900 mb-4">报名入口</p>
+          <div className="flex flex-wrap gap-3">
+            <EnrollModal cityName={name} buttonText={`报名参加${name}急救培训`} />
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center rounded-xl border border-neutral-300 text-neutral-700 px-5 py-3 text-sm font-medium hover:bg-neutral-50"
+            >
+              微信咨询
+            </Link>
+            <Link
+              href="/cities"
+              className="inline-flex items-center justify-center rounded-xl border border-neutral-300 text-neutral-700 px-5 py-3 text-sm font-medium hover:bg-neutral-50"
+            >
+              查看培训城市
+            </Link>
+            <a
+              href="tel:13512456138"
+              className="inline-flex items-center justify-center rounded-xl border border-neutral-300 text-neutral-700 px-5 py-3 text-sm font-medium hover:bg-neutral-50"
+            >
+              电话咨询
+            </a>
+          </div>
         </div>
       </article>
     </div>

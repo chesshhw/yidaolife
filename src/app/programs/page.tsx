@@ -1,6 +1,20 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import Breadcrumbs from "@/components/Breadcrumbs";
+
+const SITE_URL = "https://yidaolife.com";
+
+function buildBreadcrumbJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "首页", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "课程体系", item: `${SITE_URL}/programs` },
+    ],
+  };
+}
 
 export const metadata: Metadata = {
   title: "AHA课程体系｜Heartsaver急救员认证",
@@ -63,14 +77,19 @@ const courses: Course[] = [
     image: "/images/g3.jpg",
     ctaPrimary: "预约方案",
     ctaSecondary: "了解详情",
-    hrefPrimary: "/program/enterprise-first-aid-training",
-    hrefSecondary: "/program/enterprise-first-aid-training",
+    hrefPrimary: "/enterprise-training",
+    hrefSecondary: "/enterprise-training",
   },
 ];
 
 export default function ProgramsPage() {
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd();
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* HERO：contain 不裁剪，深色底 + 遮罩 + 底部渐变 */}
       <section className="relative w-full h-[56vh] md:h-[64vh] bg-neutral-950 overflow-hidden">
         <Image
@@ -85,6 +104,9 @@ export default function ProgramsPage() {
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent dark:from-neutral-950 to-transparent pointer-events-none" aria-hidden />
         <div className="absolute inset-0 flex items-center justify-center text-center px-6 z-10">
           <div className="max-w-3xl">
+            <div className="mb-4 flex justify-center">
+              <Breadcrumbs className="text-white/80" items={[{ label: "首页", href: "/" }, { label: "课程体系" }]} />
+            </div>
             <h1 className="text-3xl md:text-5xl font-semibold tracking-tight text-white">
               AHA 国际急救课程体系
             </h1>
@@ -199,6 +221,26 @@ export default function ProgramsPage() {
       </section>
 
       <section className="py-16 sm:py-24" />
+      <section className="pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto rounded-2xl border border-neutral-200 bg-neutral-50/70 p-6 sm:p-7">
+          <h2 className="text-lg font-semibold text-neutral-900">急救知识</h2>
+          <p className="mt-2 text-neutral-600">
+            想先了解 CPR、AED 与基础急救知识？可以先阅读急救知识栏目，再选择适合的课程。
+          </p>
+          <Link
+            href="/blog"
+            className="mt-4 inline-flex items-center rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+          >
+            了解更多急救知识
+          </Link>
+          <Link
+            href="/contact"
+            className="mt-4 ml-3 inline-flex items-center rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+          >
+            联系咨询
+          </Link>
+        </div>
+      </section>
     </>
   );
 }

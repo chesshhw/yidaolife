@@ -18,9 +18,10 @@ const organizationJsonLd = {
   contactPoint: {
     "@type": "ContactPoint",
     telephone: "13512456138",
-    email: "placeholder@yidaolife.com",
+    email: "13512456138@163.com",
     contactType: "customer service",
     areaServed: "CN",
+    availableLanguage: ["zh-CN"],
   },
 };
 
