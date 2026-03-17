@@ -13,6 +13,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/cities`, lastModified, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/enterprise-training`, lastModified, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/instructor`, lastModified, changeFrequency: "weekly", priority: 0.9 },
+    {
+      url: `${SITE_URL}/tianjin-wma-wilderness-first-aid-training`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
     { url: `${SITE_URL}/about`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/contact`, lastModified, changeFrequency: "monthly", priority: 0.7 },
   ];

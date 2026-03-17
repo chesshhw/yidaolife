@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { BLOG_POSTS, getAllBlogSlugs, getBlogPostBySlug } from "@/data/blog";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -114,6 +115,16 @@ export default async function BlogPostPage({ params }: Props) {
         </header>
 
         <div className="pt-8 space-y-8">
+          {post.lead?.length ? (
+            <section className="-mt-2">
+              {post.lead.map((p) => (
+                <p key={p} className="mt-3 text-neutral-700 leading-relaxed">
+                  {p}
+                </p>
+              ))}
+            </section>
+          ) : null}
+
           {post.sections.map((section) => (
             <section key={section.heading}>
               <h2 className="text-xl font-semibold text-neutral-900">{section.heading}</h2>
@@ -122,6 +133,37 @@ export default async function BlogPostPage({ params }: Props) {
                   {p}
                 </p>
               ))}
+
+              {section.table && (
+                <div className="mt-4 overflow-x-auto rounded-xl border border-neutral-200">
+                  <table className="w-full text-sm">
+                    <thead className="bg-neutral-50">
+                      <tr>
+                        {section.table.headers.map((h) => (
+                          <th
+                            key={h}
+                            className="px-4 py-3 text-left font-semibold text-neutral-900 whitespace-nowrap"
+                          >
+                            {h}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {section.table.rows.map((row) => (
+                        <tr key={row.join("|")} className="border-t border-neutral-200">
+                          {row.map((cell, idx) => (
+                            <td key={`${idx}-${cell}`} className="px-4 py-3 text-neutral-700 whitespace-nowrap">
+                              {cell}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
               {section.bullets && (
                 <ul className="mt-3 list-disc list-inside text-neutral-700 space-y-1">
                   {section.bullets.map((item) => (
@@ -129,6 +171,61 @@ export default async function BlogPostPage({ params }: Props) {
                   ))}
                 </ul>
               )}
+
+              {section.links?.length ? (
+                <ul className="mt-3 list-disc list-inside text-neutral-700 space-y-1">
+                  {section.links.map((l) => (
+                    <li key={l.href}>
+                      <Link href={l.href} className="underline hover:no-underline">
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+
+              {section.subsections?.length ? (
+                <div className="mt-5 space-y-6">
+                  {section.subsections.map((sub) => (
+                    <div key={sub.heading}>
+                      <h3 className="text-base sm:text-lg font-semibold text-neutral-900">
+                        {sub.heading}
+                      </h3>
+                      {sub.paragraphs.map((p) => (
+                        <p key={p} className="mt-3 text-neutral-700 leading-relaxed">
+                          {p}
+                        </p>
+                      ))}
+                      {sub.bullets && (
+                        <ul className="mt-3 list-disc list-inside text-neutral-700 space-y-1">
+                          {sub.bullets.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+
+              {section.image ? (
+                <figure className="mt-5 rounded-xl border border-neutral-200 bg-white p-4">
+                  <div className="mx-auto max-w-xs">
+                    <Image
+                      src={section.image.src}
+                      alt={section.image.alt}
+                      width={320}
+                      height={320}
+                      className="h-auto w-full"
+                    />
+                  </div>
+                  {section.image.caption ? (
+                    <figcaption className="mt-3 text-center text-xs text-neutral-500">
+                      {section.image.caption}
+                    </figcaption>
+                  ) : null}
+                </figure>
+              ) : null}
             </section>
           ))}
         </div>
