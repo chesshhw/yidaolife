@@ -69,6 +69,18 @@ const courses: Course[] = [
     hrefSecondary: "/instructor",
   },
   {
+    id: 4,
+    title: "天津野外急救培训（WMA WMW）",
+    subtitle: "户外急救进阶课程｜2026年5月30日开课｜适合徒步、登山、越野跑人群",
+    highlights: ["小班教学", "判断 + 决策为核心", "适合户外运动人群进阶"],
+    badge: "野外急救",
+    image: "/images/g5.jpg",
+    ctaPrimary: "查看详情",
+    ctaSecondary: "了解课程",
+    hrefPrimary: "/tianjin-wma-wilderness-first-aid-training",
+    hrefSecondary: "/tianjin-wma-wilderness-first-aid-training",
+  },
+  {
     id: 3,
     title: "企业团体急救培训（可定制）",
     subtitle: "企业内训/团建/安全生产合规｜上门授课｜2小时/半天/全天（含证书）",

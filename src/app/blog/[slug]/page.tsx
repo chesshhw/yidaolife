@@ -86,6 +86,18 @@ export default async function BlogPostPage({ params }: Props) {
     },
     mainEntityOfPage: pageUrl,
   };
+  const faqJsonLd =
+    post.faqItems?.length
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: post.faqItems.map(({ q, a }) => ({
+            "@type": "Question",
+            name: q,
+            acceptedAnswer: { "@type": "Answer", text: a },
+          })),
+        }
+      : null;
 
   return (
     <main className="min-h-screen bg-white">
@@ -97,6 +109,12 @@ export default async function BlogPostPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
+      {faqJsonLd ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      ) : null}
       <article className="mx-auto max-w-3xl px-4 py-12 sm:py-16">
         <header className="border-b border-neutral-100 pb-6">
           <div className="mb-4">
@@ -225,6 +243,27 @@ export default async function BlogPostPage({ params }: Props) {
                     </figcaption>
                   ) : null}
                 </figure>
+              ) : null}
+
+              {post.faqItems?.length && section.heading.includes("常见问题") ? (
+                <div className="mt-5 space-y-2">
+                  {post.faqItems.map(({ q, a }) => (
+                    <details key={q} className="group rounded-xl border border-neutral-200 bg-white">
+                      <summary className="flex cursor-pointer items-center justify-between px-4 py-3 font-medium text-neutral-900 list-none [&::-webkit-details-marker]:hidden">
+                        {q}
+                        <span
+                          className="shrink-0 text-neutral-400 transition-transform group-open:rotate-180"
+                          aria-hidden
+                        >
+                          ▼
+                        </span>
+                      </summary>
+                      <p className="border-t border-neutral-100 px-4 py-3 text-sm text-neutral-600">
+                        {a}
+                      </p>
+                    </details>
+                  ))}
+                </div>
               ) : null}
             </section>
           ))}

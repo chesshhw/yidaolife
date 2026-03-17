@@ -83,7 +83,10 @@ export default function FloatingContact() {
                 联系老师
               </h2>
               <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
-                扫码添加微信，24小时内回复
+                添加微信咨询报名
+              </p>
+              <p className="mt-2 text-sm font-medium text-neutral-900 dark:text-white">
+                名额有限，建议提前锁定
               </p>
               <div className="mt-4 flex justify-center">
                 <Image

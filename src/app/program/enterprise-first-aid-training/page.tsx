@@ -309,14 +309,20 @@ export default function EnterpriseFirstAidTrainingPage() {
             预约企业团训方案沟通 / 获取团体报价
           </p>
           <div className="rounded-2xl border border-neutral-200 bg-neutral-50/50 p-6">
+            <p className="text-sm font-medium text-neutral-900">名额有限，建议提前锁定</p>
+            <p className="mt-2 text-sm text-neutral-700">
+              联系人：<span className="font-medium text-neutral-900">黄老师</span>
+            </p>
             <p className="font-medium text-neutral-900">
               电话/微信：<a href="tel:13512456138" className="underline hover:no-underline">13512456138</a>
             </p>
+            <p className="mt-1 text-sm text-neutral-600">支持电话 / 微信咨询</p>
             <p className="mt-1 text-sm text-neutral-500">工作日 9:00–18:00</p>
             <div className="mt-4">
+              <p className="text-sm font-medium text-neutral-900">添加微信咨询报名</p>
               <Image
                 src="/images/wechat.png"
-                alt="课程顾问个人微信二维码"
+                alt="微信二维码"
                 width={240}
                 height={240}
                 loading="lazy"
