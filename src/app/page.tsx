@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import HomeContactBar from "@/components/HomeContactBar";
+import HomeCourseSection from "@/components/home-course/HomeCourseSection";
+import HomeHeroCtas from "@/components/HomeHeroCtas";
 import PerformanceSelfCheck from "@/components/PerformanceSelfCheck";
 import { getHomepageCitySlugs, getCityBySlug } from "@/data/cities";
 
@@ -24,12 +26,6 @@ export const metadata: Metadata = {
     images: ["/images/hero.webp"],
   },
 };
-
-const SELLING_POINTS = [
-  { label: "证书全球通用", icon: "check" },
-  { label: "开课前一周可退改", icon: "check" },
-  { label: "全国协同排期", icon: "check" },
-];
 
 const CITY_LINKS = [
   ...getHomepageCitySlugs().map((slug) => ({
@@ -77,81 +73,12 @@ export default function HomePage() {
           <p className="mt-1 text-sm sm:text-base text-white opacity-90 max-w-xl">
             一天课程 · 国际认证证书 · 全国多城市开课
           </p>
-          <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-            <a
-              href="#course-card"
-              className="btn-subtle text-white border-white hover:bg-white hover:text-black"
-            >
-              立即报名
-            </a>
-            <Link
-              href="/programs"
-              className="btn-subtle text-white border-white hover:bg-white hover:text-black"
-            >
-              查看课程时间
-            </Link>
-          </div>
+          <HomeHeroCtas />
         </div>
       </section>
 
-      {/* 2. CPR与AED培训 · 主课程卡 */}
-      <section id="course-card" className="pt-12 sm:pt-16 lg:pt-20 px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16 scroll-mt-24" aria-labelledby="section-cpr">
-        <h2 id="section-cpr" className="sr-only">CPR心肺复苏与AED使用培训</h2>
-        <div className="mx-auto max-w-5xl">
-          <div className="mx-auto max-w-3xl text-center mb-8 sm:mb-10">
-            <h3 className="text-xl sm:text-2xl font-medium tracking-tight text-[var(--foreground)]">
-              AHA Heartsaver 急救员认证课程
-            </h3>
-            <p className="mt-4 text-sm sm:text-base text-[var(--muted)] leading-7">
-              AHA Heartsaver 急救员课程由美国心脏协会（American Heart Association）制定，是全球广泛认可的标准化急救培训课程。
-            </p>
-            <p className="mt-4 text-sm sm:text-base text-[var(--muted)] leading-7">
-              课程内容包括：
-            </p>
-            <ul className="mt-2 text-sm sm:text-base text-[var(--muted)] leading-7 list-disc list-inside">
-              <li>心肺复苏 CPR</li>
-              <li>自动体外除颤仪 AED 使用</li>
-              <li>气道异物梗阻急救</li>
-              <li>突发情况现场应对流程</li>
-            </ul>
-            <p className="mt-4 text-sm sm:text-base text-[var(--muted)] leading-7">
-              完成培训与考核后可获得 AHA 官方急救员证书。证书有效期2年，可官方查询。
-            </p>
-          </div>
-          <article className="mx-auto py-10 px-6 sm:px-10 rounded-3xl border border-[var(--border)] shadow-xl overflow-hidden bg-white dark:bg-black">
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-              <div className="min-w-0 flex-1 overflow-hidden">
-                <h3 className="text-base sm:text-lg md:text-xl font-medium tracking-tight text-[var(--foreground)] whitespace-nowrap overflow-hidden text-ellipsis">AHA HeartSaver 国际急救员认证</h3>
-              </div>
-              <span className="shrink-0 text-xs tracking-wide text-[var(--muted)] border border-[var(--border)] px-3 py-1.5 rounded">
-                全国开课
-              </span>
-            </div>
-            <ul className="mt-4 flex flex-wrap justify-center gap-6 sm:gap-8 list-none p-0 m-0">
-              {SELLING_POINTS.map(({ label }) => (
-                <li key={label} className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
-                  <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span>{label}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-4 text-sm text-[var(--muted)]">
-              CPR · AED · 急救技能
-            </p>
-            <div className="mt-6 sm:mt-8 flex justify-end">
-              <Link
-                href="/programs"
-                className="btn-subtle inline-flex items-center gap-1.5"
-              >
-                查看课程与排期
-                <span aria-hidden>→</span>
-              </Link>
-            </div>
-          </article>
-        </div>
-      </section>
+      {/* 2. 首页课程模块：介绍 → 技能 → 信息 → 价值 → CTA */}
+      <HomeCourseSection />
 
       {/* 全国AHA急救培训城市 */}
       <section className="py-10 sm:py-12 px-4 sm:px-6 lg:px-8 border-t border-[var(--border)]">

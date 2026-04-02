@@ -3,15 +3,21 @@
 import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 
-const ENROLL_MODAL_EVENT = "openEnrollModal";
+/** 与 EnrollModalTrigger、首页 Hero 等入口共用 */
+export const ENROLL_MODAL_EVENT = "openEnrollModal";
 
 type EnrollModalProps = {
   cityName: string;
   /** 按钮文案 */
   buttonText?: string;
+  /**
+   * 为 true 时不渲染默认触发按钮，仅保留弹窗与全局事件监听。
+   * 用于首页等场景：由 EnrollModalTrigger 或其他按钮 dispatch 打开。
+   */
+  hideButton?: boolean;
 };
 
-export function EnrollModal({ cityName, buttonText = "立即报名" }: EnrollModalProps) {
+export function EnrollModal({ cityName, buttonText = "立即报名", hideButton = false }: EnrollModalProps) {
   const [open, setOpen] = useState(false);
 
   const openModal = useCallback(() => setOpen(true), []);
@@ -24,13 +30,15 @@ export function EnrollModal({ cityName, buttonText = "立即报名" }: EnrollMod
 
   return (
     <>
-      <button
-        type="button"
-        onClick={openModal}
-        className="inline-flex items-center justify-center rounded-xl bg-neutral-900 text-white px-6 py-3 text-sm font-medium hover:bg-neutral-800"
-      >
-        {buttonText}
-      </button>
+      {!hideButton ? (
+        <button
+          type="button"
+          onClick={openModal}
+          className="inline-flex items-center justify-center rounded-xl bg-neutral-900 text-white px-6 py-3 text-sm font-medium hover:bg-neutral-800"
+        >
+          {buttonText}
+        </button>
+      ) : null}
 
       {open && (
         <div
@@ -57,14 +65,14 @@ export function EnrollModal({ cityName, buttonText = "立即报名" }: EnrollMod
             <div className="relative w-48 h-48 mt-6">
               <Image
                 src="/images/app.jpg"
-                alt={`扫描二维码报名${cityName}AHA急救培训课程`}
+                alt={`扫描小程序二维码报名${cityName || ""}AHA急救培训课程`}
                 fill
                 className="object-cover rounded-lg"
                 sizes="12rem"
               />
             </div>
             <p className="text-neutral-600 text-sm mt-4 text-center">
-              扫描二维码报名{cityName}AHA急救培训课程
+              扫描小程序二维码报名{cityName ? `${cityName}` : ""}AHA急救培训课程
             </p>
           </div>
         </div>
