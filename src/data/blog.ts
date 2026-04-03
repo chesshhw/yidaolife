@@ -117,10 +117,10 @@ export const BLOG_POSTS: BlogPost[] = [
         links: [{ label: "企业急救培训解决方案", href: "/enterprise-training" }],
       },
       {
-        heading: "七、SEO关键词：企业AED采购后要做什么？",
+        heading: "企业配置AED后，还需要做什么？",
         paragraphs: [
-          "很多企业在完成 AED采购 后，都会进一步考虑 企业急救培训 问题。标准的企业急救体系通常包括 AED设备配置、CPR AED培训 以及定期复训机制。只有设备与培训结合，才能真正提升企业突发事件应对能力。",
-          "适用于：企业办公楼、工厂、互联网公司、学校、商业综合体、酒店、物业公司。",
+          "很多企业在完成AED采购后，都会问一个问题：企业配置AED之后，还需要做什么？通常接下来就是企业急救培训、CPR AED培训以及设备维护管理等工作，让“设备+人员+流程”真正可执行。",
+          "这些建议同样适用于：企业办公楼、工厂、互联网公司、学校、商业综合体、酒店、物业公司等场景。",
         ],
       },
       {
@@ -320,7 +320,7 @@ export const BLOG_POSTS: BlogPost[] = [
         heading: "相关阅读",
         paragraphs: ["你也可以继续阅读这些内容："],
         links: [
-          { label: "企业为什么买了AED还要做急救培训（未来文章）", href: "/blog/why-training-after-aed" },
+          { label: "企业为什么买了AED还要做急救培训？", href: "/blog/why-aed-still-need-training" },
           { label: "AHA急救培训课程介绍", href: "/programs" },
           { label: "企业急救培训解决方案", href: "/enterprise-training" },
         ],
