@@ -245,6 +245,31 @@ export default async function BlogPostPage({ params }: Props) {
                 </figure>
               ) : null}
 
+              {section.qrCard ? (
+                <div className="mt-5 rounded-[12px] bg-[#f7f7f7] p-6 text-center">
+                  <p className="text-base font-semibold text-neutral-900">{section.qrCard.title}</p>
+                  {section.qrCard.cta ? (
+                    <p className="mt-2 text-base text-neutral-700">{section.qrCard.cta}</p>
+                  ) : null}
+                  <div className="mt-4 flex justify-center">
+                    <Image
+                      src={section.qrCard.image.src}
+                      alt={section.qrCard.image.alt}
+                      width={320}
+                      height={320}
+                      className="h-auto w-[260px] sm:w-[320px]"
+                    />
+                  </div>
+                  <div className="mt-4 space-y-1">
+                    {section.qrCard.textLines.map((t) => (
+                      <p key={t} className="text-base text-neutral-800">
+                        {t}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
               {post.faqItems?.length && section.heading.includes("常见问题") ? (
                 <div className="mt-5 space-y-2">
                   {post.faqItems.map(({ q, a }) => (
