@@ -28,10 +28,146 @@ export type BlogPost = {
   lead?: string[];
   /** FAQ（用于页面展示与 FAQPage schema） */
   faqItems?: Array<{ q: string; a: string }>;
+  bottomCta?: {
+    primary: { label: string; modalTitle: string; qrImageSrc: string; qrAlt: string };
+    secondary: { label: string; href: string };
+  };
   sections: BlogSection[];
 };
 
 export const BLOG_POSTS: BlogPost[] = [
+  {
+    slug: "aha-training-site-application",
+    title: "AHA急救培训基地如何申请？需要什么条件（2026最新指南）",
+    excerpt:
+      "详细讲解AHA急救培训基地申请流程、条件及适合人群，包括场地、设备、师资要求及申请步骤，适合企业与培训机构参考。",
+    description:
+      "详细讲解AHA急救培训基地申请流程、条件及适合人群，包括场地、设备、师资要求及申请步骤，适合企业与培训机构参考。",
+    publishedAt: "2026-04-18",
+    bottomCta: {
+      primary: {
+        label: "立即报名",
+        modalTitle: "扫码打开小程序报名",
+        qrImageSrc: "/images/wechat.png",
+        qrAlt: "小程序二维码",
+      },
+      secondary: { label: "查看开课城市与排期", href: "/cities" },
+    },
+    lead: [
+      "这两年，除了个人报名急救培训，我们也经常收到另一类咨询：",
+      "“我们单位能不能申请成为AHA急救培训基地？”",
+      "咨询的通常是：",
+      "企业安全负责人",
+      "培训机构负责人",
+      "医院或学校管理人员",
+      "已经在做应急培训的团队",
+      "如果你也在考虑搭建自己的急救培训体系，这篇文章把最关键的信息讲清楚：",
+      "- 什么是急救培训基地",
+      "- 申请需要哪些条件",
+      "- 具体流程是什么",
+      "- 适合哪些单位",
+    ],
+    sections: [
+      {
+        heading: "一、什么是AHA急救培训基地？",
+        paragraphs: [
+          "AHA急救培训基地，是具备条件并按照美国心脏协会（AHA）标准开展急救培训的教学场地。",
+          "可用于开展：",
+        ],
+        bullets: [
+          "AHA Heartsaver急救员培训",
+          "CPR心肺复苏培训",
+          "AED使用培训",
+          "企业急救培训",
+        ],
+      },
+      {
+        heading: "二、申请急救培训基地需要什么条件？",
+        paragraphs: [],
+        subsections: [
+          {
+            heading: "1、场地要求",
+            paragraphs: ["具备固定培训场地，满足教学需求："],
+            bullets: ["投影设备", "音响系统", "足够空间"],
+          },
+          {
+            heading: "2、设备要求",
+            paragraphs: [],
+            bullets: ["CPR模拟人", "AED训练器", "急救教学设备"],
+          },
+          {
+            heading: "3、师资要求",
+            paragraphs: ["需要AHA认证导师："],
+            bullets: ["可自建或合作"],
+          },
+          {
+            heading: "4、培训要求",
+            paragraphs: ["必须按照AHA标准流程："],
+            bullets: ["视频教学", "技能训练", "考核评估"],
+          },
+          {
+            heading: "5、管理要求",
+            paragraphs: [],
+            bullets: ["培训组织", "学员管理", "课程安排", "资料归档"],
+          },
+        ],
+      },
+      {
+        heading: "三、AHA急救培训基地申请流程",
+        paragraphs: [],
+        subsections: [
+          { heading: "第一步：提交申请", paragraphs: ["填写申请信息，了解要求"] },
+          { heading: "第二步：预约评估", paragraphs: ["评估场地、设备、能力"] },
+          { heading: "第三步：导师培训", paragraphs: ["培养或引入AHA导师"] },
+          { heading: "第四步：签署协议", paragraphs: ["完成合作或培训协议"] },
+          { heading: "第五步：正式运营", paragraphs: ["开始开展急救培训"] },
+        ],
+      },
+      {
+        heading: "四、哪些单位适合申请？",
+        paragraphs: [],
+        bullets: ["企业（EHS、安全培训）", "培训机构", "学校、医院", "已有培训能力团队"],
+      },
+      {
+        heading: "五、申请的实际价值",
+        paragraphs: [],
+        bullets: ["1、建立长期培训能力", "2、提升专业标准", "3、支持企业安全体系", "4、拓展培训业务"],
+      },
+      {
+        heading: "六、申请前建议",
+        paragraphs: [],
+        bullets: ["是否有长期需求", "是否有培训资源", "是否具备场地和人员"],
+      },
+      {
+        heading: "七、如何咨询？",
+        paragraphs: ["课程顾问：黄老师", "电话 / 微信：13512456138"],
+      },
+      {
+        heading: "急救培训基地申请咨询",
+        paragraphs: [
+          "如果你希望搭建企业急救培训体系，可以先评估是否适合申请培训基地。",
+        ],
+      },
+      {
+        heading: "咨询急救培训基地申请",
+        paragraphs: [],
+        qrCard: {
+          title: "咨询急救培训基地申请",
+          image: { src: "/images/wechat.png", alt: "微信二维码咨询急救培训基地申请" },
+          textLines: ["微信扫码咨询急救培训基地申请", "或添加微信：13512456138", "也可电话咨询：13512456138"],
+        },
+      },
+      {
+        heading: "相关阅读",
+        paragraphs: ["相关阅读："],
+        links: [
+          { label: "AHA急救证书含金量如何？", href: "/blog/benefits-of-first-aid-training" },
+          { label: "企业为什么买了AED还要做急救培训？", href: "/blog/why-aed-still-need-training" },
+          { label: "AHA和红十字急救培训有什么区别？", href: "/blog/aha-vs-red-cross-first-aid" },
+        ],
+      },
+    ],
+  },
   {
     slug: "aha-instructor-guide-2026",
     title: "想成为AHA急救导师？国内哪里可以考？需要什么条件（2026最新指南）",

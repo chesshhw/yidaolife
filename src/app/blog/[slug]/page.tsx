@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BLOG_POSTS, getAllBlogSlugs, getBlogPostBySlug } from "@/data/blog";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import BlogBottomCta from "@/components/BlogBottomCta";
 
 const SITE_URL = "https://yidaolife.com";
 const SITE_NAME = "都会急救";
@@ -321,23 +322,36 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
         </section>
 
-        <section className="mt-12 rounded-2xl border border-neutral-200 bg-neutral-50 p-5 sm:p-6">
-          <h2 className="text-xl font-semibold text-neutral-900">学习急救技能</h2>
-          <p className="mt-3 text-neutral-700 leading-relaxed">
-            如果您希望系统学习 CPR 心肺复苏、AED 使用和基础急救技能，可以参加我们的急救培训课程。
-          </p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Link href="/cities" className="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white hover:bg-neutral-800 transition-colors">
-              查看培训城市
-            </Link>
-            <Link href="/programs" className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors">
-              查看课程体系
-            </Link>
-            <Link href="/enterprise-training" className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors">
-              企业培训咨询
-            </Link>
-          </div>
-        </section>
+        {post.bottomCta ? (
+          <BlogBottomCta primary={post.bottomCta.primary} secondary={post.bottomCta.secondary} />
+        ) : (
+          <section className="mt-12 rounded-2xl border border-neutral-200 bg-neutral-50 p-5 sm:p-6">
+            <h2 className="text-xl font-semibold text-neutral-900">学习急救技能</h2>
+            <p className="mt-3 text-neutral-700 leading-relaxed">
+              如果您希望系统学习 CPR 心肺复苏、AED 使用和基础急救技能，可以参加我们的急救培训课程。
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link
+                href="/cities"
+                className="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white hover:bg-neutral-800 transition-colors"
+              >
+                查看培训城市
+              </Link>
+              <Link
+                href="/programs"
+                className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+              >
+                查看课程体系
+              </Link>
+              <Link
+                href="/enterprise-training"
+                className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+              >
+                企业培训咨询
+              </Link>
+            </div>
+          </section>
+        )}
       </article>
     </main>
   );
