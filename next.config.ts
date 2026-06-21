@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/cities/:city", destination: "/city/:city", permanent: true },
+      { source: "/city/tongren-diqu", destination: "/city/tongren", permanent: true },
     ];
   },
 };

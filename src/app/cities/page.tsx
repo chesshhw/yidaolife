@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { getCitiesByRegion, getDisplayLocations } from "@/data/cities";
+import { getCitiesByRegion, getCityShortName } from "@/data/cities";
+import CityCard from "@/components/CityCard";
 
 export default function CitiesPage() {
   const [q, setQ] = useState("");
@@ -13,7 +14,10 @@ export default function CitiesPage() {
       q.trim()
         ? regionsWithCities.map(({ region, cities }) => ({
             region,
-            cities: cities.filter((c) => c.name.includes(q.trim())),
+            cities: cities.filter(
+              (c) =>
+                getCityShortName(c).includes(q.trim()) || c.name.includes(q.trim())
+            ),
           })).filter((r) => r.cities.length > 0)
         : regionsWithCities,
     [regionsWithCities, q]
@@ -91,58 +95,9 @@ export default function CitiesPage() {
               <div key={region}>
                 <h2 className="text-lg font-semibold text-neutral-900 mb-4">{region}</h2>
                 <ul className="space-y-4 list-none p-0 m-0">
-                  {cities.map((city) => {
-                    const addrs = getDisplayLocations(city.locations);
-                    const displayName = city.name.replace(/市$/, "");
-                    return (
-                      <li key={city.slug}>
-                        <Link
-                          href={`/city/${city.slug}`}
-                          className="group block rounded-2xl border border-neutral-200 bg-white p-4 md:p-5 shadow-sm hover:shadow-md hover:border-neutral-300 transition cursor-pointer"
-                          aria-label={`查看${city.name}急救培训课程时间与报名`}
-                        >
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="min-w-0 flex-1">
-                              <h3 className="text-base md:text-lg font-semibold text-neutral-900 group-hover:text-neutral-700 transition-colors">
-                                {displayName}急救培训 | AHA Heartsaver急救员认证课程
-                              </h3>
-                              <p className="mt-1 text-sm text-neutral-600">
-                                HeartSaver急救员认证课程（纸质证书）
-                              </p>
-                              <p className="mt-2 text-sm text-neutral-700">
-                                {displayName}培训内容包括：
-                              </p>
-                              <ul className="mt-1 list-disc list-inside text-sm text-neutral-700 leading-6 space-y-1">
-                                <li>CPR心肺复苏</li>
-                                <li>AED自动体外除颤仪使用</li>
-                                <li>气道异物梗阻急救</li>
-                              </ul>
-                            </div>
-                            <span
-                              className="shrink-0 inline-flex items-center gap-1 rounded-full bg-neutral-900 text-white text-sm px-3 py-1.5 group-hover:opacity-90 group-hover:shadow-md transition"
-                              aria-hidden
-                            >
-                              查看课程时间与报名
-                              <span aria-hidden>→</span>
-                            </span>
-                          </div>
-                          <div className="mt-3 space-y-2">
-                            {addrs.map((addr, i) => (
-                              <address
-                                key={i}
-                                className="not-italic text-sm text-neutral-700 leading-relaxed"
-                              >
-                                {addr}
-                              </address>
-                            ))}
-                          </div>
-                          <p className="mt-4 text-xs text-neutral-500">
-                            点击卡片任意位置进入课程时间与报名
-                          </p>
-                        </Link>
-                      </li>
-                    );
-                  })}
+                  {cities.map((city) => (
+                    <CityCard key={city.slug} city={city} />
+                  ))}
                 </ul>
               </div>
             ))

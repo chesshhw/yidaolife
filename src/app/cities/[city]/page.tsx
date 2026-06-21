@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { getAllCitySlugs } from "@/data/cities";
 
 const SITE_URL = "https://yidaolife.com";
-const CITY_SLUGS = ["beijing", "tianjin", "shanghai", "guangzhou", "shenzhen", "chongqing"] as const;
 
 export async function generateStaticParams() {
-  return CITY_SLUGS.map((city) => ({ city }));
+  return getAllCitySlugs().map((city) => ({ city }));
 }
 
 type Props = {

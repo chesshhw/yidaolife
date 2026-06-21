@@ -414,10 +414,55 @@ function getSlug(cityName: string, used: Set<string>): string {
   return slug;
 }
 
+/** 合并到主城市页，不单独生成详情页 */
+const SKIP_CITY_NAMES = new Set(["铜仁地区"]);
+
+/** 清洗日期展示：去掉“城市名，满6人开课”前缀 */
+export function normalizeScheduleDates(raw?: string): string | undefined {
+  if (!raw) return undefined;
+  if (raw.includes("满6人开课")) return "满6人开课";
+  return raw;
+}
+
+export function parseScheduleDates(raw?: string): { isMinGroup: boolean; dates: string[] } {
+  const normalized = normalizeScheduleDates(raw);
+  if (!normalized) return { isMinGroup: false, dates: [] };
+  if (normalized === "满6人开课") return { isMinGroup: true, dates: [] };
+  return {
+    isMinGroup: false,
+    dates: normalized.split(/,\s*/).map((d) => d.trim()).filter(Boolean),
+  };
+}
+
+/** 城市列表卡片展示最近 1-3 个固定日期 */
+export function getCardScheduleDates(raw?: string, limit = 3): string[] {
+  const { isMinGroup, dates } = parseScheduleDates(raw);
+  if (isMinGroup || dates.length === 0) return [];
+  return dates.slice(0, limit);
+}
+
+export function isMinGroupSchedule(raw?: string): boolean {
+  return parseScheduleDates(raw).isMinGroup;
+}
+
+const SHORT_NAME_BY_SLUG: Record<string, string> = {
+  dali: "大理",
+  yanbian: "延边",
+  haixi: "海西州",
+  changji: "昌吉",
+  kashi: "喀什",
+};
+
+/** 页面标题/正文使用的城市简称 */
+export function getCityShortName(city: Pick<City, "name" | "slug">): string {
+  return SHORT_NAME_BY_SLUG[city.slug] ?? city.name.replace(/市$/, "");
+}
+
 /** 从 RAW_DATA 生成城市列表：同名合并、locations 去重、清洗后空地址丢弃 */
 function buildCities(): City[] {
   const byCity = new Map<string, string[]>();
   for (const { city, location } of RAW_DATA) {
+    if (SKIP_CITY_NAMES.has(city)) continue;
     const cleaned = sanitizeLocation(location);
     if (!cleaned) continue;
     const list = byCity.get(city) ?? [];
@@ -427,7 +472,7 @@ function buildCities(): City[] {
   const usedSlugs = new Set<string>();
   const cities: City[] = [];
   for (const [cityName, locs] of byCity) {
-    if (!locs.length) continue;
+    if (!locs.length || SKIP_CITY_NAMES.has(cityName)) continue;
     const name = cityName.replace(/市$/, "").replace(/自治州$/, "").replace(/盟$/, "").replace(/地区$/, "") || cityName;
     cities.push({
       name,
@@ -435,7 +480,7 @@ function buildCities(): City[] {
       locations: locs,
       isCore: CORE_NAMES.has(cityName),
       region: getRegion(cityName),
-      scheduleDates: CITY_SCHEDULE_DATES[cityName],
+      scheduleDates: normalizeScheduleDates(CITY_SCHEDULE_DATES[cityName]),
     });
   }
   return cities;
@@ -479,11 +524,18 @@ export function isTwicePerMonth(cityName: string): boolean {
 }
 
 /** 展示用地址：清洗后若为空则用 fallback */
-const FALLBACK_ADDRESS = "城市内常用固定培训场地（报名后告知具体教室）";
+export const FALLBACK_ADDRESS = "城市内常用固定培训场地（报名后告知具体教室）";
 
 export function getDisplayLocations(locations: string[]): string[] {
   return locations.map((raw) => {
     const cleaned = sanitizeLocation(raw);
     return cleaned || FALLBACK_ADDRESS;
   });
+}
+
+/** 是否有可用于展示的具体培训地址（非 fallback、非仅城市名占位） */
+export function hasSpecificLocations(locations: string[]): boolean {
+  return getDisplayLocations(locations).some(
+    (addr) => addr !== FALLBACK_ADDRESS && !/^[\u4e00-\u9fa5]+市$/.test(addr.trim())
+  );
 }
