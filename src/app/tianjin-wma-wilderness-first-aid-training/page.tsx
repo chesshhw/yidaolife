@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-const SITE_URL = "https://yidaolife.com";
+const SITE_URL = "https://www.yidaolife.com";
 const CANONICAL_URL = `${SITE_URL}/tianjin-wma-wilderness-first-aid-training`;
 
 const PAGE_TITLE =

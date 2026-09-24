@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "AHA急救培训 | CPR AED急救员认证课程 | 全国急救培训",
     description:
       "提供 AHA Heartsaver 急救员认证培训课程，内容包括 CPR 心肺复苏、AED 使用、气道异物梗阻急救等。全国多城市开课，并支持企业急救培训服务。",
-    url: "https://yidaolife.com/",
+    url: "https://www.yidaolife.com/",
     images: [{ url: "/images/hero.webp", width: 1200, height: 630, alt: "AHA急救培训" }],
   },
   twitter: {

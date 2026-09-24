@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
-const SITE_URL = "https://yidaolife.com";
+const SITE_URL = "https://www.yidaolife.com";
 const PAGE_URL = `${SITE_URL}/enterprise-training`;
 const PAGE_TITLE = "企业急救培训 | 企业CPR培训 | AED培训定制服务";
 const PAGE_DESC =
@@ -150,7 +150,14 @@ export default function EnterpriseTrainingPage() {
             <li>突发情况现场应对流程</li>
           </ul>
           <p className="mt-3 text-neutral-700 leading-relaxed">
-            课程采用理论讲解与实操训练相结合的方式，帮助学员真正掌握急救操作技能。
+            课程采用理论讲解与实操训练相结合的方式，帮助学员真正掌握急救操作技能。几位员工上台体验，不能代表其他人也已经掌握；选择企业培训时，建议同时了解实操安排、教学设备和技能考核方式。
+          </p>
+          <p className="mt-3 text-neutral-700 leading-relaxed">
+            关于为什么急救培训必须落实到每位员工的实操练习，可阅读
+            <Link href="/blog/why-first-aid-hands-on-practice-matters" className="mx-1 underline hover:no-underline">
+              急救培训为什么必须重视实操练习
+            </Link>
+            。
           </p>
         </section>
 

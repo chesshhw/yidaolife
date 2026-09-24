@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-const SITE_URL = "https://yidaolife.com";
+const SITE_URL = "https://www.yidaolife.com";
 
 export const metadata: Metadata = {
   title: "关于我们 | AHA急救培训与企业急救课程服务",

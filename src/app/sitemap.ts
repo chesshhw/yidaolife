@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getAllCitySlugs } from "@/data/cities";
-import { getAllBlogSlugs } from "@/data/blog";
+import { BLOG_POSTS } from "@/data/blog";
 
-const SITE_URL = "https://yidaolife.com";
+const SITE_URL = "https://www.yidaolife.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -28,9 +28,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "weekly" as const,
     priority: 0.8,
   }));
-  const blogPages: MetadataRoute.Sitemap = getAllBlogSlugs().map((slug) => ({
-    url: `${SITE_URL}/blog/${slug}`,
-    lastModified,
+  const blogPages: MetadataRoute.Sitemap = BLOG_POSTS.map((post) => ({
+    url: `${SITE_URL}/blog/${post.slug}`,
+    lastModified: new Date(post.updatedAt ?? post.publishedAt),
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));

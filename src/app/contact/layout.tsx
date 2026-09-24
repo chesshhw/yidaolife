@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const SITE_URL = "https://yidaolife.com";
+const SITE_URL = "https://www.yidaolife.com";
 
 export const metadata: Metadata = {
   title: "咨询与联系 | 急救课程报名与企业培训咨询",

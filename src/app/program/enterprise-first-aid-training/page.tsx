@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { EnterpriseContactButtons } from "@/components/EnterpriseContactButtons";
 
-const SITE_URL = "https://yidaolife.com";
+const SITE_URL = "https://www.yidaolife.com";
 const CANONICAL_URL = `${SITE_URL}/enterprise-training`;
 const PAGE_TITLE = "企业急救培训团体定制方案 | AHA Heartsaver CPR AED 企业内训（2026）";
 const PAGE_DESC =

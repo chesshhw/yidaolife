@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getAllCitySlugs } from "@/data/cities";
 
-const SITE_URL = "https://yidaolife.com";
+const SITE_URL = "https://www.yidaolife.com";
 
 export async function generateStaticParams() {
   return getAllCitySlugs().map((city) => ({ city }));

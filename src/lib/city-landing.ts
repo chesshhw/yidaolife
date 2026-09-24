@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { City } from "@/data/cities";
 import { getCityShortName, parseScheduleDates } from "@/data/cities";
 
-export const SITE_URL = "https://yidaolife.com";
+export const SITE_URL = "https://www.yidaolife.com";
 export const BRAND_NAME = "都会急救";
 export const LEGAL_NAME = "天津一道技术服务有限公司";
 export const COURSE_NAME = "AHA Heartsaver First Aid CPR AED";

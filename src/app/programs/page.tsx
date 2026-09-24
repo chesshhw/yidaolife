@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
-const SITE_URL = "https://yidaolife.com";
+const SITE_URL = "https://www.yidaolife.com";
 
 function buildBreadcrumbJsonLd() {
   return {
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     title: "AHA课程体系｜Heartsaver急救员认证",
     description:
       "Heartsaver 急救员认证（CPR/AED/急救技能）+ 企业团体培训｜官方授权｜小班实操。",
-    url: "https://yidaolife.com/programs",
+    url: "https://www.yidaolife.com/programs",
     images: [{ url: "/images/hero.webp", width: 1200, height: 630, alt: "AHA课程体系" }],
   },
 };

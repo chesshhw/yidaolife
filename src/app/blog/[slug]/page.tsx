@@ -1,14 +1,20 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { BLOG_POSTS, getAllBlogSlugs, getBlogPostBySlug } from "@/data/blog";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import BlogBottomCta from "@/components/BlogBottomCta";
 
-const SITE_URL = "https://yidaolife.com";
+const SITE_URL = "https://www.yidaolife.com";
 const SITE_NAME = "都会急救";
+const LEGAL_NAME = "天津一道技术服务有限公司";
 
 type Props = { params: Promise<{ slug: string }> };
+
+function isExternalHref(href: string) {
+  return href.startsWith("http://") || href.startsWith("https://");
+}
 
 export async function generateStaticParams() {
   return getAllBlogSlugs().map((slug) => ({ slug }));
@@ -23,20 +29,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: "急救知识栏目文章。",
     };
   }
+  const pageUrl = `${SITE_URL}/blog/${post.slug}`;
+  const seoTitle = post.seoTitle ?? `${post.title} | 急救知识`;
+  const ogImage = post.ogImage ?? { src: "/images/g5.jpg", alt: post.title };
   return {
-    title: `${post.title} | 急救知识`,
+    title: post.seoTitle ? { absolute: post.seoTitle } : seoTitle,
     description: post.description,
-    alternates: { canonical: `/blog/${post.slug}` },
+    keywords: post.topics,
+    authors: post.author ? [{ name: post.author }] : [{ name: SITE_NAME }],
+    alternates: { canonical: pageUrl },
+    robots: { index: true, follow: true, "max-snippet": -1, "max-image-preview": "large", "max-video-preview": -1 },
     openGraph: {
-      title: `${post.title} | 急救知识`,
+      type: "article",
+      title: seoTitle,
       description: post.description,
-      url: `https://yidaolife.com/blog/${post.slug}`,
-      images: [{ url: "/images/g5.jpg", width: 1200, height: 630, alt: post.title }],
+      url: pageUrl,
+      siteName: SITE_NAME,
+      locale: "zh_CN",
+      publishedTime: post.publishedAt,
+      modifiedTime: post.updatedAt ?? post.publishedAt,
+      authors: post.author ? [post.author] : [SITE_NAME],
+      images: [{ url: ogImage.src, width: ogImage.width, height: ogImage.height, alt: ogImage.alt }],
     },
     twitter: {
-      title: `${post.title} | 急救知识`,
+      card: "summary_large_image",
+      title: seoTitle,
       description: post.description,
-      images: ["/images/g5.jpg"],
+      images: [{ url: ogImage.src, alt: ogImage.alt }],
     },
   };
 }
@@ -45,21 +64,19 @@ export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   const post = getBlogPostBySlug(slug);
 
-  if (!post) {
-    return (
-      <main className="min-h-screen bg-white py-16 px-4">
-        <div className="mx-auto max-w-3xl">
-          <h1 className="text-2xl font-semibold text-neutral-900">文章未找到</h1>
-          <Link href="/blog" className="mt-4 inline-flex text-neutral-700 hover:underline">
-            返回急救知识栏目
-          </Link>
-        </div>
-      </main>
-    );
-  }
+  if (!post) notFound();
 
-  const related = BLOG_POSTS.filter((item) => item.slug !== post.slug).slice(0, 3);
+  const related = post.relatedSlugs?.length
+    ? post.relatedSlugs
+        .map((relatedSlug) => getBlogPostBySlug(relatedSlug))
+        .filter((item): item is NonNullable<typeof item> => Boolean(item))
+    : BLOG_POSTS.filter((item) => item.slug !== post.slug).slice(0, 3);
   const pageUrl = `${SITE_URL}/blog/${post.slug}`;
+  const dateModified = post.updatedAt ?? post.publishedAt;
+  const authorName = post.author ?? SITE_NAME;
+  const brandName = post.brand ?? SITE_NAME;
+  const organizationName = post.organization ?? LEGAL_NAME;
+  const ogImage = post.ogImage;
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -71,34 +88,53 @@ export default async function BlogPostPage({ params }: Props) {
   };
   const articleJsonLd = {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     headline: post.title,
     description: post.description,
+    inLanguage: "zh-CN",
     datePublished: post.publishedAt,
-    dateModified: post.publishedAt,
-    author: { "@type": "Organization", name: SITE_NAME },
+    dateModified,
+    author: {
+      "@type": post.author ? "Person" : "Organization",
+      name: authorName,
+    },
     publisher: {
       "@type": "Organization",
-      name: SITE_NAME,
+      "@id": `${SITE_URL}/#organization`,
+      name: organizationName,
+      brand: { "@type": "Brand", name: brandName },
+      url: SITE_URL,
       logo: {
         "@type": "ImageObject",
         url: `${SITE_URL}/images/logo.png`,
       },
     },
-    mainEntityOfPage: pageUrl,
-  };
-  const faqJsonLd =
-    post.faqItems?.length
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": pageUrl,
+    },
+    ...(ogImage
       ? {
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: post.faqItems.map(({ q, a }) => ({
-            "@type": "Question",
-            name: q,
-            acceptedAnswer: { "@type": "Answer", text: a },
-          })),
+          image: [`${SITE_URL}${ogImage.src}`],
         }
-      : null;
+      : {}),
+    ...(post.topics?.length
+      ? {
+          about: post.topics.map((topic) => ({ "@type": "Thing", name: topic })),
+        }
+      : {}),
+  };
+  const faqJsonLd = post.faqItems?.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: post.faqItems.map(({ q, a }) => ({
+          "@type": "Question",
+          name: q,
+          acceptedAnswer: { "@type": "Answer", text: a },
+        })),
+      }
+    : null;
 
   return (
     <main className="min-h-screen bg-white">
@@ -130,7 +166,18 @@ export default async function BlogPostPage({ params }: Props) {
           <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-900">
             {post.title}
           </h1>
-          <p className="mt-3 text-sm text-neutral-500">发布时间：{post.publishedAt}</p>
+          <p className="mt-3 text-sm text-neutral-500 leading-relaxed">
+            作者：{authorName}
+            {" · "}
+            {brandName}
+            {" · "}
+            {organizationName}
+          </p>
+          <p className="mt-1 text-sm text-neutral-500">
+            发布日期：<time dateTime={post.publishedAt}>{post.publishedAt}</time>
+            {dateModified !== post.publishedAt ? ` · 修改日期：${dateModified}` : ""}
+          </p>
+          <p className="mt-4 text-neutral-600 leading-relaxed">{post.description}</p>
         </header>
 
         <div className="pt-8 space-y-8">
@@ -152,6 +199,21 @@ export default async function BlogPostPage({ params }: Props) {
                   {p}
                 </p>
               ))}
+
+              {section.blocks?.map((block, index) =>
+                block.type === "list" ? (
+                  <ul key={index} className="mt-3 list-disc pl-5 text-neutral-700 space-y-2">
+                    {block.items.map((item) => <li key={item}>{item}</li>)}
+                  </ul>
+                ) : (
+                  <p key={index} className="mt-3 text-neutral-700 leading-relaxed">
+                    {block.text}
+                    {block.links?.map((link) => (
+                      <a key={link.url} href={link.url} className="ml-1 underline hover:no-underline break-words" target="_blank" rel="noopener noreferrer">{link.text}</a>
+                    ))}
+                  </p>
+                )
+              )}
 
               {section.table && (
                 <div className="mt-4 overflow-x-auto rounded-xl border border-neutral-200">
@@ -195,9 +257,20 @@ export default async function BlogPostPage({ params }: Props) {
                 <ul className="mt-3 list-disc list-inside text-neutral-700 space-y-1">
                   {section.links.map((l) => (
                     <li key={l.href}>
-                      <Link href={l.href} className="underline hover:no-underline">
-                        {l.label}
-                      </Link>
+                      {isExternalHref(l.href) ? (
+                        <a
+                          href={l.href}
+                          className="underline hover:no-underline break-words"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {l.label}
+                        </a>
+                      ) : (
+                        <Link href={l.href} className="underline hover:no-underline">
+                          {l.label}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -272,24 +345,14 @@ export default async function BlogPostPage({ params }: Props) {
               ) : null}
 
               {post.faqItems?.length && section.heading.includes("常见问题") ? (
-                <div className="mt-5 space-y-2">
+                <dl className="mt-5 space-y-5">
                   {post.faqItems.map(({ q, a }) => (
-                    <details key={q} className="group rounded-xl border border-neutral-200 bg-white">
-                      <summary className="flex cursor-pointer items-center justify-between px-4 py-3 font-medium text-neutral-900 list-none [&::-webkit-details-marker]:hidden">
-                        {q}
-                        <span
-                          className="shrink-0 text-neutral-400 transition-transform group-open:rotate-180"
-                          aria-hidden
-                        >
-                          ▼
-                        </span>
-                      </summary>
-                      <p className="border-t border-neutral-100 px-4 py-3 text-sm text-neutral-600">
-                        {a}
-                      </p>
-                    </details>
+                    <div key={q}>
+                      <dt><h3 className="text-base sm:text-lg font-semibold text-neutral-900">{q}</h3></dt>
+                      <dd className="mt-2 text-neutral-700 leading-relaxed">{a}</dd>
+                    </div>
                   ))}
-                </div>
+                </dl>
               ) : null}
             </section>
           ))}
@@ -348,6 +411,12 @@ export default async function BlogPostPage({ params }: Props) {
                 className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
               >
                 企业培训咨询
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+              >
+                微信咨询
               </Link>
             </div>
           </section>

@@ -1,6 +1,10 @@
 export type BlogSection = {
   heading: string;
   paragraphs: string[];
+  blocks?: Array<
+    | { type: "paragraph"; text: string; links?: Array<{ text: string; url: string }> }
+    | { type: "list"; items: string[] }
+  >;
   bullets?: string[];
   links?: Array<{ label: string; href: string }>;
   table?: { headers: string[]; rows: string[][] };
@@ -24,6 +28,16 @@ export type BlogPost = {
   excerpt: string;
   description: string;
   publishedAt: string;
+  /** 真实修改日期；缺省时与 publishedAt 一致 */
+  updatedAt?: string;
+  /** 独立 SEO 标题（不含站点 title template 重复后缀） */
+  seoTitle?: string;
+  author?: string;
+  brand?: string;
+  organization?: string;
+  topics?: string[];
+  ogImage?: { src: string; alt: string; width?: number; height?: number };
+  relatedSlugs?: string[];
   /** 标题下方导语（非 H2） */
   lead?: string[];
   /** FAQ（用于页面展示与 FAQPage schema） */
@@ -36,6 +50,237 @@ export type BlogPost = {
 };
 
 export const BLOG_POSTS: BlogPost[] = [
+  {
+    "slug": "why-first-aid-hands-on-practice-matters",
+    "title": "急救培训为什么必须重视实操练习",
+    "seoTitle": "急救培训为什么必须实操练习｜CPR与人工呼吸教学案例｜都会急救",
+    "excerpt": "都会急救结合人工呼吸面膜与面罩的课堂案例，说明每位学员为什么都需要亲手操作、获得反馈、接受技能检查并安排后续复练。",
+    "description": "急救培训为什么不能只听讲座、看视频？都会急救结合AHA教学中的人工呼吸面膜与面罩案例，说明实操练习、及时反馈、技能考核和后续复练的重要性，帮助企业判断培训是否落实到每位员工。",
+    "publishedAt": "2026-09-24",
+    "updatedAt": "2026-09-24",
+    "author": "黄老师",
+    "brand": "都会急救",
+    "organization": "天津一道技术服务有限公司",
+    "topics": [
+      "急救实操训练",
+      "企业急救培训",
+      "心肺复苏培训",
+      "人工呼吸面膜与面罩"
+    ],
+    "ogImage": {
+      "src": "/images/g5.jpg",
+      "alt": "急救培训课堂上，学员在模拟人上练习胸外按压和呼吸面罩操作",
+      "width": 4032,
+      "height": 2268
+    },
+    "relatedSlugs": [
+      "how-to-do-cpr",
+      "why-companies-need-first-aid-training",
+      "why-aed-still-need-training"
+    ],
+    "lead": [
+      "“听懂了，也看明白了，为什么一做还是会错？”一次人工呼吸演练，让我再次看到了这个问题。",
+      "急救技能需要通过亲手操作、获得反馈和反复练习来掌握。视频和讲解能帮助我们理解步骤，但手应该放在哪里、不同工具如何使用、动作是否产生效果，都需要在实际操作中检验。"
+    ],
+    "faqItems": [
+      {
+        "q": "只看急救视频能学会心肺复苏吗",
+        "a": "视频有助于理解流程，但仅凭看过视频，无法确认自己的动作是否正确。掌握心肺复苏技能，需要实际操作，并通过导师或合适的反馈设备检查和纠正动作。"
+      },
+      {
+        "q": "人工呼吸面膜和呼吸面罩的操作一样吗",
+        "a": "不一样。以本文讨论的成人操作为例，常见薄膜式面膜需要配合捏鼻和口部密封；覆盖口鼻的口袋面罩依靠面罩与面部密封完成通气。学习时需要区分，并按具体产品说明练习。"
+      },
+      {
+        "q": "企业办过急救讲座还需要技能培训吗",
+        "a": "取决于目标。如果希望员工掌握实际施救技能，就需要让每个人参加相应操作训练和技能检查；只有讲解、观看视频或少数人体验，不能确认全体员工已经具备这些能力。"
+      },
+      {
+        "q": "学过一次急救还需要复练吗",
+        "a": "需要。技能会因缺少使用而生疏，后续复练应结合技能检查结果、岗位需求和课程要求安排。不要把“曾经上过课”当成当前技能仍然熟练的证明。"
+      }
+    ],
+    "sections": [
+      {
+        "heading": "一次人工呼吸演练暴露的动作混淆",
+        "paragraphs": [],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "在美国心脏协会（AHA）Heartsaver 急救课程的教学中，不同导师有时会有不同的授课侧重。有的导师更强调人工呼吸面膜的便携性，要求学员用面膜练习；对于呼吸面罩，则主要通过视频介绍。",
+            "links": []
+          },
+          {
+            "type": "paragraph",
+            "text": "我实际遇到过这样的情况：学员看过呼吸面罩的教学视频，但只用人工呼吸面膜做过练习。后来换成呼吸面罩演练时，学员竟然把手伸进面罩下方捏住模拟人的鼻子，同时对着面罩的单向阀吹气。",
+            "links": []
+          },
+          {
+            "type": "paragraph",
+            "text": "问题就在这里：覆盖口鼻的呼吸面罩，需要依靠面罩边缘与面部的密封来完成通气。把手伸进面罩下方，会妨碍密封、造成漏气，可能使通气不足甚至无效。学员记住了“捏鼻子”和“对着阀门吹气”，却把属于不同操作方式的动作拼在了一起。",
+            "links": [
+              {
+                "text": "［参考：AHA 2025 成人基础生命支持指南］",
+                "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "这里说的人工呼吸面膜，是薄膜式的呼吸隔离装置；呼吸面罩则指覆盖口鼻、带单向阀的口袋面罩。以成人模拟人练习为例，常见薄膜式面膜仍需配合口对口通气的捏鼻动作，口袋面罩则需要密封口鼻周围，不能再把手伸进面罩里捏鼻子。具体产品应遵循其使用说明。",
+            "links": [
+              {
+                "text": "［参考：Laerdal 成人模拟人及训练面膜使用说明］",
+                "url": "https://cdn.laerdal.com/downloads/f1394/ACKGGTVH/Res-Anne-DfU-6736-rev-B.pdf"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "如果只问“你看懂了吗”，这类错误很可能发现不了。让学员真正拿起工具操作，观察模拟人的胸廓是否随着吹气起伏，才能进一步检查气道开放、密封和吹气是否到位。做出了吹气的动作，并不等于完成了有效通气。",
+            "links": [
+              {
+                "text": "［参考：AHA 2025 成人基础生命支持指南］",
+                "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "导师的教学重点不能成为学员的技能盲区",
+        "paragraphs": [],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "反过来，也需要警惕另一种情况。有的导师更关注面膜的防护局限，因此只让学员观看面膜视频，实操时全部使用呼吸面罩。",
+            "links": []
+          },
+          {
+            "type": "paragraph",
+            "text": "但离开教室，学员未必随身携带口袋面罩。如果需要改用另一种已经学过、却没有练过的通气方式，他们能不能正确调整手的位置？会不会在需要捏鼻子时忘记这一步？这些都是需要通过演练验证的问题，不能因为学员看过视频，就默认他们已经会做。",
+            "links": []
+          },
+          {
+            "type": "paragraph",
+            "text": "面罩与面膜各有使用特点，不能仅凭个人感受判断防护效果，也不能把“我更推荐这件工具”直接变成“其他相关操作不用练”。",
+            "links": []
+          },
+          {
+            "type": "paragraph",
+            "text": "教学重点应当依据课程标准和学员的实际需要来确定。对于所授课程要求掌握的技能，应当完整落实练习；对于课程涵盖、学员可能遇到且容易混淆的操作，应帮助学员在练习中理解差异。具体必学与选学内容，应以适用的课程教材为准。",
+            "links": []
+          },
+          {
+            "type": "paragraph",
+            "text": "全面教学也需要教会学员在条件有限时作出判断。遇到疑似心脏骤停的成人，不能因为没有面罩就等待。应立即呼叫 120、安排获取自动体外除颤仪（AED）并开始胸外按压；没有受过培训或不愿提供人工呼吸的施救者，可以先实施单纯胸外按压，并听从调度员指导。",
+            "links": [
+              {
+                "text": "［参考：AHA 2025 成人基础生命支持指南］",
+                "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "有效练习需要反馈和复练",
+        "paragraphs": [],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "急救操作往往要同时完成几个动作。以人工呼吸为例，学员需要开放气道、做好密封，并观察通气效果。观看视频时，这些动作由示范者连贯完成；自己操作时，才会发现手的位置会相互影响，注意一个细节时又可能漏掉另一个。",
+            "links": []
+          },
+          {
+            "type": "paragraph",
+            "text": "所以，“多练习”也需要方法。针对前面的例子，导师可以先让学员分别使用两种工具，在模拟人上完成相应操作；确认学员掌握差异后，再更换工具进行演练，观察他们能否自行调整，而不是全程跟着口令做。",
+            "links": []
+          },
+          {
+            "type": "paragraph",
+            "text": "发现漏气，应帮助学员找到原因，再给他们重新操作的机会。对于胸外按压，则可以结合反馈设备，检查按压深度、频率和回弹等表现。2025 年 AHA 复苏教育科学指南推荐在公众和专业人员的心肺复苏（CPR）培训中使用反馈设备，并推荐在集中培训后安排巩固训练。",
+            "links": [
+              {
+                "text": "［参考：AHA 2025 复苏教育科学指南］",
+                "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/resuscitation-education-science"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "练习的价值，在于把错误发现于课堂，并在指导下修正。如果学员反复做着同一个错误动作，却没有人指出问题，练习次数增加也不代表能力提高。",
+            "links": []
+          },
+          {
+            "type": "paragraph",
+            "text": "练习还应逐步延伸到完整情境：发现有人倒下，如何呼救，如何安排他人获取 AED，设备到场后如何配合。把单项动作放回救援流程，才能检查学员是否能把学过的内容连起来。对于担心做错、不敢上前的学员，在课堂中完成过相应操作、知道出现问题如何调整，也能让施救信心有更具体的依据。",
+            "links": []
+          }
+        ]
+      },
+      {
+        "heading": "企业急救培训要落实到每个人的操作",
+        "paragraphs": [],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "这个问题同样存在于企业急救培训中。考虑预算、员工排班和组织成本，有些企业会选择集中讲座：讲师讲解、播放视频，再邀请少数学员上台体验。",
+            "links": []
+          },
+          {
+            "type": "paragraph",
+            "text": "这样的活动有普及价值，可以让员工了解急救知识、认识 AED，建立遇事呼救的意识。但如果企业希望员工在突发情况下能够实际施救，就还需要安排针对个人的技能训练。几位员工上台练过，不能代表其他人也已经掌握。",
+            "links": []
+          },
+          {
+            "type": "paragraph",
+            "text": "AHA Heartsaver 的课程设计也保留了这一点。其混合学习形式包括线上学习和实操技能环节，课堂形式同样包含动手练习。线上学习可以提高理论学习的便利性，实操环节则承担着检验和纠正动作的任务。",
+            "links": [
+              {
+                "text": "［参考：AHA Heartsaver First Aid CPR AED 课程形式说明］",
+                "url": "https://cpr.heart.org/en/courses/heartsaver-first-aid-cpr-aed-course-options"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "企业选择培训时，除了人数、时长和价格，还可以进一步了解：",
+            "links": []
+          },
+          {
+            "type": "list",
+            "items": [
+              "每位员工是否都有充分的操作机会，而不是只观看同事练习。",
+              "模拟人和训练设备是否够用，导师是否能观察到每个人的动作并及时纠正。",
+              "发现错误后是否有重新练习的时间，课程结束前是否实际检查技能表现。",
+              "是否结合办公场所、车间或服务区域开展情境演练，并安排后续复练。"
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "预算有限时，可以通过分批组织、合理分组以及课程允许的线上理论学习来提高效率。需要重点保留的，是每个人实际操作、获得反馈和纠正错误的机会。",
+            "links": []
+          },
+          {
+            "type": "paragraph",
+            "text": "作为导师，我希望学员离开教室时，能说清自己练过什么，也知道自己曾在哪里出错、怎样调整。下一次换一种工具，或者遇到没有导师提示的场景，他们仍能把动作做出来，这才是我们需要持续检验的培训效果。",
+            "links": []
+          },
+          {
+            "type": "paragraph",
+            "text": "都会急救由天津一道技术服务有限公司运营，面向个人及企业开展 AHA Heartsaver 急救培训。了解课程时，欢迎重点询问实操安排、教学设备和技能考核方式，选择适合自己的训练。",
+            "links": []
+          }
+        ]
+      },
+      {
+        "heading": "常见问题",
+        "paragraphs": [],
+        "blocks": []
+      }
+    ]
+  },
   {
     slug: "reduce-risk-sudden-cardiac-arrest-during-exercise",
     title: "如何降低运动过程中发生心脏骤停的概率？跑步健身人群必读",
@@ -1162,7 +1407,9 @@ export const BLOG_POSTS: BlogPost[] = [
         heading: "为什么需要专业培训",
         paragraphs: [
           "CPR 看似简单，但按压深度、频率、回弹和中断时间都会影响效果。没有实操训练，很难在紧张环境下保持动作质量。",
+          "课堂里还常见另一种情况：看过视频、听懂步骤，换一种通气工具时仍会把动作拼错。这类问题只能在实操中被发现和纠正。",
         ],
+        links: [{ label: "急救培训为什么必须重视实操练习", href: "/blog/why-first-aid-hands-on-practice-matters" }],
       },
       {
         heading: "急救课程学习建议",
@@ -1197,7 +1444,9 @@ export const BLOG_POSTS: BlogPost[] = [
         heading: "员工急救培训的价值",
         paragraphs: [
           "急救培训不仅提升个人能力，也能提升团队协作效率。经过训练的团队在紧急情况下更容易形成分工，减少现场混乱和等待成本。",
+          "如果目标是让员工真正能施救，培训就不能只停留在讲座和观看同事演示，需要确认每位员工都有操作、反馈和考核的机会。",
         ],
+        links: [{ label: "急救培训为什么必须重视实操练习", href: "/blog/why-first-aid-hands-on-practice-matters" }],
       },
       {
         heading: "企业培训场景",

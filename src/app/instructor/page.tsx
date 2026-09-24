@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 const SITE_NAME = "都会急救";
-const SITE_URL = "https://yidaolife.com";
+const SITE_URL = "https://www.yidaolife.com";
 const PAGE_TITLE = "AHA导师认证报名通道｜Heartsaver导师申请流程｜2026全国开放";
 const PAGE_DESC =
   "2026年AHA Heartsaver导师认证申请通道开放，全国城市可申请。介绍导师报名条件、申请流程、培训安排、证书说明与常见问题。支持机构合作与企业培训发展。";

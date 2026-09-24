@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "急救知识 | CPR AED急救技能与培训指南",
     description:
       "了解 CPR 心肺复苏、AED 使用以及基础急救知识，学习关键急救技能，并了解急救培训课程与企业培训服务。",
-    url: "https://yidaolife.com/blog",
+    url: "https://www.yidaolife.com/blog",
     images: [{ url: "/images/g5.jpg", width: 1200, height: 630, alt: "急救知识栏目" }],
   },
   twitter: {

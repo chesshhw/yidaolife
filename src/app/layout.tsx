@@ -6,11 +6,12 @@ import Footer from "@/components/Footer";
 import FloatingContact from "@/components/FloatingContact";
 
 const SITE_NAME = "都会急救";
-const SITE_URL = "https://yidaolife.com";
+const SITE_URL = "https://www.yidaolife.com";
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": `${SITE_URL}/#organization`,
   name: "天津一道技术服务有限公司",
   url: SITE_URL,
   logo: `${SITE_URL}/images/logo.png`,
