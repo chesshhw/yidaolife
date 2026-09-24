@@ -204,7 +204,7 @@ export default function EnterpriseTrainingPage() {
             {[
               { src: "/images/g3.jpg?v=eb9351e83ceb", alt: "企业急救培训现场" },
               { src: "/images/g5.jpg", alt: "CPR心肺复苏实操培训" },
-              { src: "/images/g6.jpg", alt: "AED使用培训课堂" },
+              { src: "/images/g6.jpg?v=419aada0e72f", alt: "AED使用培训课堂" },
             ].map((item) => (
               <li key={item.src} className="relative aspect-[4/3] rounded-xl overflow-hidden border border-neutral-200">
                 <Image src={item.src} alt={item.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" />

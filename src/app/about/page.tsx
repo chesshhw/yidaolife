@@ -173,7 +173,7 @@ export default function AboutPage() {
               className="h-auto w-full rounded-xl border border-neutral-200"
             />
             <Image
-              src="/images/g6.jpg"
+              src="/images/g6.jpg?v=419aada0e72f"
               alt="急救培训课堂实操与导师指导"
               width={560}
               height={420}
