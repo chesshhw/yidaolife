@@ -60,13 +60,13 @@ export const metadata: Metadata = {
     description: PAGE_DESC,
     type: "website",
     url: PAGE_URL,
-    images: [{ url: `${SITE_URL}/images/g3.jpg`, width: 1200, height: 630, alt: "企业急救培训现场" }],
+    images: [{ url: `${SITE_URL}/images/g3.jpg?v=eb9351e83ceb`, width: 4096, height: 3072, alt: "企业急救培训现场" }],
   },
   twitter: {
     card: "summary_large_image",
     title: PAGE_TITLE,
     description: PAGE_DESC,
-    images: [`${SITE_URL}/images/g3.jpg`],
+    images: [`${SITE_URL}/images/g3.jpg?v=eb9351e83ceb`],
   },
 };
 
@@ -115,7 +115,7 @@ export default function EnterpriseTrainingPage() {
             </div>
             <div className="relative aspect-video overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100 lg:aspect-[4/3]">
               <Image
-                src="/images/g3.jpg"
+                src="/images/g3.jpg?v=eb9351e83ceb"
                 alt="企业急救培训现场"
                 fill
                 priority
@@ -202,7 +202,7 @@ export default function EnterpriseTrainingPage() {
           <h2 className="text-xl font-semibold text-neutral-900">企业急救培训现场</h2>
           <ul className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 list-none p-0 m-0">
             {[
-              { src: "/images/g3.jpg", alt: "企业急救培训现场" },
+              { src: "/images/g3.jpg?v=eb9351e83ceb", alt: "企业急救培训现场" },
               { src: "/images/g5.jpg", alt: "CPR心肺复苏实操培训" },
               { src: "/images/g6.jpg", alt: "AED使用培训课堂" },
             ].map((item) => (

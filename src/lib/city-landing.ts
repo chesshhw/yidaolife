@@ -193,9 +193,9 @@ export function buildCityJsonLd(city: City, slug: string) {
 
 export const TRAINING_IMAGES = [
   {
-    src: "/images/g3.jpg",
-    caption: (short: string) => `${short}AHA急救培训实操现场`,
-    alt: (short: string) => `${short}AHA急救培训CPR实操现场`,
+    src: "/images/g3.jpg?v=eb9351e83ceb",
+    caption: (short: string) => `${short}AHA急救培训课堂`,
+    alt: (short: string) => `${short}AHA急救培训课堂及模拟人设备`,
   },
   {
     src: "/images/g5.jpg",

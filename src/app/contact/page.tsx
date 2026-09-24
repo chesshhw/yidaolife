@@ -30,7 +30,7 @@ export default function ContactPage() {
             </div>
             <div className="relative aspect-video overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100 lg:aspect-[4/3]">
               <Image
-                src="/images/g3.jpg"
+                src="/images/g3.jpg?v=eb9351e83ceb"
                 alt="企业急救培训 CPR AED 现场"
                 fill
                 priority

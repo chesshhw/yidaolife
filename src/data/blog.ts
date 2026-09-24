@@ -899,7 +899,7 @@ export const BLOG_POSTS: BlogPost[] = [
           "真正的难点往往不是设备，而是现场能不能把流程做出来：呼救分工、持续按压、贴片位置、按提示除颤、减少中断。",
         ],
         image: {
-          src: "/images/g3.jpg",
+          src: "/images/g3.jpg?v=eb9351e83ceb",
           alt: "急救培训现场实操训练",
           caption: "实操训练能显著降低紧张与误操作，提升现场可执行性。",
         },

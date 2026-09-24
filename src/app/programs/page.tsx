@@ -86,7 +86,7 @@ const courses: Course[] = [
     subtitle: "企业内训/团建/安全生产合规｜上门授课｜2小时/半天/全天（含证书）",
     highlights: ["方案定制与交付", "支持全国协调", "可开发票"],
     badge: "企业定制",
-    image: "/images/g3.jpg",
+    image: "/images/g3.jpg?v=eb9351e83ceb",
     ctaPrimary: "预约方案",
     ctaSecondary: "了解详情",
     hrefPrimary: "/enterprise-training",
