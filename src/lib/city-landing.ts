@@ -203,7 +203,7 @@ export const TRAINING_IMAGES = [
     alt: (short: string) => `${short}企业急救培训AED使用练习`,
   },
   {
-    src: "/images/g6.jpg?v=419aada0e72f",
+    src: "/images/g6.jpg?v=bebb2a9ae9b6",
     caption: () => "Heartsaver急救员课程课堂场景",
     alt: (short: string) => `${short}Heartsaver急救员课程培训现场`,
   },
