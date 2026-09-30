@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import InquiryForm from "@/components/InquiryForm";
 
 const PHONE = "13512456138";
 
@@ -9,6 +10,10 @@ export default function ContactPage() {
       <section className="border-b border-[var(--border)] bg-[var(--surface)]">
         <div className="site-container py-12 sm:py-16"><p className="eyebrow">都会急救 · 课程咨询</p><h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">从一次沟通开始</h1><p className="section-intro mt-5 max-w-2xl">个人报名、城市排期或企业团体培训，欢迎联系黄老师。告诉我们你的需求，一起确认合适的课程安排。</p></div>
       </section>
+      <div className="site-container grid items-start gap-8 py-12 sm:py-16 lg:grid-cols-[0.7fr_1.3fr] lg:gap-14">
+        <aside><p className="eyebrow">在线咨询 · ONLINE ENQUIRY</p><h2 className="section-title mt-4">留下需求，<br />我们通过邮箱联系你</h2><p className="section-intro mt-5">个人课程、企业团体培训或英文授课需求，都可以在右侧留言。手机号和微信选填，无需添加微信也能咨询。</p><Link href="/en" lang="en" className="text-link mt-5">First aid training in China · English</Link><p className="mt-6 break-all text-base text-[var(--brand)]"><a href="mailto:13512456138@163.com">13512456138@163.com</a></p></aside>
+        <InquiryForm />
+      </div>
       <section id="contact-main" className="site-container scroll-mt-28 py-12 sm:py-16">
         <div className="grid gap-6 lg:grid-cols-2">
           <article className="rounded-2xl bg-[#1c4036] p-7 text-white sm:p-10">

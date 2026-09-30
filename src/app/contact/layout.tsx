@@ -5,7 +5,7 @@ const SITE_URL = "https://www.yidaolife.com";
 export const metadata: Metadata = {
   title: "咨询与联系 | 急救课程报名与企业培训咨询",
   description:
-    "提供急救课程报名咨询、培训城市查询和企业急救培训咨询服务。可通过微信或电话联系，了解课程安排、证书信息及企业培训方案。",
+    "提供急救课程报名与企业培训咨询。中英文在线表单收集培训需求，也可通过邮箱、电话或微信联系。",
   alternates: { canonical: "/contact" },
   openGraph: {
     title: "咨询与联系 | 急救课程报名与企业培训咨询",

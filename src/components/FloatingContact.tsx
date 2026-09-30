@@ -2,11 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const WECHAT_ID = "HHW20190225";
 
 export default function FloatingContact() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [copyStatus, setCopyStatus] = useState("");
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -37,6 +39,8 @@ export default function FloatingContact() {
       setCopyStatus("微信号已复制");
     } catch { setCopyStatus("请长按上方微信号复制"); }
   };
+
+  if (pathname === "/en") return <a href="#inquiry" lang="en" className="fixed bottom-[max(16px,env(safe-area-inset-bottom))] right-4 z-40 inline-flex min-h-12 items-center rounded-full border border-white/30 bg-[var(--brand)] px-5 py-3 text-sm font-medium text-white shadow-lg">Enquire</a>;
 
   return (
     <>

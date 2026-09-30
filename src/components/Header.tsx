@@ -29,6 +29,15 @@ export default function Header() {
   }, [menuOpen]);
   const isActive = (href: string) => href === "/" ? pathname === href : pathname.startsWith(href) || (href === "/cities" && pathname.startsWith("/city/"));
 
+  if (pathname === "/en") return (
+    <header lang="en" className="fixed inset-x-0 top-0 z-50 border-b border-[var(--border)] bg-white/95 backdrop-blur-md">
+      <div className="site-container flex h-[72px] items-center justify-between gap-3 lg:h-20">
+        <Link href="/en" aria-label="Yidaolife training home" className="flex shrink-0 items-center gap-2"><Image src="/images/logo.png" alt="" width={44} height={42} className="h-11 w-11 object-contain" /><span className="text-base font-semibold sm:text-lg">都会急救<span className="mt-0.5 block text-xs tracking-widest text-[var(--muted)]">YIDAOLIFE</span></span></Link>
+        <nav aria-label="Training navigation" className="flex items-center gap-3 sm:gap-6"><Link href="/contact" lang="zh-CN" className="flex min-h-11 items-center text-sm text-[var(--brand)]">中文</Link><a href="#inquiry" className="button-primary !min-h-11 !px-3 sm:!px-5">Enquire</a></nav>
+      </div>
+    </header>
+  );
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--border)] bg-white/95 backdrop-blur-md">
       <div className="site-container">
@@ -48,9 +57,11 @@ export default function Header() {
                 </Link>
               ))}
             </nav>
+            <Link href="/en" lang="en" className="text-sm font-medium text-[var(--brand)]">English</Link>
             <Link href="/contact" className="button-primary !min-h-11 !px-4">课程咨询 <span aria-hidden>↗</span></Link>
           </div>
           <div className="flex items-center gap-1 lg:hidden">
+            <Link href="/en" lang="en" className="flex min-h-11 items-center px-2 text-sm text-[var(--brand)]">EN</Link>
             <Link href="/contact" className="flex min-h-11 items-center px-2 text-sm font-medium text-[var(--brand)]">咨询</Link>
             <button ref={toggleRef} type="button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-controls="mobile-navigation" aria-label={menuOpen ? "关闭导航菜单" : "打开导航菜单"} className="flex h-11 w-11 items-center justify-center rounded-lg hover:bg-[var(--surface)]">
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">

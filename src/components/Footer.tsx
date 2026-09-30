@@ -1,6 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname === "/en") return <footer lang="en" className="border-t border-[var(--border)] bg-[var(--surface)] pb-24 pt-10 sm:pb-12"><div className="site-container"><div className="flex flex-wrap items-start justify-between gap-8"><div><p className="text-xl font-semibold">都会急救 · Yidaolife</p><p className="mt-3 text-sm leading-7 text-[var(--muted)]">First aid, CPR & AED training in China<br />Operated by 天津一道技术服务有限公司</p></div><div className="flex flex-col gap-2 text-sm"><Link href="/en#inquiry" className="text-link">Training enquiries</Link><Link href="/privacy" className="text-link">Enquiry privacy</Link><Link href="/" lang="zh-CN" className="text-link">中文网站</Link></div></div><p className="mt-8 border-t border-[var(--border)] pt-5 text-sm text-[var(--muted)]">© {new Date().getFullYear()} 都会急救</p></div></footer>;
   return (
     <footer className="border-t border-[var(--border)] bg-[#f5f7f4] pb-24 pt-14 sm:pb-12">
       <div className="site-container">
@@ -25,7 +30,7 @@ export default function Footer() {
         </div>
         <div className="mt-10 flex flex-wrap justify-between gap-3 border-t border-[var(--border)] pt-6 text-xs leading-6 text-[var(--muted)]">
           <p>© {new Date().getFullYear()} 都会急救 · 天津一道技术服务有限公司</p>
-          <p>AHA Heartsaver 急救培训 · CPR · AED</p>
+          <Link href="/privacy" className="underline underline-offset-4">咨询信息使用说明 / Privacy</Link>
         </div>
       </div>
     </footer>

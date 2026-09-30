@@ -21,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     { url: `${SITE_URL}/about`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/contact`, lastModified, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE_URL}/en`, lastModified: new Date("2026-09-30"), changeFrequency: "monthly", priority: 0.8 },
   ];
   const cityPages: MetadataRoute.Sitemap = getAllCitySlugs().map((slug) => ({
     url: `${SITE_URL}/city/${slug}`,
