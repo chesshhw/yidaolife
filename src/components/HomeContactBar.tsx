@@ -24,28 +24,30 @@ export default function HomeContactBar() {
   }, []);
 
   return (
-    <section className="border-t border-[var(--border)] bg-neutral-50 dark:bg-neutral-900/50">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-        <p className="text-center text-[var(--foreground)] text-sm sm:text-base mb-6 sm:mb-8">
-          需要改期/城市不确定？24小时内专人确认排期
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+    <section className="border-t border-[var(--border)] bg-white">
+      <div className="site-container grid items-center gap-7 py-12 lg:grid-cols-[1fr_auto] lg:py-16">
+        <div>
+          <h2 className="text-2xl font-semibold">准备好开始学习了吗？</h2>
+          <p className="section-intro mt-3">个人报名、企业培训或城市排期，欢迎联系黄老师。</p>
+          <a href="tel:13512456138" className="text-link mt-2 text-lg tabular-nums">13512456138</a>
+        </div>
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <a
             href="/contact"
-            className="btn-subtle w-full sm:w-auto min-w-[140px] text-center no-underline"
+            className="button-primary w-full sm:w-auto"
           >
             咨询课程安排
           </a>
           <button
             type="button"
             onClick={copyWechat}
-            className="btn-subtle w-full sm:w-auto min-w-[140px]"
+            className="button-secondary w-full sm:w-auto"
           >
-            微信咨询
+            复制咨询号码
           </button>
           <a
             href={`tel:${WECHAT_NUM}`}
-            className="btn-subtle w-full sm:w-auto min-w-[140px] text-center no-underline"
+            className="button-secondary w-full sm:w-auto"
           >
             电话咨询
           </a>

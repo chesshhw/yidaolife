@@ -67,7 +67,7 @@ export default function CityPage({ city, slug }: CityPageProps) {
 
   return (
     <div className="min-h-screen bg-white">
-      <article className="max-w-2xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+      <article className="article-content mx-auto max-w-[900px] px-5 py-10 sm:px-8 sm:py-14">
         {jsonLdBlocks.map((block, i) => (
           <script
             key={i}
@@ -86,10 +86,45 @@ export default function CityPage({ city, slug }: CityPageProps) {
           />
         </div>
 
-        <h1 className="text-xl sm:text-2xl font-semibold text-neutral-900">{title}</h1>
+        <h1 className="text-[27px] font-semibold leading-[1.45] tracking-tight text-[var(--foreground)] sm:text-4xl">{title}</h1>
         <p className="mt-2 text-sm sm:text-base text-neutral-600">
           CPR心肺复苏 · AED自动体外除颤仪使用 · 气道异物梗阻急救
         </p>
+
+        <section id="city-schedule" className="mb-10 mt-8 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7">
+          <h2 className={H2_CLASS}>{short}急救培训地点</h2>
+          {showAddresses ? (
+            <>
+              <p className={P_SHORT}>目前{short}培训地点包括：</p>
+              <ul className="space-y-2 list-none p-0 m-0">
+                {displayLocations.map((addr, i) => (
+                  <li key={i}>
+                    <address className="not-italic text-neutral-700 leading-relaxed">{addr}</address>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <p className={P_CLASS}>{short}具体培训地址将在报名确认后通知。</p>
+          )}
+          {isMinGroup ? (
+            <div className="mt-4">
+              <p className="font-medium text-neutral-900">近期{short}急救培训安排：</p>
+              <p className="mt-2 text-neutral-700 leading-relaxed">
+                满6人可预约开课，具体时间和地点以报名确认为准。
+              </p>
+            </div>
+          ) : dates.length > 0 ? (
+            <div className="mt-4">
+              <p className="font-medium text-neutral-900">近期{short}急救培训时间：</p>
+              <ul className="mt-2 list-disc list-inside text-neutral-700 space-y-1">
+                {dates.map((date) => (
+                  <li key={date}>{date}</li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </section>
 
         <section className="mt-8 mb-10">
           <p className={P_CLASS}>
@@ -142,40 +177,7 @@ export default function CityPage({ city, slug }: CityPageProps) {
           </ul>
         </section>
 
-        <section className={SECTION_CLASS}>
-          <h2 className={H2_CLASS}>{short}急救培训地点</h2>
-          {showAddresses ? (
-            <>
-              <p className={P_SHORT}>目前{short}培训地点包括：</p>
-              <ul className="space-y-2 list-none p-0 m-0">
-                {displayLocations.map((addr, i) => (
-                  <li key={i}>
-                    <address className="not-italic text-neutral-700 leading-relaxed">{addr}</address>
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : (
-            <p className={P_CLASS}>{short}具体培训地址将在报名确认后通知。</p>
-          )}
-          {isMinGroup ? (
-            <div className="mt-4">
-              <p className="font-medium text-neutral-900">近期{short}急救培训安排：</p>
-              <p className="mt-2 text-neutral-700 leading-relaxed">
-                满6人可预约开课，具体时间和地点以报名确认为准。
-              </p>
-            </div>
-          ) : dates.length > 0 ? (
-            <div className="mt-4">
-              <p className="font-medium text-neutral-900">近期{short}急救培训时间：</p>
-              <ul className="mt-2 list-disc list-inside text-neutral-700 space-y-1">
-                {dates.map((date) => (
-                  <li key={date}>{date}</li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-        </section>
+
 
         <section className={SECTION_CLASS}>
           <h2 className={H2_CLASS}>课程内容与学习流程</h2>
@@ -263,7 +265,7 @@ export default function CityPage({ city, slug }: CityPageProps) {
                     src={src}
                     alt={alt(short)}
                     fill
-                    className="object-cover"
+                    className={src.includes("g6") ? "object-cover object-[50%_72%]" : "object-cover"}
                     sizes="(max-width: 640px) 100vw, 33vw"
                   />
                 </div>

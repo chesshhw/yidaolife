@@ -58,7 +58,7 @@ function EnrollModalLayer({
       />
       {/* 弹窗：视口居中 */}
       <div
-        className="fixed z-[1000] w-[90%] max-w-[320px] md:max-w-[420px] rounded-2xl bg-white p-6 shadow-2xl dark:bg-neutral-900"
+        className="fixed z-[1000] max-h-[calc(100dvh-32px)] w-[90%] max-w-[320px] overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl md:max-w-[420px]"
         style={{
           top: "50%",
           left: "50%",
@@ -118,7 +118,7 @@ export function EnrollModal({ cityName, buttonText = "立即报名", hideButton 
         <button
           type="button"
           onClick={openModal}
-          className="inline-flex items-center justify-center rounded-xl bg-neutral-900 text-white px-6 py-3 text-sm font-medium hover:bg-neutral-800"
+          className="button-primary"
         >
           {buttonText}
         </button>

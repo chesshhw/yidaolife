@@ -43,7 +43,7 @@ export default function QrModal({ open, onClose, title, qrImageSrc, qrAlt, noteL
       aria-modal="true"
       aria-labelledby="qr-modal-title"
     >
-      <div className="w-[92%] max-w-sm overflow-hidden rounded-2xl bg-white shadow-2xl">
+      <div className="max-h-[calc(100dvh-32px)] w-[92%] max-w-sm overflow-y-auto rounded-2xl bg-white shadow-2xl">
         <div className="relative p-6">
           <button
             type="button"

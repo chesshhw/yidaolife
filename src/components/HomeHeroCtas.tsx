@@ -15,19 +15,19 @@ export default function HomeHeroCtas() {
     <>
       {/* 仅挂载弹窗与事件监听，不显示默认按钮 */}
       <EnrollModal cityName="" hideButton />
-      <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+      <div className="mt-7 flex flex-wrap items-center gap-3 sm:mt-8">
         <button
           type="button"
           onClick={openEnrollModal}
-          className="btn-subtle text-white border-white hover:bg-white hover:text-black"
+          className="button-primary flex-1 sm:flex-none"
         >
-          立即报名
+          报名急救课程 <span aria-hidden>↗</span>
         </button>
         <Link
           href="/cities"
-          className="btn-subtle text-white border-white hover:bg-white hover:text-black"
+          className="button-secondary flex-1 sm:flex-none"
         >
-          查看课程时间
+          查看城市与排期
         </Link>
       </div>
     </>

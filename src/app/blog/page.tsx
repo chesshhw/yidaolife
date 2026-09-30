@@ -23,56 +23,29 @@ export const metadata: Metadata = {
 };
 
 export default function BlogPage() {
+  const posts = [...BLOG_POSTS].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+  const [featured, ...rest] = posts;
   return (
-    <main className="min-h-screen bg-white">
-      <section className="border-b border-neutral-100 bg-neutral-50/50">
-        <div className="mx-auto max-w-5xl px-4 py-12 sm:py-16">
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-900">
-            急救知识
-          </h1>
-          <p className="mt-3 text-base text-neutral-600 max-w-3xl leading-relaxed">
-            了解 CPR 心肺复苏、AED 使用以及基础急救知识，帮助更多人掌握关键时刻可能挽救生命的技能。
-          </p>
+    <div className="bg-white">
+      <section className="border-b border-[var(--border)] bg-[var(--surface)]">
+        <div className="site-container py-12 sm:py-16">
+          <p className="eyebrow">都会急救 · 知识与教学观察</p>
+          <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">急救知识</h1>
+          <p className="section-intro mt-5 max-w-2xl">从课堂中的真实问题出发，了解 CPR、AED 与基础急救，也了解如何选择适合个人和团队的培训。</p>
         </div>
       </section>
-
-      <section className="py-10 sm:py-14 px-4">
-        <div className="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-          {BLOG_POSTS.map((post) => (
-            <article key={post.slug} className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
-              <p className="text-xs text-neutral-500">{post.publishedAt}</p>
-              <h2 className="mt-2 text-lg font-semibold text-neutral-900">{post.title}</h2>
-              <p className="mt-2 text-sm text-neutral-600 leading-relaxed">{post.excerpt}</p>
-              <Link
-                href={`/blog/${post.slug}`}
-                className="mt-4 inline-flex items-center justify-center rounded-xl border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
-              >
-                阅读全文
-              </Link>
-            </article>
-          ))}
+      <div className="site-container py-12 sm:py-16">
+        {featured && <article className="grid gap-6 border-b border-[var(--border)] pb-12 lg:grid-cols-[0.5fr_1.5fr] lg:gap-14">
+          <div><p className="eyebrow">最新文章</p><p className="mt-4 text-sm text-[var(--muted)]"><time dateTime={featured.publishedAt}>{featured.publishedAt}</time><br /><span className="mt-2 inline-block">{featured.author ?? "都会急救"}</span></p></div>
+          <div><h2 className="text-2xl font-semibold leading-[1.5] sm:text-3xl"><Link href={`/blog/${featured.slug}`} className="hover:text-[var(--brand)]">{featured.title}</Link></h2><p className="section-intro mt-4">{featured.excerpt}</p><Link href={`/blog/${featured.slug}`} className="text-link mt-5">阅读全文 <span aria-hidden>→</span></Link></div>
+        </article>}
+        <div className="grid gap-x-10 gap-y-9 pt-10 md:grid-cols-2">
+          {rest.map((post) => <article key={post.slug} className="flex flex-col border-b border-[var(--border)] pb-8"><p className="text-xs leading-6 text-[var(--muted)]"><time dateTime={post.publishedAt}>{post.publishedAt}</time> · {post.author ?? "都会急救"}</p><h2 className="mt-3 text-xl font-semibold leading-8"><Link href={`/blog/${post.slug}`} className="hover:text-[var(--brand)]">{post.title}</Link></h2><p className="mb-4 mt-3 text-sm leading-7 text-[var(--muted)]">{post.excerpt}</p><Link href={`/blog/${post.slug}`} className="text-link mt-auto" aria-label={`阅读全文：${post.title}`}>阅读全文 <span aria-hidden>→</span></Link></article>)}
         </div>
+      </div>
+      <section className="bg-[var(--surface)] py-14">
+        <div className="site-container"><h2 className="section-title">把知识带进实际练习</h2><p className="section-intro mt-4">了解课程安排，在导师指导下学习和练习急救技能。</p><div className="mt-6 flex flex-wrap gap-3"><Link href="/cities" className="button-primary">查看培训城市</Link><Link href="/programs" className="button-secondary">查看课程体系</Link><Link href="/enterprise-training" className="button-secondary">企业培训咨询</Link></div></div>
       </section>
-
-      <section className="py-12 sm:py-14 px-4 border-t border-neutral-100">
-        <div className="mx-auto max-w-5xl rounded-2xl border border-neutral-200 bg-neutral-50 p-5 sm:p-6">
-          <h2 className="text-xl font-semibold text-neutral-900">学习急救技能</h2>
-          <p className="mt-3 text-neutral-700 leading-relaxed">
-            如果您希望系统学习 CPR 心肺复苏、AED 使用和基础急救技能，可以参加我们的急救培训课程。
-          </p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Link href="/cities" className="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white hover:bg-neutral-800 transition-colors">
-              查看培训城市
-            </Link>
-            <Link href="/programs" className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors">
-              查看课程体系
-            </Link>
-            <Link href="/enterprise-training" className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors">
-              企业培训咨询
-            </Link>
-          </div>
-        </div>
-      </section>
-    </main>
+    </div>
   );
 }

@@ -137,7 +137,7 @@ export default async function BlogPostPage({ params }: Props) {
     : null;
 
   return (
-    <main className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -152,8 +152,8 @@ export default async function BlogPostPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
       ) : null}
-      <article className="mx-auto max-w-3xl px-4 py-12 sm:py-16">
-        <header className="border-b border-neutral-100 pb-6">
+      <article className="mx-auto max-w-[820px] px-5 py-10 sm:px-8 sm:py-16">
+        <header className="border-b border-[var(--border)] pb-8">
           <div className="mb-4">
             <Breadcrumbs
               items={[
@@ -163,24 +163,25 @@ export default async function BlogPostPage({ params }: Props) {
               ]}
             />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-900">
+          <p className="eyebrow mb-4">都会急救 · 急救知识</p>
+          <h1 className="text-[28px] font-semibold leading-[1.45] tracking-tight text-[var(--foreground)] sm:text-[38px]">
             {post.title}
           </h1>
-          <p className="mt-3 text-sm text-neutral-500 leading-relaxed">
+          <p className="mt-5 text-sm text-[var(--muted)] leading-7">
             作者：{authorName}
             {" · "}
             {brandName}
             {" · "}
             {organizationName}
           </p>
-          <p className="mt-1 text-sm text-neutral-500">
+          <p className="mt-1 text-sm leading-7 text-[var(--muted)]">
             发布日期：<time dateTime={post.publishedAt}>{post.publishedAt}</time>
             {dateModified !== post.publishedAt ? ` · 修改日期：${dateModified}` : ""}
           </p>
-          <p className="mt-4 text-neutral-600 leading-relaxed">{post.description}</p>
+          <p className="mt-6 border-l-2 border-[var(--brand)] bg-[var(--surface)] px-5 py-4 text-base leading-8 text-[var(--muted)]">{post.description}</p>
         </header>
 
-        <div className="pt-8 space-y-8">
+        <div className="article-content pt-8 space-y-10 sm:space-y-12">
           {post.lead?.length ? (
             <section className="-mt-2">
               {post.lead.map((p) => (
@@ -193,7 +194,7 @@ export default async function BlogPostPage({ params }: Props) {
 
           {post.sections.map((section) => (
             <section key={section.heading}>
-              <h2 className="text-xl font-semibold text-neutral-900">{section.heading}</h2>
+              <h2 className="text-xl font-semibold leading-[1.5] text-[var(--foreground)] sm:text-2xl">{section.heading}</h2>
               {section.paragraphs.map((p) => (
                 <p key={p} className="mt-3 text-neutral-700 leading-relaxed">
                   {p}
@@ -396,25 +397,25 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="mt-5 flex flex-wrap gap-3">
               <Link
                 href="/cities"
-                className="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white hover:bg-neutral-800 transition-colors"
+                className="button-primary"
               >
                 查看培训城市
               </Link>
               <Link
                 href="/programs"
-                className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+                className="button-secondary"
               >
                 查看课程体系
               </Link>
               <Link
                 href="/enterprise-training"
-                className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+                className="button-secondary"
               >
                 企业培训咨询
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+                className="button-secondary"
               >
                 微信咨询
               </Link>
@@ -422,6 +423,6 @@ export default async function BlogPostPage({ params }: Props) {
           </section>
         )}
       </article>
-    </main>
+    </div>
   );
 }

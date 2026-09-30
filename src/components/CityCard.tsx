@@ -1,75 +1,23 @@
 import Link from "next/link";
 import type { City } from "@/data/cities";
-import {
-  getCardScheduleDates,
-  getCityShortName,
-  getDisplayLocations,
-  isMinGroupSchedule,
-} from "@/data/cities";
+import { getCardScheduleDates, getCityShortName, getDisplayLocations, isMinGroupSchedule } from "@/data/cities";
 
-type CityCardProps = {
-  city: City;
-};
-
-export default function CityCard({ city }: CityCardProps) {
+export default function CityCard({ city }: { city: City }) {
   const short = getCityShortName(city);
   const addrs = getDisplayLocations(city.locations);
   const cardDates = getCardScheduleDates(city.scheduleDates, 3);
   const minGroup = isMinGroupSchedule(city.scheduleDates);
-
   return (
-    <li>
-      <Link
-        href={`/city/${city.slug}`}
-        className="group block rounded-2xl border border-neutral-200 bg-white p-4 md:p-5 shadow-sm hover:shadow-md hover:border-neutral-300 transition cursor-pointer"
-        aria-label={`查看${short}急救培训课程时间与报名`}
-      >
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0 flex-1">
-            <h3 className="text-base md:text-lg font-semibold text-neutral-900 group-hover:text-neutral-700 transition-colors">
-              {short}急救培训 | AHA Heartsaver急救员认证课程
-            </h3>
-            <p className="mt-1 text-sm text-neutral-600">HeartSaver急救员认证课程（纸质证书）</p>
-            <p className="mt-2 text-sm text-neutral-700">{short}培训内容包括：</p>
-            <ul className="mt-1 list-disc list-inside text-sm text-neutral-700 leading-6 space-y-1">
-              <li>CPR心肺复苏</li>
-              <li>AED自动体外除颤仪使用</li>
-              <li>气道异物梗阻急救</li>
-            </ul>
-          </div>
-          <span
-            className="shrink-0 inline-flex items-center gap-1 rounded-full bg-neutral-900 text-white text-sm px-3 py-1.5 group-hover:opacity-90 group-hover:shadow-md transition"
-            aria-hidden
-          >
-            查看课程时间与报名
-            <span aria-hidden>→</span>
-          </span>
+    <li className="min-w-0">
+      <Link href={`/city/${city.slug}`} className="group flex h-full flex-col rounded-xl border border-[var(--border)] bg-white p-5 transition-colors hover:border-[var(--brand)] hover:bg-[#fafcf9] sm:p-6" aria-label={`查看${short}急救培训课程时间与报名`}>
+        <div className="flex items-center justify-between gap-3"><h3 className="text-xl font-semibold text-[var(--foreground)]">{short}</h3><span className="text-lg text-[var(--brand)]" aria-hidden>↗</span></div>
+        <p className="mt-2 text-sm text-[var(--muted)]">AHA Heartsaver 急救员课程</p>
+        <p className="mt-2 text-xs leading-6 text-[var(--muted)]">CPR · AED · 气道异物梗阻急救</p>
+        <div className="mb-5 mt-4 space-y-2">{addrs.map((addr,i) => <address key={i} className="text-sm not-italic leading-7 text-[var(--muted)]">{addr}</address>)}</div>
+        <div className="mt-auto border-t border-[var(--border)] pt-4">
+          {minGroup ? <p className="text-sm font-medium text-[var(--brand)]">满6人开课</p> : cardDates.length > 0 ? <><p className="text-xs text-[var(--muted)]">近期培训时间</p><ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm font-medium leading-7 text-[var(--brand)]">{cardDates.map(date => <li key={date}>{date}</li>)}</ul></> : <p className="text-sm text-[var(--muted)]">咨询最新课程安排</p>}
+          <p className="mt-3 text-xs text-[var(--muted)]">查看详情与报名 <span aria-hidden>→</span></p>
         </div>
-
-        <div className="mt-3 space-y-2">
-          {addrs.map((addr, i) => (
-            <address key={i} className="not-italic text-sm text-neutral-700 leading-relaxed">
-              {addr}
-            </address>
-          ))}
-        </div>
-
-        <div className="mt-3">
-          {minGroup ? (
-            <p className="text-sm font-medium text-neutral-800">满6人开课</p>
-          ) : cardDates.length > 0 ? (
-            <>
-              <p className="text-sm font-medium text-neutral-800">近期培训时间：</p>
-              <ul className="mt-1 list-disc list-inside text-sm text-neutral-700 space-y-0.5">
-                {cardDates.map((date) => (
-                  <li key={date}>{date}</li>
-                ))}
-              </ul>
-            </>
-          ) : null}
-        </div>
-
-        <p className="mt-4 text-xs text-neutral-500">点击卡片任意位置进入课程时间与报名</p>
       </Link>
     </li>
   );

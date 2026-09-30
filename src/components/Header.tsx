@@ -1,99 +1,72 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/programs", label: "Programs" },
+  { href: "/", label: "首页" },
+  { href: "/programs", label: "课程体系" },
   { href: "/cities", label: "开课城市" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/enterprise-training", label: "企业培训" },
+  { href: "/blog", label: "急救知识" },
+  { href: "/about", label: "关于我们" },
 ];
 
 export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => { setMenuOpen(false); }, [pathname]);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { setMenuOpen(false); toggleRef.current?.focus(); }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
+  const isActive = (href: string) => href === "/" ? pathname === href : pathname.startsWith(href) || (href === "/cities" && pathname.startsWith("/city/"));
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-[var(--border)] dark:bg-black/90 dark:border-[var(--border)]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 sm:h-20 items-center justify-between">
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-lg font-medium tracking-tight text-[var(--foreground)] hover:opacity-70 transition-opacity"
-          >
-            <img src="/images/logo.png" alt="都会急救" className="h-10 w-auto" />
-            <span className="hidden sm:inline">都会急救</span>
-            <span className="sm:hidden">都会急救</span>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--border)] bg-white/95 backdrop-blur-md">
+      <div className="site-container">
+        <div className="flex h-[72px] items-center justify-between gap-3 lg:h-20">
+          <Link href="/" aria-label="都会急救首页" className="flex shrink-0 items-center gap-2">
+            <Image src="/images/logo.png" alt="" width={48} height={46} className="h-12 w-12 object-contain" />
+            <span>
+              <span className="block text-lg font-semibold tracking-[0.08em]">都会急救</span>
+              <span className="mt-0.5 hidden text-[10px] tracking-[0.14em] text-[var(--muted)] sm:block">急救培训 · 让技能走进生活</span>
+            </span>
           </Link>
-
-          {/* Desktop nav + CTA */}
-          <div className="hidden md:flex items-center gap-8">
-            <nav className="flex items-center gap-8">
+          <div className="hidden items-center gap-6 lg:flex">
+            <nav aria-label="主导航" className="flex items-center gap-5">
               {navItems.map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className={`text-sm tracking-wide transition-opacity ${
-                    pathname === href
-                      ? "text-[var(--foreground)] font-medium"
-                      : "text-[var(--muted)] hover:text-[var(--foreground)]"
-                  }`}
-                >
+                <Link key={href} href={href} aria-current={isActive(href) ? "page" : undefined} className={`flex min-h-11 items-center border-b-2 pt-0.5 text-sm transition-colors ${isActive(href) ? "border-[var(--brand)] font-semibold text-[var(--brand)]" : "border-transparent text-[var(--muted)] hover:text-[var(--brand)]"}`}>
                   {label}
                 </Link>
               ))}
             </nav>
-            <Link
-              href="/contact"
-              className="btn-subtle shrink-0"
-            >
-              立即咨询
-            </Link>
+            <Link href="/contact" className="button-primary !min-h-11 !px-4">课程咨询 <span aria-hidden>↗</span></Link>
           </div>
-
-          {/* Mobile: 立即咨询 + menu button */}
-          <div className="md:hidden flex items-center gap-2">
-            <Link href="/contact" className="btn-subtle text-sm py-2 px-4">
-              立即咨询
-            </Link>
-            <button
-            type="button"
-            className="p-2 -mr-2 text-[var(--foreground)]"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-          >
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              {menuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
+          <div className="flex items-center gap-1 lg:hidden">
+            <Link href="/contact" className="flex min-h-11 items-center px-2 text-sm font-medium text-[var(--brand)]">咨询</Link>
+            <button ref={toggleRef} type="button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-controls="mobile-navigation" aria-label={menuOpen ? "关闭导航菜单" : "打开导航菜单"} className="flex h-11 w-11 items-center justify-center rounded-lg hover:bg-[var(--surface)]">
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeWidth={1.5} d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 7h16M4 12h16M4 17h16"} />
+              </svg>
+            </button>
           </div>
         </div>
-
-        {/* Mobile nav */}
         {menuOpen && (
-          <nav className="md:hidden py-4 border-t border-[var(--border)]">
-            <ul className="flex flex-col gap-4">
+          <nav id="mobile-navigation" aria-label="手机导航" className="max-h-[calc(100dvh-72px)] overflow-y-auto border-t border-[var(--border)] pb-5 pt-3 lg:hidden">
+            <ul className="grid grid-cols-2 gap-2">
               {navItems.map(({ href, label }) => (
-                <li key={href}>
-                  <Link
-                    href={href}
-                    onClick={() => setMenuOpen(false)}
-                    className={`block text-sm tracking-wide ${
-                      pathname === href ? "font-medium" : "text-[var(--muted)]"
-                    }`}
-                  >
-                    {label}
-                  </Link>
-                </li>
+                <li key={href}><Link href={href} onClick={() => setMenuOpen(false)} aria-current={isActive(href) ? "page" : undefined} className={`block rounded-lg px-4 py-3 text-sm ${isActive(href) ? "bg-[var(--surface)] font-semibold text-[var(--brand)]" : "hover:bg-[var(--surface)]"}`}>{label}</Link></li>
               ))}
             </ul>
+            <Link href="/contact" onClick={() => setMenuOpen(false)} className="button-primary mt-3 w-full">联系黄老师 · 咨询课程</Link>
           </nav>
         )}
       </div>

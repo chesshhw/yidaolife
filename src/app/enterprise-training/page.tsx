@@ -75,7 +75,7 @@ export default function EnterpriseTrainingPage() {
   const breadcrumbJsonLd = buildBreadcrumbJsonLd();
 
   return (
-    <main className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -85,15 +85,15 @@ export default function EnterpriseTrainingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      <section className="border-b border-neutral-100">
-        <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr,minmax(320px,1fr)] lg:items-center">
+      <section className="border-b border-[var(--border)] bg-[var(--surface)]">
+        <div className="site-container py-12 sm:py-16">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1fr] lg:gap-14 lg:items-center">
             <div>
               <div className="mb-4">
                 <Breadcrumbs items={[{ label: "首页", href: "/" }, { label: "企业急救培训" }]} />
               </div>
-              <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-900">
-                企业急救培训 | CPR AED急救课程定制服务
+              <h1 className="text-3xl font-semibold leading-[1.4] tracking-tight text-[var(--foreground)] sm:text-[42px]">
+                企业急救培训，<br />从团队的实际需求出发
               </h1>
               <p className="mt-3 text-base text-neutral-600 leading-relaxed">
                 为企业、学校、健身房、赛事组织、商场物业等机构提供专业急救培训服务，课程内容包括 CPR 心肺复苏、AED 自动体外除颤仪使用、气道异物梗阻处理等。
@@ -101,13 +101,13 @@ export default function EnterpriseTrainingPage() {
               <div className="mt-6 flex flex-wrap gap-3">
                 <a
                   href="#enterprise-contact"
-                  className="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white hover:bg-neutral-800 transition-colors"
+                  className="button-primary"
                 >
                   咨询企业培训
                 </a>
                 <Link
                   href="/cities"
-                  className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+                  className="button-secondary"
                 >
                   查看培训城市
                 </Link>
@@ -127,20 +127,20 @@ export default function EnterpriseTrainingPage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:py-16">
-        <section className="mb-12">
-          <h2 className="text-xl font-semibold text-neutral-900">为什么企业需要急救培训？</h2>
-          <p className="mt-4 text-neutral-700 leading-relaxed">
+      <div className="site-container service-content py-12 sm:py-16">
+        <section className="mb-12 border-b border-[var(--border)] pb-12 last:border-0">
+          <h2 className="text-2xl font-semibold leading-[1.5] text-[var(--foreground)]">为什么企业需要急救培训？</h2>
+          <p className="mt-4 max-w-4xl text-[var(--muted)] leading-8">
             心脏骤停、气道异物梗阻等紧急情况可能发生在办公室、健身场所、商场、学校、活动现场等各种非医疗环境中。在专业医疗救援到达之前，现场人员是否掌握基础急救技能，往往会直接影响抢救效果。
           </p>
-          <p className="mt-3 text-neutral-700 leading-relaxed">
+          <p className="mt-3 max-w-4xl text-[var(--muted)] leading-8">
             通过企业急救培训，员工可以系统学习 CPR 心肺复苏、AED 使用和基础应急处理流程，提高面对突发情况时的应对能力。这不仅有助于提升企业安全保障能力，也体现了企业对员工和公众安全的重视。
           </p>
         </section>
 
-        <section className="mb-12">
-          <h2 className="text-xl font-semibold text-neutral-900">企业急救培训内容</h2>
-          <p className="mt-4 text-neutral-700 leading-relaxed">
+        <section className="mb-12 border-b border-[var(--border)] pb-12 last:border-0">
+          <h2 className="text-2xl font-semibold leading-[1.5] text-[var(--foreground)]">企业急救培训内容</h2>
+          <p className="mt-4 max-w-4xl text-[var(--muted)] leading-8">
             企业急救培训课程可根据机构需求进行安排，核心培训内容通常包括：
           </p>
           <ul className="mt-3 list-disc list-inside space-y-2 text-neutral-700">
@@ -149,10 +149,10 @@ export default function EnterpriseTrainingPage() {
             <li>气道异物梗阻急救</li>
             <li>突发情况现场应对流程</li>
           </ul>
-          <p className="mt-3 text-neutral-700 leading-relaxed">
+          <p className="mt-3 max-w-4xl text-[var(--muted)] leading-8">
             课程采用理论讲解与实操训练相结合的方式，帮助学员真正掌握急救操作技能。几位员工上台体验，不能代表其他人也已经掌握；选择企业培训时，建议同时了解实操安排、教学设备和技能考核方式。
           </p>
-          <p className="mt-3 text-neutral-700 leading-relaxed">
+          <p className="mt-3 max-w-4xl text-[var(--muted)] leading-8">
             关于为什么急救培训必须落实到每位员工的实操练习，可阅读
             <Link href="/blog/why-first-aid-hands-on-practice-matters" className="mx-1 underline hover:no-underline">
               急救培训为什么必须重视实操练习
@@ -161,8 +161,8 @@ export default function EnterpriseTrainingPage() {
           </p>
         </section>
 
-        <section className="mb-12">
-          <h2 className="text-xl font-semibold text-neutral-900">适用机构与培训场景</h2>
+        <section className="mb-12 border-b border-[var(--border)] pb-12 last:border-0">
+          <h2 className="text-2xl font-semibold leading-[1.5] text-[var(--foreground)]">适用机构与培训场景</h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {[
               "企业员工安全培训",
@@ -177,14 +177,14 @@ export default function EnterpriseTrainingPage() {
               </div>
             ))}
           </div>
-          <p className="mt-4 text-neutral-700 leading-relaxed">
+          <p className="mt-4 max-w-4xl text-[var(--muted)] leading-8">
             无论是日常员工培训、企业安全建设，还是大型活动保障，都可以根据实际人数与场景安排定制化急救培训。
           </p>
         </section>
 
-        <section className="mb-12">
-          <h2 className="text-xl font-semibold text-neutral-900">培训形式与服务方式</h2>
-          <p className="mt-4 text-neutral-700 leading-relaxed">
+        <section className="mb-12 border-b border-[var(--border)] pb-12 last:border-0">
+          <h2 className="text-2xl font-semibold leading-[1.5] text-[var(--foreground)]">培训形式与服务方式</h2>
+          <p className="mt-4 max-w-4xl text-[var(--muted)] leading-8">
             我们支持多种企业培训组织方式，可根据企业需求灵活安排：
           </p>
           <ul className="mt-3 list-disc list-inside space-y-2 text-neutral-700">
@@ -193,43 +193,43 @@ export default function EnterpriseTrainingPage() {
             <li>按人数和场景定制课程安排</li>
             <li>支持多城市培训协调</li>
           </ul>
-          <p className="mt-3 text-neutral-700 leading-relaxed">
+          <p className="mt-3 max-w-4xl text-[var(--muted)] leading-8">
             如企业已有 AED 设备，也可结合设备配置情况安排针对性的使用培训与现场演练。
           </p>
         </section>
 
-        <section className="mb-12">
-          <h2 className="text-xl font-semibold text-neutral-900">企业急救培训现场</h2>
-          <ul className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 list-none p-0 m-0">
+        <section className="mb-12 border-b border-[var(--border)] pb-12 last:border-0">
+          <h2 className="text-2xl font-semibold leading-[1.5] text-[var(--foreground)]">企业急救培训现场</h2>
+          <ul className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-5 list-none p-0 m-0">
             {[
               { src: "/images/g3.jpg?v=eb9351e83ceb", alt: "企业急救培训现场" },
               { src: "/images/g5.jpg", alt: "CPR心肺复苏实操培训" },
-              { src: "/images/g6.jpg?v=bebb2a9ae9b6", alt: "AED使用培训课堂" },
+              { src: "/images/g6.jpg?v=bebb2a9ae9b6", alt: "导师指导学员练习人工呼吸与胸外按压" },
             ].map((item) => (
               <li key={item.src} className="relative aspect-[4/3] rounded-xl overflow-hidden border border-neutral-200">
-                <Image src={item.src} alt={item.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" />
+                <Image src={item.src} alt={item.alt} fill className={item.src.includes("g6") ? "object-cover object-[50%_72%]" : "object-cover"} sizes="(max-width: 640px) 100vw, 33vw" />
               </li>
             ))}
           </ul>
         </section>
 
-        <section className="mb-12">
-          <h2 className="text-xl font-semibold text-neutral-900">企业急救培训常见问题</h2>
+        <section className="mb-12 border-b border-[var(--border)] pb-12 last:border-0">
+          <h2 className="text-2xl font-semibold leading-[1.5] text-[var(--foreground)]">企业急救培训常见问题</h2>
           <div className="mt-4 space-y-3">
             {FAQ_ITEMS.map(({ q, a }) => (
-              <details key={q} className="group rounded-xl border border-neutral-200 bg-white">
+              <details key={q} open className="group rounded-xl border border-neutral-200 bg-white">
                 <summary className="flex cursor-pointer items-center justify-between px-4 py-3 font-medium text-neutral-900 list-none [&::-webkit-details-marker]:hidden">
                   {q}
                   <span className="shrink-0 text-neutral-400 transition-transform group-open:rotate-180" aria-hidden>▼</span>
                 </summary>
-                <p className="border-t border-neutral-100 px-4 py-3 text-sm text-neutral-700">{a}</p>
+                <p className="border-t border-neutral-100 px-5 py-4 text-sm leading-7 text-[var(--muted)]">{a}</p>
               </details>
             ))}
           </div>
         </section>
 
-        <section className="mb-12">
-          <h2 className="text-xl font-semibold text-neutral-900">相关文章推荐</h2>
+        <section className="mb-12 border-b border-[var(--border)] pb-12 last:border-0">
+          <h2 className="text-2xl font-semibold leading-[1.5] text-[var(--foreground)]">相关文章推荐</h2>
           <div className="mt-4 grid gap-3">
             <Link
               href="/blog/why-companies-need-first-aid-training"
@@ -246,39 +246,39 @@ export default function EnterpriseTrainingPage() {
           </div>
         </section>
 
-        <section id="enterprise-contact" className="scroll-mt-24 rounded-2xl border border-neutral-200 bg-neutral-50 p-6 sm:p-7">
-          <h2 className="text-xl font-semibold text-neutral-900">咨询企业急救培训方案</h2>
-          <p className="mt-3 text-neutral-700 leading-relaxed">
+        <section id="enterprise-contact" className="scroll-mt-28 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-10">
+          <h2 className="text-2xl font-semibold leading-[1.5] text-[var(--foreground)]">咨询企业急救培训方案</h2>
+          <p className="mt-3 max-w-4xl text-[var(--muted)] leading-8">
             如果您希望为企业、学校、健身房或活动组织安排急救培训，欢迎联系我们获取培训方案与安排建议。
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+              className="button-secondary"
             >
               微信咨询
             </Link>
             <a
               href="tel:13512456138"
-              className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+              className="button-secondary"
             >
               电话咨询
             </a>
             <Link
               href="/cities"
-              className="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white hover:bg-neutral-800 transition-colors"
+              className="button-primary"
             >
               查看培训城市
             </Link>
             <Link
               href="/programs"
-              className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+              className="button-secondary"
             >
               查看课程体系
             </Link>
           </div>
         </section>
       </div>
-    </main>
+    </div>
   );
 }

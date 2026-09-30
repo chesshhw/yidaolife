@@ -78,8 +78,9 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body className="antialiased font-sans min-h-screen flex flex-col">
+        <a href="#main-content" className="skip-link">跳至主要内容</a>
         <Header />
-        <main className="flex-1 pt-16 sm:pt-20">{children}</main>
+        <main id="main-content" className="flex-1 pt-[72px] lg:pt-20">{children}</main>
         <Footer />
         <FloatingContact />
         <script

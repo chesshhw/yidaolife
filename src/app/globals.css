@@ -3,31 +3,49 @@
 @tailwind utilities;
 
 :root {
-  --foreground: #1a1a1a;
-  --muted: #6b6b6b;
-  --border: #e5e5e5;
+  color-scheme: light;
+  --foreground: #1c302d;
+  --muted: #586760;
+  --border: #dde3de;
+  --brand: #245b4b;
+  --surface: #f5f7f4;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground: #f5f5f5;
-    --muted: #a3a3a3;
-    --border: #2a2a2a;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 7rem;
 }
 
 body {
   color: var(--foreground);
-  background: #fafafa;
+  background: #fff;
+  -webkit-tap-highlight-color: transparent;
 }
 
-@media (prefers-color-scheme: dark) {
-  body {
-    background: #0a0a0a;
-  }
+::selection { background: #d9e9df; color: #173f32; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; }
+button, a { touch-action: manipulation; }
+img { max-width: 100%; }
+h1, h2, h3 { text-wrap: balance; }
+
+@layer components {
+  .site-container { @apply mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-10; }
+  .section-space { @apply py-16 sm:py-20 lg:py-24; }
+  .eyebrow { @apply text-xs font-semibold tracking-[0.16em] text-[var(--brand)]; }
+  .section-title { @apply text-[28px] font-semibold leading-[1.35] tracking-tight text-[var(--foreground)] sm:text-4xl; }
+  .section-intro { @apply text-base leading-[1.85] text-[var(--muted)]; }
+  .button-primary { @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border border-[var(--brand)] bg-[var(--brand)] px-6 py-3 text-sm font-medium text-white transition-colors hover:border-[#193f34] hover:bg-[#193f34]; }
+  .button-secondary, .btn-subtle { @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border border-[var(--border)] bg-white px-6 py-3 text-sm font-medium text-[var(--foreground)] transition-colors hover:border-[var(--brand)] hover:bg-[var(--surface)]; }
+  .text-link { @apply inline-flex min-h-11 items-center gap-2 text-sm font-medium text-[var(--brand)] underline-offset-4 hover:underline; }
+  .surface-card { @apply rounded-2xl border border-[var(--border)] bg-white; }
+  .article-content { @apply text-base leading-[1.9] sm:text-[17px]; }
+  .article-content p, .article-content dd { line-height: 1.95; }
+  .article-content h2 { @apply scroll-mt-28; }
+  .article-content a { overflow-wrap: anywhere; }
+  .skip-link { @apply fixed left-4 top-4 z-[100] -translate-y-24 rounded-lg bg-[var(--brand)] px-5 py-3 text-white focus:translate-y-0; }
 }
 
-/* 克制按钮：细边框、小字号、少装饰 */
-.btn-subtle {
-  @apply inline-flex items-center justify-center border border-current px-5 py-2.5 text-sm tracking-wide transition-colors hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black;
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
 }

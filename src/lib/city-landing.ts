@@ -7,12 +7,12 @@ export const BRAND_NAME = "都会急救";
 export const LEGAL_NAME = "天津一道技术服务有限公司";
 export const COURSE_NAME = "AHA Heartsaver First Aid CPR AED";
 
-const SECTION_CLASS = "mb-10";
-const H2_CLASS = "text-lg font-semibold text-neutral-900 mb-3";
+const SECTION_CLASS = "mb-10 border-b border-[var(--border)] pb-10 last:border-0";
+const H2_CLASS = "text-xl sm:text-2xl font-semibold leading-[1.5] text-[var(--foreground)] mb-4";
 const P_CLASS = "text-neutral-700 leading-relaxed max-w-[75ch]";
 const P_SHORT = "text-neutral-700 leading-relaxed max-w-[75ch] mb-3";
 const UL_CLASS = "list-disc list-inside text-neutral-700 space-y-1";
-const H3_CLASS = "text-base font-semibold text-neutral-900 mt-4 mb-2";
+const H3_CLASS = "text-lg font-semibold text-[var(--foreground)] mt-6 mb-3";
 
 export const cityPageStyles = {
   SECTION_CLASS,

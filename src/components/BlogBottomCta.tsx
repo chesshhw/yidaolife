@@ -24,13 +24,13 @@ export default function BlogBottomCta({ primary, secondary }: Props) {
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white hover:bg-neutral-800 transition-colors"
+            className="button-primary"
           >
             {primary.label}
           </button>
           <Link
             href={secondary.href}
-            className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
+            className="button-secondary"
           >
             {secondary.label}
           </Link>
