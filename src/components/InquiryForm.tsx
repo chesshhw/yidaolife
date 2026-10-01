@@ -3,18 +3,20 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { INQUIRY_EMAIL } from "@/lib/inquiry";
+import { INQUIRY_EMAIL, TRAINING_TYPES, TRAINING_CITIES, analyticsCity } from "@/lib/inquiry";
+import { captureAttribution } from "@/lib/attribution";
 
 const copy = {
   en: {
     heading: "Tell us about your training needs",
-    intro: "For an individual course or a team enquiry, share your city, preferred dates and group size in the message.",
-    note: "* Required. Phone, WeChat and company name are optional.",
-    name: "Full name", company: "Company / Organization", email: "Email", phone: "Phone with country code", wechat: "WeChat ID", message: "Message",
+    intro: "Start with your name, email and training city. Add any details that would help us plan your course.",
+    note: "* Required: name, email and training city. No WeChat account or Chinese phone number needed.",
+    city: "City in China", participantCount: "Number of participants", trainingType: "Training required", preferredDate: "Preferred date", choose: "Please select (optional)",
+    name: "Full name", company: "Company / Organization", email: "Email", phone: "Phone / WhatsApp", wechat: "WeChat ID", message: "Message",
     consent: "I agree that 都会急救 may use these details to reply to this enquiry.",
     privacy: "How we use your information", submit: "Send enquiry", sending: "Sending…", loading: "Checking availability…",
     unavailable: "Online enquiries are temporarily unavailable. Please email us directly; your form has not been sent.",
-    error: "We could not confirm delivery. Your entries are still here. Please email us directly if needed; avoid repeated submissions.",
+    error: "We could not confirm your enquiry was saved. Your entries are still here. Please email us directly if needed.",
     invalid: "Please check your details. Use a valid email and include a country code if entering a phone number.",
     expired: "This form has expired. Reload the form connection below, then submit again. Your entries will be kept.",
     limited: "Too many attempts. Please wait ten minutes or email us directly.",
@@ -22,13 +24,14 @@ const copy = {
   },
   zh: {
     heading: "告诉我们你的培训需求",
-    intro: "个人报名或企业团体培训均可咨询。请在留言中说明城市、人数、计划时间及授课语言需求。",
-    note: "* 为必填项。手机号、微信和单位名称可选填。",
+    intro: "个人报名或企业团体培训均可咨询。填写姓名、邮箱和培训城市即可，也可补充人数、时间及授课语言需求。",
+    note: "* 为必填项：姓名、邮箱、培训城市。手机号、微信及其他信息均可选填。",
+    city: "培训城市", participantCount: "培训人数", trainingType: "所需课程", preferredDate: "期望日期", choose: "请选择（可选）",
     name: "姓名", company: "单位名称", email: "邮箱", phone: "手机号（含国际区号）", wechat: "微信", message: "留言",
     consent: "我同意都会急救使用上述信息回复本次咨询。",
     privacy: "了解信息使用方式", submit: "提交咨询", sending: "正在发送…", loading: "正在检查表单连接…",
     unavailable: "在线表单暂时不可用，请直接发送邮件联系。当前填写的内容尚未发送。",
-    error: "未能确认邮件发送成功，填写内容已保留。请通过邮箱直接联系，避免连续重复提交。",
+    error: "未能确认咨询保存成功，填写内容已保留。需要时请通过邮箱直接联系。",
     invalid: "请检查填写内容，使用有效邮箱；填写电话时请带上国际区号。",
     expired: "表单连接已过期，请点击下方重新连接后提交，已填写内容会保留。",
     limited: "提交过于频繁，请十分钟后重试，或直接发送邮件。",
@@ -36,7 +39,7 @@ const copy = {
   },
 };
 
-export default function InquiryForm({ initialLanguage = "zh" }: { initialLanguage?: "en" | "zh" }) {
+export default function InquiryForm({ initialLanguage = "zh", defaultCity = "", defaultTraining = "" }: { initialLanguage?: "en" | "zh"; defaultCity?: string; defaultTraining?: string }) {
   const [language, setLanguage] = useState(initialLanguage);
   const [token, setToken] = useState("");
   const [availability, setAvailability] = useState<"loading" | "ready" | "unavailable">("loading");
@@ -62,10 +65,11 @@ export default function InquiryForm({ initialLanguage = "zh" }: { initialLanguag
     event.preventDefault();
     if (submitting.current || !token || availability !== "ready") return;
     const form = new FormData(event.currentTarget);
-    const payload = { name: form.get("name"), company: form.get("company"), email: form.get("email"), phone: form.get("phone"), wechat: form.get("wechat"), message: form.get("message"), website: form.get("website"), consent: form.get("consent") === "on", language, token, page: initialLanguage === "en" ? "/en" : "/contact" };
+    const attribution = captureAttribution();
+    const payload = { name: form.get("name"), company: form.get("company"), email: form.get("email"), phone: form.get("phone"), wechat: form.get("wechat"), message: form.get("message"), city: form.get("city"), participantCount: form.get("participantCount"), trainingType: form.get("trainingType"), preferredDate: form.get("preferredDate"), website: form.get("website"), consent: form.get("consent") === "on", language, token, page: window.location.pathname, landingPage: attribution.landingPage, attribution: attribution.values };
     submitting.current = true; setBusy(true); setError("");
     try {
-      const res = await fetch("/api/inquiry", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload), signal: AbortSignal.timeout(30000) });
+      const res = await fetch("/api/inquiry", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload), signal: AbortSignal.timeout(55000) });
       const data = await res.json();
       if (!res.ok || !data.ok) {
         if (data.error === "EXPIRED") setError("expired");
@@ -78,9 +82,16 @@ export default function InquiryForm({ initialLanguage = "zh" }: { initialLanguag
       // Conversion only after server acknowledgement. Never pass contact details to analytics.
       try {
         const analytics = window as typeof window & { gtag?: (...args: unknown[]) => void };
-        analytics.gtag?.("event", "generate_lead", { form_name: "training_inquiry", form_language: language });
+        const key = `yidaolife-lead-${data.reference}`;
+        let alreadyTracked = false;
+        try { alreadyTracked = sessionStorage.getItem(key) === "1"; } catch { /* Optional storage. */ }
+        if (!alreadyTracked) {
+          // Never send free-text fields to analytics. City and course use controlled values.
+          analytics.gtag?.("event", "generate_lead", { form_name: initialLanguage === "en" ? "english_training_inquiry" : "chinese_training_inquiry", form_language: language, training_type: TRAINING_TYPES.find(type => type === payload.trainingType) || "Not specified", city: analyticsCity(payload.city), landing_page: attribution.landingPage });
+          try { sessionStorage.setItem(key, "1"); } catch { /* Analytics must not block submission. */ }
+        }
       } catch { /* Analytics must never prevent a successful enquiry. */ }
-      router.push(`/thank-you?lang=${language}`);
+      router.push(language === "en" ? "/en/thank-you" : "/thank-you");
       return;
     } catch { setError("error"); }
     finally { setBusy(false); submitting.current = false; }
@@ -92,6 +103,7 @@ export default function InquiryForm({ initialLanguage = "zh" }: { initialLanguag
     { key: "email", required: true, auto: "email", max: 254 },
     { key: "phone", required: false, auto: "tel", max: 40 },
     { key: "wechat", required: false, auto: "off", max: 80 },
+    { key: "city", required: true, auto: "off", max: 100 },
   ] as const;
   return (
     <section id="inquiry" lang={language === "en" ? "en" : "zh-CN"} aria-labelledby="inquiry-title" className="scroll-mt-28 rounded-2xl border border-[var(--border)] bg-white p-6 shadow-[0_16px_60px_-40px_rgba(28,64,54,0.4)] sm:p-9">
@@ -107,11 +119,15 @@ export default function InquiryForm({ initialLanguage = "zh" }: { initialLanguag
       <form onSubmit={submit} className="mt-7" aria-busy={busy}>
         <fieldset disabled={busy} className="grid min-w-0 gap-5 sm:grid-cols-2">
           <legend className="sr-only">{t.heading}</legend>
-          {labels.map(({ key, required, auto, max }) => <div key={key} className={key === "wechat" ? "sm:col-span-2" : ""}>
+          {labels.map(({ key, required, auto, max }) => <div key={key}>
             <label htmlFor={`inquiry-${key}`} className="block text-sm font-medium">{t[key]}{required && " *"}<span lang={language === "en" ? "zh-CN" : "en"} className="ml-2 font-normal text-[var(--muted)]">{copy[language === "en" ? "zh" : "en"][key]}</span></label>
-            <input id={`inquiry-${key}`} name={key} type={key === "email" ? "email" : key === "phone" ? "tel" : "text"} autoComplete={auto} required={required} maxLength={max} placeholder={key === "phone" ? "+86 … / +65 … / +1 …" : undefined} className="mt-2 min-h-12 w-full min-w-0 rounded-lg border border-[#bccac2] bg-white px-3 py-3 text-base text-[var(--foreground)] disabled:bg-[var(--surface)]" />
+            <input id={`inquiry-${key}`} name={key} type={key === "email" ? "email" : key === "phone" ? "tel" : "text"} autoComplete={auto} required={required} list={key === "city" ? "training-cities" : undefined} defaultValue={key === "city" ? defaultCity : undefined} maxLength={max} placeholder={key === "phone" ? "+86 … / +65 … / +1 …" : key === "city" ? "Beijing / Shanghai / Tianjin / …" : undefined} className="mt-2 min-h-12 w-full min-w-0 rounded-lg border border-[#bccac2] bg-white px-3 py-3 text-base text-[var(--foreground)] disabled:bg-[var(--surface)]" />
           </div>)}
-          <div className="sm:col-span-2"><label htmlFor="inquiry-message" className="block text-sm font-medium">{t.message} *<span lang={language === "en" ? "zh-CN" : "en"} className="ml-2 font-normal text-[var(--muted)]">{copy[language === "en" ? "zh" : "en"].message}</span></label><textarea id="inquiry-message" name="message" required maxLength={3000} rows={5} placeholder={t.messagePlaceholder} className="mt-2 w-full min-w-0 resize-y rounded-lg border border-[#bccac2] px-3 py-3 text-base leading-7" /></div>
+          <datalist id="training-cities">{TRAINING_CITIES.map(city => <option key={city.name} value={city.name}>{city.zh}</option>)}</datalist>
+          <div><label htmlFor="inquiry-participants" className="block text-sm font-medium">{t.participantCount}</label><input id="inquiry-participants" name="participantCount" type="number" min="1" max="99999" step="1" inputMode="numeric" className="mt-2 min-h-12 w-full min-w-0 rounded-lg border border-[#bccac2] px-3 py-3 text-base" /></div>
+          <div><label htmlFor="inquiry-date" className="block text-sm font-medium">{t.preferredDate}</label><input id="inquiry-date" name="preferredDate" type="date" className="mt-2 min-h-12 w-full min-w-0 rounded-lg border border-[#bccac2] px-3 py-3 text-base" /></div>
+          <div className="sm:col-span-2"><label htmlFor="inquiry-training" className="block text-sm font-medium">{t.trainingType}</label><select id="inquiry-training" name="trainingType" defaultValue={defaultTraining} className="mt-2 min-h-12 w-full min-w-0 rounded-lg border border-[#bccac2] bg-white px-3 py-3 text-base"><option value="">{t.choose}</option>{TRAINING_TYPES.map((type, index) => <option key={type} value={type}>{language === "en" ? type : ["AHA Heartsaver 急救 / CPR / AED", "企业急救培训", "CPR / AED 培训", "AHA 导师培训", "其他"][index]}</option>)}</select></div>
+          <div className="sm:col-span-2"><label htmlFor="inquiry-message" className="block text-sm font-medium">{t.message}<span lang={language === "en" ? "zh-CN" : "en"} className="ml-2 font-normal text-[var(--muted)]">{copy[language === "en" ? "zh" : "en"].message}</span></label><textarea id="inquiry-message" name="message" maxLength={3000} rows={5} placeholder={t.messagePlaceholder} className="mt-2 w-full min-w-0 resize-y rounded-lg border border-[#bccac2] px-3 py-3 text-base leading-7" /></div>
           <div className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true"><label htmlFor="inquiry-website">Leave this empty<input id="inquiry-website" name="website" autoComplete="off" tabIndex={-1} /></label></div>
           <div className="sm:col-span-2"><label className="flex items-start gap-3 text-sm leading-6"><input name="consent" type="checkbox" required className="mt-1 h-5 w-5 shrink-0 accent-[#245b4b]" /><span>{t.consent} <Link href="/privacy" target="_blank" rel="noopener" className="text-[var(--brand)] underline underline-offset-4">{t.privacy}</Link></span></label></div>
         </fieldset>

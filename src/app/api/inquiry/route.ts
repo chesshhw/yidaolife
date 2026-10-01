@@ -1,17 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { validateInquiry } from "@/lib/inquiry";
-import { allowInquiryAttempt, createInquiryToken, deliverInquiry, mailConfigured, verifyInquiryToken } from "@/lib/inquiry-server";
+import { allowInquiryAttempt, createInquiryToken, deliverInquiry, inquiryConfigured, verifyInquiryToken } from "@/lib/inquiry-server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-export const maxDuration = 30;
+export const maxDuration = 60;
 
 function response(body: object, status = 200) {
   return NextResponse.json(body, { status, headers: { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" } });
 }
 
 export async function GET() {
-  if (!mailConfigured()) return response({ ready: false });
+  if (!inquiryConfigured()) return response({ ready: false });
   return response({ ready: true, token: createInquiryToken() });
 }
 
@@ -22,11 +22,11 @@ export async function POST(request: NextRequest) {
   if (process.env.INQUIRY_ALLOWED_ORIGIN) allowed.add(process.env.INQUIRY_ALLOWED_ORIGIN);
   if (!allowed.has(request.headers.get("origin") || "")) return response({ error: "ORIGIN" }, 403);
   if (!request.headers.get("content-type")?.startsWith("application/json")) return response({ error: "CONTENT_TYPE" }, 415);
-  if (!mailConfigured()) return response({ error: "UNAVAILABLE" }, 503);
+  if (!inquiryConfigured()) return response({ error: "UNAVAILABLE" }, 503);
   const ip = request.headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   if (!allowInquiryAttempt(ip)) return response({ error: "RATE_LIMIT" }, 429);
   const length = Number(request.headers.get("content-length"));
-  if (length > 16000) return response({ error: "TOO_LARGE" }, 413);
+  if (length > 20000) return response({ error: "TOO_LARGE" }, 413);
   let value: unknown;
   try {
     const reader = request.body?.getReader();
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
       const { done, value: part } = await reader.read();
       if (done) break;
       total += part.byteLength;
-      if (total > 16000) { await reader.cancel(); return response({ error: "TOO_LARGE" }, 413); }
+      if (total > 20000) { await reader.cancel(); return response({ error: "TOO_LARGE" }, 413); }
       parts.push(part);
     }
     value = JSON.parse(Buffer.concat(parts).toString("utf8"));

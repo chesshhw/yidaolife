@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllCitySlugs } from "@/data/cities";
 import { BLOG_POSTS } from "@/data/blog";
+import { ENGLISH_TRAINING } from "@/data/english-training";
 
 const SITE_URL = "https://www.yidaolife.com";
 
@@ -35,5 +36,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
-  return [...staticPages, ...cityPages, ...blogPages];
+  const englishPages: MetadataRoute.Sitemap = Object.keys(ENGLISH_TRAINING).map(slug => ({ url: `${SITE_URL}/en/${slug}`, lastModified: new Date("2026-10-01"), changeFrequency: "monthly", priority: 0.8 }));
+  return [...staticPages, ...cityPages, ...blogPages, ...englishPages];
 }

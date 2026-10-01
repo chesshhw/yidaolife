@@ -1,10 +1,15 @@
 import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
+import { get, put } from "@vercel/blob";
 import nodemailer from "nodemailer";
-import { INQUIRY_EMAIL, inquiryEmailText, type Inquiry } from "./inquiry";
+import { inquiryEmailText, type Inquiry } from "./inquiry";
 
-// Fixed destination and authenticated From prevent this endpoint becoming an open relay.
+// Destination is server configuration, never visitor input.
 export function mailConfigured() {
-  return Boolean(process.env.SMTP_USER && process.env.SMTP_PASS);
+  return Boolean(process.env.SMTP_USER && process.env.SMTP_PASS && /^[^\s@,;]+@[^\s@,;]+\.[^\s@,;]+$/.test(process.env.LEAD_NOTIFICATION_EMAIL || ""));
+}
+
+export function inquiryConfigured() {
+  return mailConfigured() && Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
 }
 
 function signature(payload: string) {
@@ -25,10 +30,8 @@ export function verifyInquiryToken(token: unknown, now = Date.now()) {
   return timingSafeEqual(Buffer.from(digest), Buffer.from(signature(`${time}.${id}`)));
 }
 
-// Best-effort per-instance protection, not a distributed quota. No raw IPs or form data retained.
+// Best-effort per-instance protection, not a distributed quota. No raw IPs retained.
 const attempts = new Map<string, { count: number; expires: number }>();
-const usedTokens = new Map<string, { reference: string; expires: number; state: "pending" | "sent" | "failed" }>();
-
 export function allowInquiryAttempt(ip: string, now = Date.now()) {
   for (const [key, value] of attempts) if (value.expires <= now) attempts.delete(key);
   if (attempts.size > 5000) return false;
@@ -38,51 +41,63 @@ export function allowInquiryAttempt(ip: string, now = Date.now()) {
   return ++existing.count <= 5;
 }
 
-export async function deliverInquiry(inquiry: Inquiry, token: string) {
-  const now = Date.now();
-  for (const [key, item] of usedTokens) if (item.expires <= now) usedTokens.delete(key);
-  const key = signature(token);
-  const previous = usedTokens.get(key);
-  if (previous?.state === "sent") return previous.reference;
-  if (previous) throw new Error("INQUIRY_ALREADY_ATTEMPTED");
-  if (usedTokens.size > 5000) throw new Error("INQUIRY_CAPACITY");
-  const reference = `YD-${randomUUID()}`;
-  const record = { reference, expires: now + 2 * 60 * 60 * 1000, state: "pending" as "pending" | "sent" | "failed" };
-  usedTokens.set(key, record);
+async function notifyInquiry(inquiry: Inquiry, reference: string) {
   const port = Number(process.env.SMTP_PORT || "465");
+  const recipient = process.env.LEAD_NOTIFICATION_EMAIL!;
   const transport = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || "smtp.163.com",
-    port,
-    secure: port === 465,
-    requireTLS: true,
+    host: process.env.SMTP_HOST || "smtp.163.com", port, secure: port === 465, requireTLS: true,
     auth: { user: process.env.SMTP_USER!, pass: process.env.SMTP_PASS! },
-    connectionTimeout: 8000,
-    greetingTimeout: 8000,
-    socketTimeout: 12000,
-    dnsTimeout: 5000,
-    tls: { minVersion: "TLSv1.2" },
-    disableFileAccess: true,
-    disableUrlAccess: true,
-    logger: false,
-    debug: false,
+    connectionTimeout: 8000, greetingTimeout: 8000, socketTimeout: 12000, dnsTimeout: 5000,
+    tls: { minVersion: "TLSv1.2" }, disableFileAccess: true, disableUrlAccess: true, logger: false, debug: false,
   });
   try {
     const result = await transport.sendMail({
       from: { name: "都会急救网站咨询", address: process.env.SMTP_USER! },
-      to: INQUIRY_EMAIL,
-      replyTo: { name: inquiry.name, address: inquiry.email },
-      subject: `[都会急救咨询] ${inquiry.company || inquiry.name}`,
-      text: inquiryEmailText(inquiry, reference),
-      messageId: `<${reference}@yidaolife.com>`,
+      to: recipient, replyTo: { name: inquiry.name, address: inquiry.email },
+      subject: `New Training Inquiry - ${inquiry.company || inquiry.name} - ${inquiry.city}`,
+      text: inquiryEmailText(inquiry, reference), messageId: `<${reference}@yidaolife.com>`,
     });
-    if (!result.accepted.some(address => String(address).toLowerCase() === INQUIRY_EMAIL)) throw new Error("MAIL_NOT_ACCEPTED");
-    record.state = "sent";
-    return reference;
+    if (!result.accepted.some(address => String(address).toLowerCase() === recipient.toLowerCase())) throw new Error("MAIL_NOT_ACCEPTED");
+  } finally { transport.close(); }
+}
+
+export async function deliverInquiry(inquiry: Inquiry, token: string) {
+  const [timestamp, uuid] = token.split(".");
+  const reference = `YD-${uuid}`;
+  const day = new Date(Number(timestamp)).toISOString().slice(0, 10);
+  const pathname = `leads/${day}/${reference}.json`;
+  const fingerprint = signature(JSON.stringify(inquiry));
+  const record = {
+    schemaVersion: 1, id: reference, ...inquiry, ...inquiry.attribution,
+    source: inquiry.attribution.gclid ? "google_ads" : inquiry.attribution.utm_source || "direct_or_unknown",
+    consent: true, createdAt: new Date().toISOString(), notification: "pending", fingerprint,
+  };
+  // Private, immutable create is the idempotency boundary across all serverless instances.
+  try {
+    await put(pathname, JSON.stringify(record), {
+      access: "private", contentType: "application/json", addRandomSuffix: false,
+      allowOverwrite: false, abortSignal: AbortSignal.timeout(10000),
+    });
   } catch {
-    record.state = "failed";
-    // Do not log customer details, credentials or raw SMTP responses.
-    throw new Error("INQUIRY_DELIVERY_FAILED");
-  } finally {
-    transport.close();
+    // A retry may follow a lost response or concurrent request. Only accept an identical saved payload.
+    try {
+      const existing = await get(pathname, { access: "private", useCache: false, abortSignal: AbortSignal.timeout(8000) });
+      if (existing?.statusCode === 200) {
+        const saved = await new Response(existing.stream).json();
+        if (saved.id === reference && saved.fingerprint === fingerprint) return reference;
+      }
+    } catch { /* Never expose provider responses or customer data. */ }
+    throw new Error("INQUIRY_STORAGE_FAILED");
   }
+
+  // A mail failure must not discard a saved lead or invite a duplicate submission.
+  let notification = "sent";
+  try { await notifyInquiry(inquiry, reference); }
+  catch { notification = "failed"; console.error("INQUIRY_NOTIFICATION_FAILED"); }
+  try {
+    await put(`lead-notifications/${day}/${reference}.json`, JSON.stringify({
+      id: reference, status: notification, updatedAt: new Date().toISOString(),
+    }), { access: "private", contentType: "application/json", addRandomSuffix: false, allowOverwrite: true, abortSignal: AbortSignal.timeout(5000) });
+  } catch { console.error("INQUIRY_NOTIFICATION_STATUS_FAILED"); }
+  return reference;
 }

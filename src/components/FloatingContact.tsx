@@ -40,7 +40,7 @@ export default function FloatingContact() {
     } catch { setCopyStatus("请长按上方微信号复制"); }
   };
 
-  if (pathname === "/en") return <a href="#inquiry" lang="en" className="fixed bottom-[max(16px,env(safe-area-inset-bottom))] right-4 z-40 inline-flex min-h-12 items-center rounded-full border border-white/30 bg-[var(--brand)] px-5 py-3 text-sm font-medium text-white shadow-lg">Enquire</a>;
+  if ((pathname === "/en" || pathname.startsWith("/en/"))) return <a href={pathname === "/en/thank-you" ? "/en#inquiry" : "#inquiry"} lang="en" className="fixed bottom-[max(16px,env(safe-area-inset-bottom))] right-4 z-40 inline-flex min-h-12 items-center rounded-full border border-white/30 bg-[var(--brand)] px-5 py-3 text-sm font-medium text-white shadow-lg">Enquire</a>;
 
   return (
     <>

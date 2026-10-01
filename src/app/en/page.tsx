@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import InquiryForm from "@/components/InquiryForm";
+import { ENGLISH_TRAINING } from "@/data/english-training";
 
 export const metadata: Metadata = {
   title: "First Aid, CPR & AED Training in China",
@@ -17,7 +18,7 @@ export default function EnglishTrainingPage() {
         <div className="site-container grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
           <div>
             <p className="text-sm font-semibold tracking-[0.12em] text-[var(--brand)]">YIDAOLIFE · 都会急救</p>
-            <h1 className="mt-5 max-w-2xl text-4xl font-semibold leading-[1.13] tracking-tight sm:text-5xl lg:text-[56px]">First aid training<br />for your team<br /><span className="text-[var(--brand)]">in China.</span></h1>
+            <h1 className="mt-5 max-w-2xl text-4xl font-semibold leading-[1.13] tracking-tight sm:text-5xl lg:text-[56px]">AHA first aid,<br />CPR & AED training<br /><span className="text-[var(--brand)]">in China.</span></h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-[var(--muted)]">Hands-on CPR, AED and first aid courses for workplaces, schools and individuals. Start with your city and your team’s needs.</p>
             <div className="mt-8 flex flex-wrap gap-3"><a href="#inquiry" className="button-primary">Request training information</a><Link href="/contact#inquiry" className="button-secondary" lang="zh-CN">中文咨询</Link></div>
             <p className="mt-6 text-sm leading-6 text-[var(--muted)]">Beijing · Shanghai · Tianjin · Other cities on request</p>
@@ -32,11 +33,12 @@ export default function EnglishTrainingPage() {
         <p className="text-sm font-semibold tracking-widest text-[var(--brand)]">COURSES & TEAMS</p><h2 id="training-options" className="section-title mt-3">Find the right training format</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-3">
           {[
-            { title: "AHA Heartsaver courses", text: "First aid, CPR and AED learning for people without a medical background. Ask which course and assessment match your needs." },
-            { title: "Workplace & group training", text: "Plan a course around your team, location and training goals. Share your group size and ask about on-site arrangements." },
-            { title: "Individual enquiries", text: "Looking for a course while living in or visiting China? Tell us your city and dates to check available arrangements." },
-          ].map(item => <article key={item.title} className="surface-card p-6 sm:p-7"><h3 className="text-xl font-semibold leading-7">{item.title}</h3><p className="mt-4 text-base leading-7 text-[var(--muted)]">{item.text}</p></article>)}
+            { title: "AHA Heartsaver courses", href: "/en/aha-training-china", text: "First aid, CPR and AED learning for people without a medical background. Ask which course and assessment match your needs." },
+            { title: "Workplace & group training", href: "/en/corporate-first-aid-training-china", text: "Plan a course around your team, location and training goals. Share your group size and ask about on-site arrangements." },
+            { title: "Instructor training", href: "/en/aha-instructor-training-china", text: "Explore an instructor pathway. Confirm eligibility, course requirements, language and availability before planning your training." },
+          ].map(item => <article key={item.title} className="surface-card p-6 sm:p-7"><h3 className="text-xl font-semibold leading-7"><Link href={item.href} className="underline decoration-[var(--border)] underline-offset-4">{item.title}</Link></h3><p className="mt-4 text-base leading-7 text-[var(--muted)]">{item.text}</p><Link href={item.href} className="text-link mt-5">Explore training →</Link></article>)}
         </div>
+        <nav aria-label="Training cities" className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-base"><span className="font-semibold">Choose your city</span>{Object.entries(ENGLISH_TRAINING).filter(([, page]) => page.city).map(([slug, page]) => <Link key={slug} href={`/en/${slug}`} className="text-[var(--brand)] underline underline-offset-4">{page.city}</Link>)}<span className="text-sm text-[var(--muted)]">Other cities for groups: please enquire.</span></nav>
       </section>
       <div className="border-y border-[var(--border)] bg-[var(--surface)]">
         <div className="site-container grid items-start gap-10 py-12 sm:py-16 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">

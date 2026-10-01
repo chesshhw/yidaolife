@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingContact from "@/components/FloatingContact";
+import AttributionCapture from "@/components/AttributionCapture";
 
 const SITE_NAME = "都会急救";
 const SITE_URL = "https://www.yidaolife.com";
@@ -78,6 +79,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body className="antialiased font-sans min-h-screen flex flex-col">
+        <AttributionCapture />
         <a href="#main-content" className="skip-link">跳至主要内容</a>
         <Header />
         <main id="main-content" className="flex-1 pt-[72px] lg:pt-20">{children}</main>
