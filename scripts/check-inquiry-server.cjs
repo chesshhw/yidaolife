@@ -5,11 +5,12 @@ const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
 const env = { NODE_ENV: 'production', SMTP_USER: '13512456138@163.com', SMTP_PASS: 'test-only-not-a-real-secret', LEAD_NOTIFICATION_EMAIL: '13512456138@163.com', BLOB_READ_WRITE_TOKEN: 'test-private-token' };
 let attempts = 0, rejectDelivery = false, rejectStorage = false, lastMail;
+const logs = [];
 const blobs = new Map();
 function load(file, imports) {
   const exports = {};
   const js = ts.transpileModule(fs.readFileSync(file, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, esModuleInterop: true } }).outputText;
-  vm.runInNewContext(js, { exports, require: name => { if (!(name in imports)) throw new Error('Unexpected import: '+name); return imports[name]; }, process: { env }, Buffer, Date, Set, Map, Response, AbortSignal, console: { error: () => {} } });
+  vm.runInNewContext(js, { exports, require: name => { if (!(name in imports)) throw new Error('Unexpected import: '+name); return imports[name]; }, process: { env }, Buffer, Date, Set, Map, Response, AbortSignal, console: { error: (...args) => logs.push(args), info: (...args) => logs.push(args) } });
   return exports;
 }
 const inquiry = load('src/lib/inquiry.ts', {});
@@ -21,9 +22,9 @@ const server = load('src/lib/inquiry-server.ts', {
     get: async (path, options) => { assert.equal(options.access, 'private'); assert.equal(options.useCache, false); if (rejectStorage) throw new Error('Storage offline'); return blobs.has(path) ? { statusCode: 200, stream: new Response(JSON.stringify(blobs.get(path))).body } : null; },
   },
   nodemailer: { createTransport: options => {
-    assert.equal(options.secure, true); assert.equal(options.requireTLS, true);
+    assert.equal(options.secure, true); assert.equal(options.requireTLS, undefined);
     assert.equal(options.disableFileAccess, true); assert.equal(options.disableUrlAccess, true);
-    return { sendMail: async mail => { attempts++; lastMail = mail; if (rejectDelivery) throw new Error('Simulated rejection'); return { accepted: [inquiry.INQUIRY_EMAIL] }; }, close() {} };
+    return { sendMail: async mail => { attempts++; lastMail = mail; if (rejectDelivery) throw Object.assign(new Error('Secret SMTP response: must-not-log'), { code: 'EAUTH', command: 'AUTH PLAIN must-not-log', responseCode: 535, response: '535 must-not-log' }); return { accepted: [inquiry.INQUIRY_EMAIL] }; }, close() {} };
   } },
 });
 const route = load('src/app/api/inquiry/route.ts', {
@@ -64,6 +65,15 @@ const sample = () => ({ name: 'QA Test', company: '', email: 'qa@example.com', p
   const failed = await route.POST(request(sample()));
   assert.equal(failed.status, 200); assert.equal((await failed.json()).ok, true);
   assert.ok([...blobs.values()].some(record => record.status === 'failed'));
+  const failedStatus = [...blobs.values()].find(record => record.status === 'failed');
+  assert.equal(failedStatus.failure.code, 'EAUTH');
+  assert.equal(failedStatus.failure.command, 'AUTH');
+  assert.equal(failedStatus.failure.responseCode, 535);
+  assert.ok(logs.some(([event]) => event === 'INQUIRY_NOTIFICATION_ACCEPTED'));
+  assert.ok(logs.some(([event, data]) => event === 'INQUIRY_NOTIFICATION_FAILED' && data.reference));
+  assert.equal(JSON.stringify(logs).includes('must-not-log'), false);
+  assert.equal(JSON.stringify(failedStatus).includes('must-not-log'), false);
+  assert.equal(server.inquiryMailFailure({code:'secret',command:'secret',responseCode:999}).code, 'UNKNOWN');
   const beforeStorageFailure = attempts;
   rejectStorage = true;
   assert.equal((await route.POST(request(sample()))).status, 502); assert.equal(attempts, beforeStorageFailure);

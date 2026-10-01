@@ -41,19 +41,32 @@ export function allowInquiryAttempt(ip: string, now = Date.now()) {
   return ++existing.count <= 5;
 }
 
+// Only allowlisted diagnostic fields may leave the mailer. SMTP errors can contain
+// credentials, addresses and message content, so never log the error/response itself.
+export function inquiryMailFailure(error: unknown) {
+  const source = error && typeof error === "object" ? error as Record<string, unknown> : {};
+  const codes = ["EAUTH", "ETIMEDOUT", "ESOCKET", "ECONNECTION", "EDNS", "EENVELOPE", "EMESSAGE", "ETLS", "ECONNRESET", "ECONNREFUSED", "ENOTFOUND", "EAI_AGAIN"];
+  const code = typeof source.code === "string" && codes.includes(source.code) ? source.code : "UNKNOWN";
+  const verb = typeof source.command === "string" ? source.command.split(/[\s:]/, 1)[0].toUpperCase() : "";
+  const command = ["AUTH", "CONN", "EHLO", "HELO", "STARTTLS", "MAIL", "RCPT", "DATA", "API"].includes(verb) ? verb : "UNKNOWN";
+  const responseCode = typeof source.responseCode === "number" && Number.isInteger(source.responseCode) && source.responseCode >= 400 && source.responseCode <= 599 ? source.responseCode : undefined;
+  return { code, command, ...(responseCode === undefined ? {} : { responseCode }) };
+}
+
 async function notifyInquiry(inquiry: Inquiry, reference: string) {
   const port = Number(process.env.SMTP_PORT || "465");
-  const recipient = process.env.LEAD_NOTIFICATION_EMAIL!;
+  const recipient = process.env.LEAD_NOTIFICATION_EMAIL!.trim();
+  const smtpUser = process.env.SMTP_USER!.trim();
   const transport = nodemailer.createTransport({
     host: process.env.SMTP_HOST || "smtp.163.com", port, secure: port === 465,
     ...(port === 465 ? {} : { requireTLS: true }),
-    auth: { user: process.env.SMTP_USER!, pass: process.env.SMTP_PASS! },
+    auth: { user: smtpUser, pass: process.env.SMTP_PASS!.trim() },
     connectionTimeout: 8000, greetingTimeout: 8000, socketTimeout: 12000, dnsTimeout: 5000,
     tls: { minVersion: "TLSv1.2" }, disableFileAccess: true, disableUrlAccess: true, logger: false, debug: false,
   });
   try {
     const result = await transport.sendMail({
-      from: { name: "都会急救网站咨询", address: process.env.SMTP_USER! },
+      from: { name: "都会急救网站咨询", address: smtpUser },
       to: recipient, replyTo: { name: inquiry.name, address: inquiry.email },
       subject: `New Training Inquiry - ${inquiry.company || inquiry.name} - ${inquiry.city}`,
       text: inquiryEmailText(inquiry, reference), messageId: `<${reference}@yidaolife.com>`,
@@ -93,11 +106,18 @@ export async function deliverInquiry(inquiry: Inquiry, token: string) {
 
   // A mail failure must not discard a saved lead or invite a duplicate submission.
   let notification = "sent";
-  try { await notifyInquiry(inquiry, reference); }
-  catch { notification = "failed"; console.error("INQUIRY_NOTIFICATION_FAILED"); }
+  let failure: ReturnType<typeof inquiryMailFailure> | undefined;
+  try {
+    await notifyInquiry(inquiry, reference);
+    console.info("INQUIRY_NOTIFICATION_ACCEPTED", { reference });
+  } catch (error) {
+    notification = "failed";
+    failure = inquiryMailFailure(error);
+    console.error("INQUIRY_NOTIFICATION_FAILED", { reference, ...failure });
+  }
   try {
     await put(`lead-notifications/${day}/${reference}.json`, JSON.stringify({
-      id: reference, status: notification, updatedAt: new Date().toISOString(),
+      id: reference, status: notification, ...(failure ? { failure } : {}), updatedAt: new Date().toISOString(),
     }), { access: "private", contentType: "application/json", addRandomSuffix: false, allowOverwrite: true, abortSignal: AbortSignal.timeout(5000) });
   } catch { console.error("INQUIRY_NOTIFICATION_STATUS_FAILED"); }
   return reference;
