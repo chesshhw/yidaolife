@@ -69,6 +69,8 @@ const sample = () => ({ name: 'QA Test', company: '', email: 'qa@example.com', p
   assert.equal(failedStatus.failure.code, 'EAUTH');
   assert.equal(failedStatus.failure.command, 'AUTH');
   assert.equal(failedStatus.failure.responseCode, 535);
+  assert.equal(failedStatus.failure.authMethod, 'PLAIN');
+  assert.equal(server.inquiryMailFailure({code:'EAUTH',command:'AUTH LOGIN',responseCode:550,response:'550 User has no permission'}).reason, 'USER_HAS_NO_PERMISSION');
   assert.ok(logs.some(([event]) => event === 'INQUIRY_NOTIFICATION_ACCEPTED'));
   assert.ok(logs.some(([event, data]) => event === 'INQUIRY_NOTIFICATION_FAILED' && data.reference));
   assert.equal(JSON.stringify(logs).includes('must-not-log'), false);

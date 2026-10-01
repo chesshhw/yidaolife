@@ -50,7 +50,15 @@ export function inquiryMailFailure(error: unknown) {
   const verb = typeof source.command === "string" ? source.command.split(/[\s:]/, 1)[0].toUpperCase() : "";
   const command = ["AUTH", "CONN", "EHLO", "HELO", "STARTTLS", "MAIL", "RCPT", "DATA", "API"].includes(verb) ? verb : "UNKNOWN";
   const responseCode = typeof source.responseCode === "number" && Number.isInteger(source.responseCode) && source.responseCode >= 400 && source.responseCode <= 599 ? source.responseCode : undefined;
-  return { code, command, ...(responseCode === undefined ? {} : { responseCode }) };
+  const method = typeof source.command === "string" ? source.command.split(/\s+/)[1] : undefined;
+  const authMethod = command === "AUTH" && method && ["PLAIN", "LOGIN", "CRAM-MD5", "XOAUTH2"].includes(method) ? method : undefined;
+  const response = typeof source.response === "string" ? source.response.toLowerCase() : "";
+  const reason = response.includes("user has no permission") ? "USER_HAS_NO_PERMISSION"
+    : response.includes("invalid user") ? "INVALID_USER"
+    : response.includes("authentication failed") ? "AUTHENTICATION_FAILED"
+    : response.includes("user is locked") || response.includes("account locked") ? "ACCOUNT_LOCKED"
+    : "UNCLASSIFIED";
+  return { code, command, reason, ...(authMethod ? { authMethod } : {}), ...(responseCode === undefined ? {} : { responseCode }) };
 }
 
 async function notifyInquiry(inquiry: Inquiry, reference: string) {
@@ -113,7 +121,11 @@ export async function deliverInquiry(inquiry: Inquiry, token: string) {
   } catch (error) {
     notification = "failed";
     failure = inquiryMailFailure(error);
-    console.error("INQUIRY_NOTIFICATION_FAILED", { reference, ...failure });
+    console.error("INQUIRY_NOTIFICATION_FAILED", {
+      reference, ...failure,
+      smtpUserIsEmail: /^[^\s@,;]+@[^\s@,;]+\.[^\s@,;]+$/.test(process.env.SMTP_USER!.trim()),
+      smtpUserMatchesRecipient: process.env.SMTP_USER!.trim().toLowerCase() === process.env.LEAD_NOTIFICATION_EMAIL!.trim().toLowerCase(),
+    });
   }
   try {
     await put(`lead-notifications/${day}/${reference}.json`, JSON.stringify({
