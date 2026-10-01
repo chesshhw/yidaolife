@@ -45,7 +45,8 @@ async function notifyInquiry(inquiry: Inquiry, reference: string) {
   const port = Number(process.env.SMTP_PORT || "465");
   const recipient = process.env.LEAD_NOTIFICATION_EMAIL!;
   const transport = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || "smtp.163.com", port, secure: port === 465, requireTLS: true,
+    host: process.env.SMTP_HOST || "smtp.163.com", port, secure: port === 465,
+    ...(port === 465 ? {} : { requireTLS: true }),
     auth: { user: process.env.SMTP_USER!, pass: process.env.SMTP_PASS! },
     connectionTimeout: 8000, greetingTimeout: 8000, socketTimeout: 12000, dnsTimeout: 5000,
     tls: { minVersion: "TLSv1.2" }, disableFileAccess: true, disableUrlAccess: true, logger: false, debug: false,
