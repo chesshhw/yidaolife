@@ -65,8 +65,10 @@ async function notifyInquiry(inquiry: Inquiry, reference: string) {
   const port = Number(process.env.SMTP_PORT || "465");
   const recipient = process.env.LEAD_NOTIFICATION_EMAIL!.trim();
   const smtpUser = process.env.SMTP_USER!.trim();
+  // Retry NetEase with its alternate supported SMTP AUTH mechanism after PLAIN was rejected.
   const transport = nodemailer.createTransport({
     host: process.env.SMTP_HOST || "smtp.163.com", port, secure: port === 465,
+    authMethod: (process.env.SMTP_HOST || "smtp.163.com").toLowerCase() === "smtp.163.com" ? "LOGIN" : undefined,
     ...(port === 465 ? {} : { requireTLS: true }),
     auth: { user: smtpUser, pass: process.env.SMTP_PASS!.trim() },
     connectionTimeout: 8000, greetingTimeout: 8000, socketTimeout: 12000, dnsTimeout: 5000,

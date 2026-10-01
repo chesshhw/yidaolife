@@ -23,6 +23,7 @@ const server = load('src/lib/inquiry-server.ts', {
   },
   nodemailer: { createTransport: options => {
     assert.equal(options.secure, true); assert.equal(options.requireTLS, undefined);
+    assert.equal(options.authMethod, 'LOGIN');
     assert.equal(options.disableFileAccess, true); assert.equal(options.disableUrlAccess, true);
     return { sendMail: async mail => { attempts++; lastMail = mail; if (rejectDelivery) throw Object.assign(new Error('Secret SMTP response: must-not-log'), { code: 'EAUTH', command: 'AUTH PLAIN must-not-log', responseCode: 535, response: '535 must-not-log' }); return { accepted: [inquiry.INQUIRY_EMAIL] }; }, close() {} };
   } },
