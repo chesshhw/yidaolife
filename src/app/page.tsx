@@ -4,6 +4,7 @@ import Link from "next/link";
 import HomeContactBar from "@/components/HomeContactBar";
 import HomeCourseSection from "@/components/home-course/HomeCourseSection";
 import HomeHeroCtas from "@/components/HomeHeroCtas";
+import HomePromoVideo from "@/components/HomePromoVideo";
 import { BLOG_POSTS } from "@/data/blog";
 import { getHomepageCitySlugs, getCityBySlug } from "@/data/cities";
 
@@ -69,6 +70,8 @@ export default function HomePage() {
           </figure>
         </div>
       </section>
+
+      <HomePromoVideo />
 
       <HomeCourseSection />
 
