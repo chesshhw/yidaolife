@@ -1,11 +1,14 @@
-import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
+import { createHash, createHmac, randomUUID, timingSafeEqual } from "node:crypto";
 import { get, put } from "@vercel/blob";
-import nodemailer from "nodemailer";
-import { inquiryEmailText, type Inquiry } from "./inquiry";
+import { INQUIRY_EMAIL, inquiryEmailText, type Inquiry } from "./inquiry";
+
+const SES_REGION = "ap-hongkong";
+const SES_TEMPLATE_ID = 221198;
+const SES_FROM = "Yidaolife Training <leads@notify.yidaolife.com>";
 
 // Destination is server configuration, never visitor input.
 export function mailConfigured() {
-  return Boolean(process.env.SMTP_USER && process.env.SMTP_PASS && /^[^\s@,;]+@[^\s@,;]+\.[^\s@,;]+$/.test(process.env.LEAD_NOTIFICATION_EMAIL || ""));
+  return Boolean(process.env.TENCENTCLOUD_SECRET_ID && process.env.TENCENTCLOUD_SECRET_KEY);
 }
 
 export function inquiryConfigured() {
@@ -13,7 +16,7 @@ export function inquiryConfigured() {
 }
 
 function signature(payload: string) {
-  return createHmac("sha256", process.env.INQUIRY_SIGNING_SECRET || process.env.SMTP_PASS || "").update(payload).digest("hex");
+  return createHmac("sha256", process.env.INQUIRY_SIGNING_SECRET || process.env.TENCENTCLOUD_SECRET_KEY || "").update(payload).digest("hex");
 }
 
 export function createInquiryToken(now = Date.now()) {
@@ -41,48 +44,64 @@ export function allowInquiryAttempt(ip: string, now = Date.now()) {
   return ++existing.count <= 5;
 }
 
-// Only allowlisted diagnostic fields may leave the mailer. SMTP errors can contain
-// credentials, addresses and message content, so never log the error/response itself.
+// Only allowlisted diagnostic fields may leave the mailer. Provider errors may contain
+// addresses or message content, so never log the error/response itself.
 export function inquiryMailFailure(error: unknown) {
   const source = error && typeof error === "object" ? error as Record<string, unknown> : {};
-  const codes = ["EAUTH", "ETIMEDOUT", "ESOCKET", "ECONNECTION", "EDNS", "EENVELOPE", "EMESSAGE", "ETLS", "ECONNRESET", "ECONNREFUSED", "ENOTFOUND", "EAI_AGAIN"];
-  const code = typeof source.code === "string" && codes.includes(source.code) ? source.code : "UNKNOWN";
-  const verb = typeof source.command === "string" ? source.command.split(/[\s:]/, 1)[0].toUpperCase() : "";
-  const command = ["AUTH", "CONN", "EHLO", "HELO", "STARTTLS", "MAIL", "RCPT", "DATA", "API"].includes(verb) ? verb : "UNKNOWN";
-  const responseCode = typeof source.responseCode === "number" && Number.isInteger(source.responseCode) && source.responseCode >= 400 && source.responseCode <= 599 ? source.responseCode : undefined;
-  const method = typeof source.command === "string" ? source.command.split(/\s+/)[1] : undefined;
-  const authMethod = command === "AUTH" && method && ["PLAIN", "LOGIN", "CRAM-MD5", "XOAUTH2"].includes(method) ? method : undefined;
-  const response = typeof source.response === "string" ? source.response.toLowerCase() : "";
-  const reason = response.includes("user has no permission") ? "USER_HAS_NO_PERMISSION"
-    : response.includes("invalid user") ? "INVALID_USER"
-    : response.includes("authentication failed") ? "AUTHENTICATION_FAILED"
-    : response.includes("user is locked") || response.includes("account locked") ? "ACCOUNT_LOCKED"
-    : "UNCLASSIFIED";
-  return { code, command, reason, ...(authMethod ? { authMethod } : {}), ...(responseCode === undefined ? {} : { responseCode }) };
+  const code = typeof source.code === "string" && /^[A-Za-z][A-Za-z0-9_.-]{0,80}$/.test(source.code) ? source.code : "UNKNOWN";
+  return { code, command: "SEND_EMAIL" };
 }
 
 async function notifyInquiry(inquiry: Inquiry, reference: string) {
-  const port = Number(process.env.SMTP_PORT || "465");
-  const recipient = process.env.LEAD_NOTIFICATION_EMAIL!.trim();
-  const smtpUser = process.env.SMTP_USER!.trim();
-  // Retry NetEase with its alternate supported SMTP AUTH mechanism after PLAIN was rejected.
-  const transport = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || "smtp.163.com", port, secure: port === 465,
-    authMethod: (process.env.SMTP_HOST || "smtp.163.com").toLowerCase() === "smtp.163.com" ? "LOGIN" : undefined,
-    ...(port === 465 ? {} : { requireTLS: true }),
-    auth: { user: smtpUser, pass: process.env.SMTP_PASS!.trim() },
-    connectionTimeout: 8000, greetingTimeout: 8000, socketTimeout: 12000, dnsTimeout: 5000,
-    tls: { minVersion: "TLSv1.2" }, disableFileAccess: true, disableUrlAccess: true, logger: false, debug: false,
+  const secretId = process.env.TENCENTCLOUD_SECRET_ID!.trim();
+  const secretKey = process.env.TENCENTCLOUD_SECRET_KEY!.trim();
+  const host = "ses.tencentcloudapi.com";
+  const timestamp = Math.floor(Date.now() / 1000);
+  const date = new Date(timestamp * 1000).toISOString().slice(0, 10);
+  const body = JSON.stringify({
+    FromEmailAddress: SES_FROM,
+    Destination: [INQUIRY_EMAIL],
+    ReplyToAddresses: inquiry.email,
+    Subject: `New Training Inquiry - ${reference}`,
+    Template: { TemplateID: SES_TEMPLATE_ID, TemplateData: JSON.stringify({ lead_details: inquiryEmailText(inquiry, reference) }) },
   });
-  try {
-    const result = await transport.sendMail({
-      from: { name: "都会急救网站咨询", address: smtpUser },
-      to: recipient, replyTo: { name: inquiry.name, address: inquiry.email },
-      subject: `New Training Inquiry - ${inquiry.company || inquiry.name} - ${inquiry.city}`,
-      text: inquiryEmailText(inquiry, reference), messageId: `<${reference}@yidaolife.com>`,
-    });
-    if (!result.accepted.some(address => String(address).toLowerCase() === recipient.toLowerCase())) throw new Error("MAIL_NOT_ACCEPTED");
-  } finally { transport.close(); }
+  const contentType = "application/json; charset=utf-8";
+  const canonicalHeaders = `content-type:${contentType}\nhost:${host}\n`;
+  const signedHeaders = "content-type;host";
+  // TC3 canonical request uses SHA-256 for its payload digest.
+  const payloadHash = createHash("sha256").update(body).digest("hex");
+  const canonicalRequest = `POST\n/\n\n${canonicalHeaders}\n${signedHeaders}\n${payloadHash}`;
+  const credentialScope = `${date}/ses/tc3_request`;
+  const stringToSign = `TC3-HMAC-SHA256\n${timestamp}\n${credentialScope}\n${createHash("sha256").update(canonicalRequest).digest("hex")}`;
+  const hmac = (key: string | Buffer, value: string) => createHmac("sha256", key).update(value).digest();
+  const secretDate = hmac(`TC3${secretKey}`, date);
+  const secretService = hmac(secretDate, "ses");
+  const secretSigning = hmac(secretService, "tc3_request");
+  const signatureHex = hmac(secretSigning, stringToSign).toString("hex");
+  const authorization = `TC3-HMAC-SHA256 Credential=${secretId}/${credentialScope}, SignedHeaders=${signedHeaders}, Signature=${signatureHex}`;
+
+  const response = await fetch(`https://${host}/`, {
+    method: "POST",
+    headers: {
+      Authorization: authorization,
+      "Content-Type": contentType,
+      Host: host,
+      "X-TC-Action": "SendEmail",
+      "X-TC-Region": SES_REGION,
+      "X-TC-Timestamp": String(timestamp),
+      "X-TC-Version": "2020-10-02",
+    },
+    body,
+    signal: AbortSignal.timeout(12000),
+  });
+  const result = await response.json() as {
+    Response?: { MessageId?: string; RequestId?: string; Error?: { Code?: string } };
+  };
+  if (!response.ok || result.Response?.Error || !result.Response?.MessageId) {
+    const error = new Error("SES_SEND_FAILED") as Error & { code?: string };
+    error.code = result.Response?.Error?.Code || `HTTP_${response.status}`;
+    throw error;
+  }
 }
 
 export async function deliverInquiry(inquiry: Inquiry, token: string) {
@@ -125,8 +144,6 @@ export async function deliverInquiry(inquiry: Inquiry, token: string) {
     failure = inquiryMailFailure(error);
     console.error("INQUIRY_NOTIFICATION_FAILED", {
       reference, ...failure,
-      smtpUserIsEmail: /^[^\s@,;]+@[^\s@,;]+\.[^\s@,;]+$/.test(process.env.SMTP_USER!.trim()),
-      smtpUserMatchesRecipient: process.env.SMTP_USER!.trim().toLowerCase() === process.env.LEAD_NOTIFICATION_EMAIL!.trim().toLowerCase(),
     });
   }
   try {
