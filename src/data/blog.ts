@@ -8,7 +8,14 @@ export type BlogSection = {
   bullets?: string[];
   links?: Array<{ label: string; href: string }>;
   table?: { headers: string[]; rows: string[][] };
-  image?: { src: string; alt: string; caption?: string };
+  image?: {
+    src: string;
+    alt: string;
+    caption?: string;
+    width?: number;
+    height?: number;
+    layout?: "wide" | "compact";
+  };
   qrCard?: {
     title: string;
     cta?: string;
@@ -50,6 +57,98 @@ export type BlogPost = {
 };
 
 export const BLOG_POSTS: BlogPost[] = [
+  {
+    slug: "fenyang-hospital-first-aid-training-base",
+    title: "两个月、9天培训与督导：汾阳医院培养10位急救导师",
+    seoTitle: "汾阳医院培养10位急救导师｜两个月、9天培训与督导｜都会急救",
+    excerpt: "从学员课程到导师培养，再到真实课堂督导，汾阳医院用两个月、9天培训与督导，培养10位急救导师，为急救培训基地建设夯实师资基础。",
+    description: "山西省汾阳医院急救导师培养项目历时两个月，累计开展9天培训与督导。10位导师候选人完成学员课程、导师课程和真实课堂督导，为医院建立急救培训基地、持续开展规范化急救培训夯实师资基础。",
+    publishedAt: "2026-10-01",
+    author: "都会急救项目组",
+    brand: "都会急救",
+    organization: "天津一道技术服务有限公司",
+    topics: ["汾阳医院", "急救培训基地", "急救导师培养", "Heartsaver培训", "CPR AED"],
+    ogImage: {
+      src: "/images/g11.jpg",
+      alt: "山西省汾阳医院急救导师培养项目合影",
+      width: 3736,
+      height: 2314,
+    },
+    relatedSlugs: ["why-first-aid-hands-on-practice-matters", "why-companies-need-first-aid-training", "community-aed-needs-cpr-hands-on-training"],
+    lead: [
+      "一支能持续开展急救培训的队伍，需要的不只是会操作的学员，还需要懂课程、会示范、能反馈的院内导师。围绕山西省汾阳医院建设急救培训基地的目标，都会急救参与实施了为期两个月的导师培养项目。",
+      "项目累计安排9天培训与督导，帮助10位导师候选人从学习急救技能走向学习如何教、如何组织课堂，并在真实授课场景中接受观察和反馈。",
+    ],
+    sections: [
+      {
+        heading: "从学员课程开始，把技能和教学接起来",
+        paragraphs: [
+          "项目先组织10位医务人员分批完成 Heartsaver 急救学员课程和导师课程。学员课程覆盖心肺复苏（CPR）、自动体外除颤器（AED）使用，以及常见内科、创伤和环境相关急症的基础处置；导师课程则进一步练习课程组织、技能示范与反馈、课堂管理和考核流程。",
+          "这条培养路径把“自己会做”与“带着别人学会”连接起来，也让医院后续开展院内培训有了更清晰的课程框架。",
+        ],
+        image: {
+          src: "/images/g10.jpg",
+          alt: "汾阳医院 Heartsaver 急救培训课程现场合影",
+          caption: "汾阳医院 Heartsaver 急救培训课程现场。",
+          width: 1200,
+          height: 453,
+          layout: "wide",
+        },
+      },
+      {
+        heading: "两个月、9天安排，循序推进导师培养",
+        paragraphs: [
+          "整个项目历时两个月，累计9天培训与督导：前4天分批开展学员课程和导师课程，之后安排连续5天督导。10位导师候选人分组进入真实课堂，每天由2位候选人接受观察和评估，并有3位学员参与课程练习。",
+          "把课堂学习和后续督导分开安排，给了候选人消化课程内容、熟悉教学材料和准备试讲的时间，也让导师培养从课堂知识延伸到实际授课。",
+        ],
+      },
+      {
+        heading: "每位候选人都为真实授课做足准备",
+        paragraphs: [
+          "导师候选人需要提前熟悉课程流程和教材，复习技能标准，并准备授课片段。胸外按压、AED 操作和急救技能的示范，不仅要动作规范，还要能看出学员练习中的问题，并给出清楚、及时的反馈。",
+          "准备过程让候选人从听课者逐步转为授课者：反复梳理课程内容，在练习中熟悉讲解顺序，也为督导中的课堂组织和技能评估打下基础。",
+        ],
+        image: {
+          src: "/images/g7.jpg",
+          alt: "导师在模拟人练习中指导汾阳医院导师候选人",
+          caption: "导师在模拟人练习中观察操作，并进行现场指导。",
+          width: 1200,
+          height: 900,
+          layout: "wide",
+        },
+      },
+      {
+        heading: "五天督导，在课堂中练习如何教",
+        paragraphs: [
+          "督导安排在有真实学员参与的课程中进行。候选人轮流承担教学任务，督导导师观察技能示范、教学表达、学员互动和课堂节奏，并根据现场表现提供反馈与改进建议。",
+          "真实课堂让教学能力有了具体的练习和检查过程：候选人既要掌握技能，也要让学员听得懂、跟得上、练得到。对医院而言，这一步帮助新导师把课程标准转化为可以在院内开展的教学实践。",
+        ],
+        image: {
+          src: "/images/g8.jpg",
+          alt: "汾阳医院培训现场，导师指导学员练习心肺复苏",
+          caption: "学员分组练习，导师在旁观察并及时反馈。",
+          width: 720,
+          height: 960,
+          layout: "wide",
+        },
+      },
+      {
+        heading: "培养10位导师，为培训基地建设夯实基础",
+        paragraphs: [
+          "经过学员课、导师课和后续督导，10位导师候选人完成了从技能学习到课堂实践的培养流程。项目把课程组织、技能练习、教学反馈和督导评估连成闭环，为汾阳医院急救培训基地建设补上院内师资与教学能力这一环。",
+          "一批导师的成长是持续培训的起点。今后，医院可依托这支队伍组织更多规范化急救课程、开展院内复训，并在教学实践中继续积累经验，让急救知识和技能在更多医务人员中传递。",
+        ],
+        image: {
+          src: "/images/g11.jpg",
+          alt: "山西省汾阳医院急救导师培养项目合影",
+          caption: "汾阳医院急救导师培养项目合影。",
+          width: 1200,
+          height: 743,
+          layout: "wide",
+        },
+      },
+    ],
+  },
   {
     slug: "first-aid-training-for-new-employment-groups",
     title: "外卖员、网约车司机为什么更需要实用的急救培训",

@@ -303,13 +303,14 @@ export default async function BlogPostPage({ params }: Props) {
 
               {section.image ? (
                 <figure className="mt-5 rounded-xl border border-neutral-200 bg-white p-4">
-                  <div className="mx-auto max-w-xs">
+                  <div className={section.image.layout === "wide" ? "mx-auto max-w-2xl" : "mx-auto max-w-xs"}>
                     <Image
                       src={section.image.src}
                       alt={section.image.alt}
-                      width={320}
-                      height={320}
-                      className="h-auto w-full"
+                      width={section.image.width ?? 320}
+                      height={section.image.height ?? 320}
+                      sizes={section.image.layout === "wide" ? "(max-width: 768px) 100vw, 672px" : "320px"}
+                      className="h-auto w-full rounded-lg"
                     />
                   </div>
                   {section.image.caption ? (
