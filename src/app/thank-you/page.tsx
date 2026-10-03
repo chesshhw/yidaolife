@@ -1,3 +1,4 @@
+import { INQUIRY_EMAIL } from "@/lib/inquiry";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -11,7 +12,7 @@ export default async function ThankYouPage({ searchParams }: { searchParams: Pro
     <h1 className="mt-5 text-4xl font-semibold leading-tight">{english ? "Thank you for your enquiry." : "感谢你的咨询。"}</h1>
     <p className="mt-6 text-lg leading-8 text-[var(--muted)]">{english ? "If you arrived here after submitting the form, your enquiry has been saved. We will review your request and contact you as soon as possible using the details you provided." : "如果你是提交表单后进入此页，本次咨询已保存。我们会查看需求并尽快通过你提供的联系方式回复。"}</p>
     <p className="mt-4 text-base leading-7 text-[var(--muted)]">{english ? "An enquiry does not reserve a course place. Dates, fees and teaching language will be confirmed separately." : "提交咨询不代表已预订课程，时间、费用和授课语言需另行确认。"}</p>
-    <a href="mailto:13512456138@163.com" className="mt-6 block break-all text-lg text-[var(--brand)] underline underline-offset-4">13512456138@163.com</a>
+    <a href={`mailto:${INQUIRY_EMAIL}`} className="mt-6 block break-all text-lg text-[var(--brand)] underline underline-offset-4">{INQUIRY_EMAIL}</a>
     <Link href={english ? "/en" : "/contact"} className="button-primary mt-8">{english ? "Back to training information" : "返回咨询页面"}</Link>
   </section>;
 }

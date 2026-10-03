@@ -1,4 +1,4 @@
-export const INQUIRY_EMAIL = "13512456138@163.com";
+export const INQUIRY_EMAIL = "contact@yidaolife.com";
 export const TRAINING_CITIES = [
   {
     "name": "Beijing",

@@ -1,3 +1,4 @@
+import { INQUIRY_EMAIL } from "@/lib/inquiry";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
@@ -47,7 +48,7 @@ export default async function TrainingLandingPage({ params }: { params: Promise<
     <div className="site-container grid items-start gap-10 py-12 sm:py-16 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
       <div className="space-y-10">
         {page.sections.map(section => <section key={section.title}><h2 className="text-2xl font-semibold leading-snug">{section.title}</h2><p className="mt-4 text-base leading-8 text-[var(--muted)]">{section.text}</p>{section.items && <ul className="mt-4 space-y-3">{section.items.map(item => <li key={item} className="flex gap-3 text-base leading-7"><span aria-hidden="true" className="text-[var(--brand)]">✓</span>{item}</li>)}</ul>}</section>)}
-        <p className="border-t border-[var(--border)] pt-6 text-sm leading-7 text-[var(--muted)]">Prefer email? <a className="break-all text-[var(--brand)] underline" href="mailto:13512456138@163.com">13512456138@163.com</a></p>
+        <p className="border-t border-[var(--border)] pt-6 text-sm leading-7 text-[var(--muted)]">Prefer email? <a className="break-all text-[var(--brand)] underline" href={`mailto:${INQUIRY_EMAIL}`}>{INQUIRY_EMAIL}</a></p>
       </div>
       <InquiryForm initialLanguage="en" defaultCity={page.city} defaultTraining={page.training} />
     </div>

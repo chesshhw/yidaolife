@@ -8,7 +8,7 @@ const exportsObject = {};
 vm.runInNewContext(source, { exports: exportsObject });
 const { validateInquiry, inquiryEmailText, INQUIRY_EMAIL } = exportsObject;
 const base = { name: 'Alex Test', company: 'Example Team', email: 'alex@example.com', phone: '+65 6123 4567', wechat: '', message: 'Shanghai / 12 participants / English instruction enquiry', city: 'Shanghai', participantCount: '12', trainingType: 'Corporate First Aid Training', preferredDate: '2026-12-01', consent: true, language: 'en', page: '/en', landingPage: '/en/aha-training-china', attribution: {gclid: 'test-click', utm_source: 'google'} };
-assert.equal(INQUIRY_EMAIL, '13512456138@163.com');
+assert.equal(INQUIRY_EMAIL, 'contact@yidaolife.com');
 assert.ok(validateInquiry(base));
 assert.ok(validateInquiry({ ...base, name: '王老师', language: 'zh', phone: '', company: '' }));
 for (const invalid of [null, [], 'text', { ...base, consent: false }, { ...base, email: 'a@example.com\r\nBcc: victim@example.com' }, { ...base, name: '\r\nInjected' }, { ...base, email: 'a,b@example.com' }, { ...base, email: 'bad address@example.com' }, { ...base, city: '' }, { ...base, message: 'x'.repeat(3001) }, { ...base, company: { text: 'bad' } }, { ...base, phone: 'abc' }, { ...base, language: 'fr' }, { ...base, participantCount: '-1' }, { ...base, participantCount: '1.5' }, { ...base, trainingType: 'unknown' }, { ...base, preferredDate: '2026-02-30' }, { ...base, attribution: { gclid: 'x'.repeat(201) } }]) assert.equal(validateInquiry(invalid), null);

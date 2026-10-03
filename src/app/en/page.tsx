@@ -1,3 +1,4 @@
+import { INQUIRY_EMAIL } from "@/lib/inquiry";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -47,7 +48,7 @@ export default function EnglishTrainingPage() {
             <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl">A clear brief.<br />A useful conversation.</h2>
             <p className="mt-5 text-base leading-8 text-[var(--muted)]">Let us know where in China you need training, who will attend and what you want to achieve. We will discuss course fit, scheduling and delivery with you.</p>
             <div className="mt-7 border-l-2 border-[var(--brand)] pl-5"><h3 className="text-base font-semibold">Need English-language instruction?</h3><p className="mt-2 text-base leading-7 text-[var(--muted)]">Mention it in your enquiry. Teaching language, instructor availability, course materials and dates need to be confirmed before booking.</p></div>
-            <div className="mt-8 border-t border-[var(--border)] pt-6"><p className="text-sm font-medium">Direct contact</p><a href="mailto:13512456138@163.com" className="mt-2 block break-all text-lg text-[var(--brand)] underline underline-offset-4">13512456138@163.com</a><a href="tel:+8613512456138" className="mt-3 inline-flex min-h-11 items-center text-lg text-[var(--brand)]">+86 135 1245 6138</a><p className="mt-1 text-sm text-[var(--muted)]">Contact: Huang / 黄老师</p></div>
+            <div className="mt-8 border-t border-[var(--border)] pt-6"><p className="text-sm font-medium">Direct contact</p><a href={`mailto:${INQUIRY_EMAIL}`} className="mt-2 block break-all text-lg text-[var(--brand)] underline underline-offset-4">{INQUIRY_EMAIL}</a><a href="tel:+8613512456138" className="mt-3 inline-flex min-h-11 items-center text-lg text-[var(--brand)]">+86 135 1245 6138</a><p className="mt-1 text-sm text-[var(--muted)]">Contact: Huang / 黄老师</p></div>
           </aside>
           <InquiryForm initialLanguage="en" />
         </div>

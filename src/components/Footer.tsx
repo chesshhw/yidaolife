@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { INQUIRY_EMAIL } from "@/lib/inquiry";
 import { usePathname } from "next/navigation";
 
 export default function Footer() {
   const pathname = usePathname();
-  if ((pathname === "/en" || pathname.startsWith("/en/"))) return <footer lang="en" className="border-t border-[var(--border)] bg-[var(--surface)] pb-24 pt-10 sm:pb-12"><div className="site-container"><div className="flex flex-wrap items-start justify-between gap-8"><div><p className="text-xl font-semibold">都会急救 · Yidaolife</p><p className="mt-3 text-sm leading-7 text-[var(--muted)]">First aid, CPR & AED training in China<br />Operated by 天津一道技术服务有限公司</p></div><div className="flex flex-col gap-2 text-sm"><Link href="/en#inquiry" className="text-link">Training enquiries</Link><Link href="/privacy" className="text-link">Enquiry privacy</Link><Link href="/" lang="zh-CN" className="text-link">中文网站</Link></div></div><p className="mt-8 border-t border-[var(--border)] pt-5 text-sm text-[var(--muted)]">© {new Date().getFullYear()} 都会急救</p></div></footer>;
+  if ((pathname === "/en" || pathname.startsWith("/en/"))) return <footer lang="en" className="border-t border-[var(--border)] bg-[var(--surface)] pb-24 pt-10 sm:pb-12"><div className="site-container"><div className="flex flex-wrap items-start justify-between gap-8"><div><p className="text-xl font-semibold">都会急救 · Yidaolife</p><p className="mt-3 text-sm leading-7 text-[var(--muted)]">First aid, CPR & AED training in China<br />Operated by 天津一道技术服务有限公司</p></div><div className="flex min-w-0 flex-col gap-2 text-sm"><a href={`mailto:${INQUIRY_EMAIL}`} className="text-link min-h-11 break-all">{INQUIRY_EMAIL}</a><Link href="/en#inquiry" className="text-link">Training enquiries</Link><Link href="/privacy" className="text-link">Enquiry privacy</Link><Link href="/" lang="zh-CN" className="text-link">中文网站</Link></div></div><p className="mt-8 border-t border-[var(--border)] pt-5 text-sm text-[var(--muted)]">© {new Date().getFullYear()} 都会急救</p></div></footer>;
   return (
     <footer className="border-t border-[var(--border)] bg-[#f5f7f4] pb-24 pt-14 sm:pb-12">
       <div className="site-container">
@@ -24,6 +25,7 @@ export default function Footer() {
           <div>
             <p className="text-sm font-semibold">课程咨询 · 黄老师</p>
             <a href="tel:13512456138" className="mt-3 inline-flex min-h-11 items-center text-2xl font-medium tabular-nums tracking-wide text-[var(--brand)]">13512456138</a>
+            <a href={`mailto:${INQUIRY_EMAIL}`} className="mt-1 flex min-h-11 items-center break-all text-base text-[var(--brand)] underline underline-offset-4">{INQUIRY_EMAIL}</a>
             <p className="mt-1 text-sm text-[var(--muted)]">个人报名 / 企业培训 / 城市排期</p>
             <Link href="/contact#contact-main" className="text-link mt-2">查看微信联系方式 <span aria-hidden>↗</span></Link>
           </div>

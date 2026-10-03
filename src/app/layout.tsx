@@ -1,3 +1,4 @@
+import { INQUIRY_EMAIL } from "@/lib/inquiry";
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
@@ -20,7 +21,7 @@ const organizationJsonLd = {
   contactPoint: {
     "@type": "ContactPoint",
     telephone: "13512456138",
-    email: "13512456138@163.com",
+    email: INQUIRY_EMAIL,
     contactType: "customer service",
     areaServed: "CN",
     availableLanguage: ["zh-CN"],
