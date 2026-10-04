@@ -4,6 +4,7 @@ import { BLOG_POSTS } from "@/data/blog";
 import { ENGLISH_TRAINING } from "@/data/english-training";
 
 const SITE_URL = "https://www.yidaolife.com";
+const LANDING_PAGES_UPDATED_AT = new Date("2026-10-04");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -21,8 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     },
     { url: `${SITE_URL}/about`, lastModified, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${SITE_URL}/contact`, lastModified, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${SITE_URL}/en`, lastModified: new Date("2026-09-30"), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/contact`, lastModified: LANDING_PAGES_UPDATED_AT, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE_URL}/en`, lastModified: LANDING_PAGES_UPDATED_AT, changeFrequency: "monthly", priority: 0.8 },
   ];
   const cityPages: MetadataRoute.Sitemap = getAllCitySlugs().map((slug) => ({
     url: `${SITE_URL}/city/${slug}`,
@@ -36,6 +37,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
-  const englishPages: MetadataRoute.Sitemap = Object.keys(ENGLISH_TRAINING).map(slug => ({ url: `${SITE_URL}/en/${slug}`, lastModified: new Date("2026-10-01"), changeFrequency: "monthly", priority: 0.8 }));
+  const englishPages: MetadataRoute.Sitemap = Object.keys(ENGLISH_TRAINING).map(slug => ({ url: `${SITE_URL}/en/${slug}`, lastModified: slug === "corporate-first-aid-training-china" ? LANDING_PAGES_UPDATED_AT : new Date("2026-10-01"), changeFrequency: "monthly", priority: 0.8 }));
   return [...staticPages, ...cityPages, ...blogPages, ...englishPages];
 }

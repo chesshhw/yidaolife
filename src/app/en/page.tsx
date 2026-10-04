@@ -7,7 +7,7 @@ import { ENGLISH_TRAINING } from "@/data/english-training";
 
 export const metadata: Metadata = {
   title: "First Aid, CPR & AED Training in China",
-  description: "Enquire about AHA Heartsaver courses and workplace first aid, CPR and AED training in China. Share your city, team size, dates and language needs with Yidaolife.",
+  description: "Individual course enquiries and corporate team training in China. Ask about AHA Heartsaver, first aid, CPR and AED courses, dates and teaching-language arrangements.",
   alternates: { canonical: "/en" },
   openGraph: { title: "First Aid, CPR & AED Training in China | 都会急救", description: "Practical first aid training for individuals and teams in China. Ask about course dates, workplace training and language arrangements.", url: "https://www.yidaolife.com/en", locale: "en_US" },
 };
@@ -20,8 +20,12 @@ export default function EnglishTrainingPage() {
           <div>
             <p className="text-sm font-semibold tracking-[0.12em] text-[var(--brand)]">YIDAOLIFE · 都会急救</p>
             <h1 className="mt-5 max-w-2xl text-4xl font-semibold leading-[1.13] tracking-tight sm:text-5xl lg:text-[56px]">AHA first aid,<br />CPR & AED training<br /><span className="text-[var(--brand)]">in China.</span></h1>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-[var(--muted)]">Hands-on CPR, AED and first aid courses for workplaces, schools and individuals. Start with your city and your team’s needs.</p>
-            <div className="mt-8 flex flex-wrap gap-3"><a href="#inquiry" className="button-primary">Request training information</a><Link href="/contact#inquiry" className="button-secondary" lang="zh-CN">中文咨询</Link></div>
+            <p className="mt-6 max-w-xl text-lg leading-8 text-[var(--muted)]">Hands-on CPR, AED and first aid training for individuals and corporate teams in China. Ask about a course for yourself or training for your workplace.</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/en/aha-training-china#inquiry" className="button-primary">Individual course enquiries</Link>
+              <Link href="/en/corporate-first-aid-training-china#inquiry" className="button-secondary">Corporate team training</Link>
+            </div>
+            <p className="mt-4 text-sm leading-6 text-[var(--muted)]">Course dates and teaching language are confirmed before booking. <Link href="/contact" lang="zh-CN" className="text-[var(--brand)] underline underline-offset-4">中文个人报名与企业咨询</Link></p>
             <p className="mt-6 text-sm leading-6 text-[var(--muted)]">Beijing · Shanghai · Tianjin · Other cities on request</p>
           </div>
           <figure className="overflow-hidden rounded-2xl border border-[var(--border)] bg-white">
@@ -34,8 +38,8 @@ export default function EnglishTrainingPage() {
         <p className="text-sm font-semibold tracking-widest text-[var(--brand)]">COURSES & TEAMS</p><h2 id="training-options" className="section-title mt-3">Find the right training format</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-3">
           {[
-            { title: "AHA Heartsaver courses", href: "/en/aha-training-china", text: "First aid, CPR and AED learning for people without a medical background. Ask which course and assessment match your needs." },
-            { title: "Workplace & group training", href: "/en/corporate-first-aid-training-china", text: "Plan a course around your team, location and training goals. Share your group size and ask about on-site arrangements." },
+            { title: "Individual course enquiries", href: "/en/aha-training-china", text: "Looking to learn first aid for yourself? Ask about AHA Heartsaver, CPR and AED courses in your city. Available dates, course requirements and teaching language are confirmed before booking." },
+            { title: "Corporate team training", href: "/en/corporate-first-aid-training-china", text: "Plan training for employees, schools or other groups. Share your city, team size and training goals, and ask about on-site arrangements." },
             { title: "Instructor training", href: "/en/aha-instructor-training-china", text: "Explore an instructor pathway. Confirm eligibility, course requirements, language and availability before planning your training." },
           ].map(item => <article key={item.title} className="surface-card p-6 sm:p-7"><h3 className="text-xl font-semibold leading-7"><Link href={item.href} className="underline decoration-[var(--border)] underline-offset-4">{item.title}</Link></h3><p className="mt-4 text-base leading-7 text-[var(--muted)]">{item.text}</p><Link href={item.href} className="text-link mt-5">Explore training →</Link></article>)}
         </div>
@@ -46,7 +50,7 @@ export default function EnglishTrainingPage() {
           <aside className="lg:sticky lg:top-28">
             <p className="text-sm font-semibold tracking-widest text-[var(--brand)]">LET’S PLAN YOUR COURSE</p>
             <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl">A clear brief.<br />A useful conversation.</h2>
-            <p className="mt-5 text-base leading-8 text-[var(--muted)]">Let us know where in China you need training, who will attend and what you want to achieve. We will discuss course fit, scheduling and delivery with you.</p>
+            <p className="mt-5 text-base leading-8 text-[var(--muted)]">This form welcomes individual and team enquiries. Tell us your city in China and what you want to learn. For a group, add the approximate number of participants and workplace location if known.</p>
             <div className="mt-7 border-l-2 border-[var(--brand)] pl-5"><h3 className="text-base font-semibold">Need English-language instruction?</h3><p className="mt-2 text-base leading-7 text-[var(--muted)]">Mention it in your enquiry. Teaching language, instructor availability, course materials and dates need to be confirmed before booking.</p></div>
             <div className="mt-8 border-t border-[var(--border)] pt-6"><p className="text-sm font-medium">Direct contact</p><a href={`mailto:${INQUIRY_EMAIL}`} className="mt-2 block break-all text-lg text-[var(--brand)] underline underline-offset-4">{INQUIRY_EMAIL}</a><a href="tel:+8613512456138" className="mt-3 inline-flex min-h-11 items-center text-lg text-[var(--brand)]">+86 135 1245 6138</a><p className="mt-1 text-sm text-[var(--muted)]">Contact: Huang / 黄老师</p></div>
           </aside>

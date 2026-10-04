@@ -1,18 +1,40 @@
 import { INQUIRY_EMAIL } from "@/lib/inquiry";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import InquiryForm from "@/components/InquiryForm";
 
 const PHONE = "13512456138";
+const PAGE_TITLE = "急救培训报名咨询｜个人课程与企业团体培训";
+const PAGE_DESCRIPTION = "联系都会急救黄老师，咨询个人急救课程、城市排期与企业团体培训。可通过在线表单、邮箱、电话或微信沟通，课程、日期、费用及授课语言在报名或预约前确认。";
+
+export const metadata: Metadata = {
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    url: "https://www.yidaolife.com/contact",
+    type: "website",
+    locale: "zh_CN",
+  },
+};
 
 export default function ContactPage() {
   return (
     <div>
       <section className="border-b border-[var(--border)] bg-[var(--surface)]">
-        <div className="site-container py-12 sm:py-16"><p className="eyebrow">都会急救 · 课程咨询</p><h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">从一次沟通开始</h1><p className="section-intro mt-5 max-w-2xl">个人报名、城市排期或企业团体培训，欢迎联系黄老师。告诉我们你的需求，一起确认合适的课程安排。</p></div>
+        <div className="site-container py-12 sm:py-16">
+          <p className="eyebrow">都会急救 · 课程咨询</p>
+          <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">个人报名与企业团体培训咨询</h1>
+          <p className="section-intro mt-5 max-w-2xl">想为自己学习急救，或为同事安排培训，都可以联系黄老师。个人可咨询所在城市的课程与排期；企业团体可沟通人数、培训地点和课程需求。</p>
+          <div className="mt-7 flex flex-wrap gap-3"><a href="#inquiry" className="button-primary">个人报名咨询</a><a href="#inquiry" className="button-secondary">企业团体咨询</a></div>
+          <p className="mt-4 text-sm leading-7 text-[var(--muted)]">两类咨询均可使用下方表单。课程、日期、授课语言和费用在报名或预约前确认。</p>
+        </div>
       </section>
       <div className="site-container grid items-start gap-8 py-12 sm:py-16 lg:grid-cols-[0.7fr_1.3fr] lg:gap-14">
-        <aside><p className="eyebrow">在线咨询 · ONLINE ENQUIRY</p><h2 className="section-title mt-4">留下需求，<br />我们通过邮箱联系你</h2><p className="section-intro mt-5">个人课程、企业团体培训或英文授课需求，都可以在右侧留言。手机号和微信选填，无需添加微信也能咨询。</p><Link href="/en" lang="en" className="text-link mt-5">First aid training in China · English</Link><p className="mt-6 break-all text-base text-[var(--brand)]"><a href={`mailto:${INQUIRY_EMAIL}`}>{INQUIRY_EMAIL}</a></p></aside>
+        <aside><p className="eyebrow">在线咨询 · ONLINE ENQUIRY</p><h2 className="section-title mt-4">留下需求，<br />我们通过邮箱联系你</h2><p className="section-intro mt-5">个人报名或企业团体培训均可通过表单留言。姓名、邮箱和培训城市为必填项；人数、单位、手机号和微信等可选填。英文授课需求请一并说明，以便确认安排。</p><Link href="/enterprise-training" className="text-link mt-4">先了解企业培训内容 →</Link><Link href="/en" lang="en" className="text-link mt-3">Individual & corporate enquiries · English</Link><p className="mt-6 break-all text-base text-[var(--brand)]"><a href={`mailto:${INQUIRY_EMAIL}`}>{INQUIRY_EMAIL}</a></p></aside>
         <InquiryForm />
       </div>
       <section id="contact-main" className="site-container scroll-mt-28 py-12 sm:py-16">

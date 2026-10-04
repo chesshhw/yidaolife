@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { trackAnalyticsEvent } from "@/lib/analytics";
 
 const WECHAT_ID = "HHW20190225";
 
@@ -11,8 +12,31 @@ export default function FloatingContact() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [copyStatus, setCopyStatus] = useState("");
+  const [formVisible, setFormVisible] = useState(false);
+  const [formFocused, setFormFocused] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const close = useCallback(() => setOpen(false), []);
+
+  useEffect(() => {
+    setFormVisible(false);
+    setFormFocused(false);
+    if (!(pathname === "/en" || pathname.startsWith("/en/")) || pathname === "/en/thank-you") return;
+    const form = document.getElementById("inquiry");
+    if (!form) return;
+    const observer = typeof IntersectionObserver === "undefined" ? null : new IntersectionObserver(entries => {
+      setFormVisible(entries.some(entry => entry.isIntersecting));
+    });
+    observer?.observe(form);
+    const onFocusIn = (event: FocusEvent) => setFormFocused(event.target instanceof Node && form.contains(event.target));
+    const onFocusOut = () => setFormFocused(false);
+    document.addEventListener("focusin", onFocusIn);
+    document.addEventListener("focusout", onFocusOut);
+    return () => {
+      observer?.disconnect();
+      document.removeEventListener("focusin", onFocusIn);
+      document.removeEventListener("focusout", onFocusOut);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -37,14 +61,18 @@ export default function FloatingContact() {
         if (!copied) throw new Error("Copy unavailable");
       }
       setCopyStatus("微信号已复制");
+      trackAnalyticsEvent("wechat_copy", { placement: "floating_contact" });
     } catch { setCopyStatus("请长按上方微信号复制"); }
   };
 
-  if ((pathname === "/en" || pathname.startsWith("/en/"))) return <a href={pathname === "/en/thank-you" ? "/en#inquiry" : "#inquiry"} lang="en" className="fixed bottom-[max(16px,env(safe-area-inset-bottom))] right-4 z-40 inline-flex min-h-12 items-center rounded-full border border-white/30 bg-[var(--brand)] px-5 py-3 text-sm font-medium text-white shadow-lg">Enquire</a>;
+  if (pathname === "/en" || pathname.startsWith("/en/")) {
+    if (pathname === "/en/thank-you" || formVisible || formFocused) return null;
+    return <a href="#inquiry" lang="en" className="fixed bottom-[max(16px,env(safe-area-inset-bottom))] right-4 z-40 inline-flex min-h-12 items-center rounded-full border border-white/30 bg-[var(--brand)] px-5 py-3 text-sm font-medium text-white shadow-lg">Enquire</a>;
+  }
 
   return (
     <>
-      <button type="button" onClick={() => { setCopyStatus(""); setOpen(true); }} className="fixed bottom-[max(16px,env(safe-area-inset-bottom))] right-4 z-40 flex h-12 w-12 items-center justify-center gap-2 rounded-full border border-white/30 bg-[var(--brand)] px-0 text-sm font-medium text-white shadow-lg transition-colors hover:bg-[#193f34] sm:bottom-6 sm:right-6 sm:w-auto sm:px-5" aria-label="打开微信咨询">
+      <button type="button" onClick={() => { setCopyStatus(""); setOpen(true); trackAnalyticsEvent("contact_click", { method: "wechat", placement: "floating_contact" }); }} className="fixed bottom-[max(16px,env(safe-area-inset-bottom))] right-4 z-40 flex h-12 w-12 items-center justify-center gap-2 rounded-full border border-white/30 bg-[var(--brand)] px-0 text-sm font-medium text-white shadow-lg transition-colors hover:bg-[#193f34] sm:bottom-6 sm:right-6 sm:w-auto sm:px-5" aria-label="打开微信咨询">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="hidden h-5 w-5 sm:block" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M20 11.5a8 8 0 0 1-8 8 9 9 0 0 1-3.5-.7L4 20l1.2-4.2A7.8 7.8 0 0 1 4 11.5a8 8 0 0 1 16 0Z"/><path strokeLinecap="round" d="M8 11.5h.01M12 11.5h.01M16 11.5h.01"/></svg>
         <span className="hidden sm:inline">微信咨询</span><span className="sm:hidden">咨询</span>
       </button>

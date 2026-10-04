@@ -1,11 +1,11 @@
 import { INQUIRY_EMAIL } from "@/lib/inquiry";
 import type { Metadata } from "next";
-import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingContact from "@/components/FloatingContact";
 import AttributionCapture from "@/components/AttributionCapture";
+import Analytics from "@/components/Analytics";
 
 const SITE_NAME = "都会急救";
 const SITE_URL = "https://www.yidaolife.com";
@@ -90,18 +90,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-8B4KHDJH9E"
-          strategy="afterInteractive"
-        />
-        <Script id="ga4" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-8B4KHDJH9E', { anonymize_ip: true });
-          `}
-        </Script>
+        <Analytics deploymentEnvironment={process.env.VERCEL_ENV} />
       </body>
     </html>
   );

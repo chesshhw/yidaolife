@@ -33,7 +33,7 @@ export default function Header() {
     <header lang="en" className="fixed inset-x-0 top-0 z-50 border-b border-[var(--border)] bg-white/95 backdrop-blur-md">
       <div className="site-container flex h-[72px] items-center justify-between gap-3 lg:h-20">
         <Link href="/en" aria-label="Yidaolife training home" className="flex shrink-0 items-center gap-2"><Image src="/images/logo.png" alt="" width={44} height={42} className="h-11 w-11 object-contain" /><span className="text-base font-semibold sm:text-lg">都会急救<span className="mt-0.5 block text-xs tracking-widest text-[var(--muted)]">YIDAOLIFE</span></span></Link>
-        <nav aria-label="Training navigation" className="flex items-center gap-3 sm:gap-6"><Link href="/contact" lang="zh-CN" className="flex min-h-11 items-center text-sm text-[var(--brand)]">中文</Link><a href={pathname === "/en/thank-you" ? "/en#inquiry" : "#inquiry"} className="button-primary !min-h-11 !px-3 sm:!px-5">Enquire</a></nav>
+        <nav aria-label="Training navigation" className="flex items-center gap-3 sm:gap-6"><Link href={pathname === "/en/corporate-first-aid-training-china" ? "/enterprise-training" : "/contact"} lang="zh-CN" className="flex min-h-11 items-center text-sm text-[var(--brand)]">中文</Link><a href={pathname === "/en/thank-you" ? "/en#inquiry" : "#inquiry"} className="button-primary !min-h-11 !px-3 sm:!px-5">Enquire</a></nav>
       </div>
     </header>
   );
