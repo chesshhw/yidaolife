@@ -28,7 +28,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "是否提供证书？有效期多久？",
-    a: "全天标准方案含考核合格后签发的电子证书，有效期 2 年。2 小时/半天方案以普及为主，不含证书。",
+    a: "全天标准方案完成课程并考核合格后，可获得对应的 AHA 课程完成证书，有效期 2 年。中国大陆部分相关证书官网查询目前可能受限，具体证书形式与查询安排请在报名前与培训中心确认；已有证书核验请联系原发证培训中心。2 小时/半天方案以普及为主，不含证书。",
   },
   {
     q: "是否可以开具发票/合同流程如何？",
@@ -193,7 +193,7 @@ export default function EnterpriseFirstAidTrainingPage() {
             <article className="rounded-2xl border border-neutral-200 bg-neutral-50/50 p-5">
               <h3 className="text-base font-semibold text-neutral-900">标准全天（含证书）</h3>
               <p className="mt-2 text-sm text-neutral-600">适合：年度安全培训、关键岗位、管理层</p>
-              <p className="mt-2 text-sm text-neutral-700">输出：考核合格签发电子证书（有效期2年）</p>
+              <p className="mt-2 text-sm text-neutral-700">输出：完成课程并考核合格后签发对应课程完成证书（有效期2年），具体形式与查询安排报名前确认。</p>
             </article>
             <article className="rounded-2xl border border-neutral-200 bg-neutral-50/50 p-5">
               <h3 className="text-base font-semibold text-neutral-900">半天强化（偏实操）</h3>
@@ -207,6 +207,14 @@ export default function EnterpriseFirstAidTrainingPage() {
             </article>
           </div>
         </section>
+
+        <p className="mt-5 text-sm leading-7 text-neutral-700">
+          报名前可查看
+          <Link href="/blog/aha-certificate-verification-mainland-china" className="mx-1 underline hover:no-underline">
+            中国大陆 AHA 证书与官网验证说明
+          </Link>
+          ，已有证书的核验请联系原发证培训中心。
+        </p>
 
         {/* Section 4 */}
         <section className="mt-14 space-y-4">

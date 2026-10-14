@@ -84,7 +84,7 @@ export function getCityFaqItems(city: City): CityFaqItem[] {
     },
     {
       question: "证书可以查询吗？",
-      answer: "证书由 AHA 授权体系签发，学员可按照证书信息进行查询和核验。",
+      answer: "中国大陆部分相关证书官网查询目前可能受限。证书形式与查询安排请在报名前与培训中心确认；已有证书核验请联系原发证培训中心，核对课程、考核及证书记录。",
     },
     {
       question: `${short}企业可以单独预约急救培训吗？`,

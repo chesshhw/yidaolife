@@ -38,7 +38,7 @@ const FAQS = [
   { q: "没有医学背景，可以参加吗？", a: "可以。AHA Heartsaver 课程面向公众，适合个人、企业员工、教师、教练和家长等非医疗人员学习。" },
   { q: "急救培训需要多久？", a: "AHA Heartsaver 急救员课程通常安排一天，包含课程学习、实操练习与技能考核。具体时间请查看所在城市的课程安排。" },
   { q: "企业可以组织团体培训吗？", a: "可以。可根据参训人数、所在城市、场地和培训目标沟通团体培训或上门授课安排。" },
-  { q: "完成课程后，证书如何查询？", a: "完成相应课程并通过技能考核后，可获得对应的 AHA 课程证书，并在官方系统查询。报名前可向老师了解具体课程与证书要求。" },
+  { q: "完成课程后，证书如何查询？", a: "完成相应课程并通过技能考核后，可获得对应的 AHA 课程证书。中国大陆部分相关证书官网查询目前可能受限；证书形式与查询安排请在报名前与培训中心确认，已有证书核验请联系原发证培训中心。" },
 ];
 
 export default function HomePage() {
@@ -133,7 +133,7 @@ export default function HomePage() {
 
       <section className="section-space border-t border-[var(--border)] bg-[var(--surface)]" aria-labelledby="faq-heading">
         <div className="site-container grid gap-8 lg:grid-cols-[0.8fr_1.4fr] lg:gap-20">
-          <div><p className="eyebrow">报名前，你可能想了解</p><h2 id="faq-heading" className="section-title mt-3">常见问题</h2><Link href="/contact" className="text-link mt-5">向老师咨询 <span aria-hidden>↗</span></Link></div>
+          <div><p className="eyebrow">报名前，你可能想了解</p><h2 id="faq-heading" className="section-title mt-3">常见问题</h2><div className="mt-5 flex flex-col items-start gap-4"><Link href="/contact" className="text-link">向老师咨询 <span aria-hidden>↗</span></Link><Link href="/blog/aha-certificate-verification-mainland-china" className="text-link">中国大陆 AHA 证书与官网验证说明 <span aria-hidden>↗</span></Link></div></div>
           <div className="divide-y divide-[var(--border)]">
             {FAQS.map(({q,a}) => <article key={q} className="py-6 first:pt-0"><h3 className="text-base font-semibold sm:text-lg">{q}</h3><p className="mt-3 text-sm leading-7 text-[var(--muted)] sm:text-base">{a}</p></article>)}
           </div>

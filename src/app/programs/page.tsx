@@ -133,7 +133,7 @@ export default function ProgramsPage() {
       </section>
       <section className="section-space border-y border-[var(--border)] bg-[var(--surface)]">
         <div className="site-container grid items-center gap-8 md:grid-cols-2 lg:gap-16">
-          <div><p className="eyebrow">课程与机构信息</p><h2 className="section-title mt-3">了解课程，再作选择</h2><p className="section-intro mt-5">都会急救由天津一道技术服务有限公司运营。报名前，欢迎了解课程内容、导师指导方式、实操安排与考核要求。</p><Link href="/about" className="text-link mt-5">了解都会急救 <span aria-hidden>↗</span></Link></div>
+          <div><p className="eyebrow">课程与机构信息</p><h2 className="section-title mt-3">了解课程，再作选择</h2><p className="section-intro mt-5">都会急救由天津一道技术服务有限公司运营。报名前，欢迎了解课程内容、导师指导方式、实操安排与考核要求。</p><p className="section-intro mt-3">中国大陆部分相关证书官网查询目前可能受限。具体证书形式与查询安排请在报名前与培训中心确认，已有证书核验请联系原发证培训中心。</p><div className="mt-5 flex flex-col items-start gap-4"><Link href="/about" className="text-link">了解都会急救 <span aria-hidden>↗</span></Link><Link href="/blog/aha-certificate-verification-mainland-china" className="text-link">中国大陆 AHA 证书与官网验证说明 <span aria-hidden>↗</span></Link></div></div>
           <a href="/images/license.png" target="_blank" rel="noopener noreferrer" className="block rounded-xl border border-[var(--border)] bg-white p-4" aria-label="查看课程授权资料原图"><Image src="/images/license.png" alt="网站提供的课程授权资料，点击查看原图" width={760} height={540} sizes="(max-width: 767px) 100vw, 540px" className="h-auto w-full" /><span className="mt-3 block text-center text-xs text-[var(--muted)]">课程授权资料 · 点击查看原图</span></a>
         </div>
       </section>

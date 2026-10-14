@@ -230,7 +230,16 @@ export default function EnterpriseTrainingPage() {
 
         <section className="mb-12 border-b border-[var(--border)] pb-12 last:border-0">
           <h2 className="text-2xl font-semibold leading-[1.5] text-[var(--foreground)]">相关文章推荐</h2>
+          <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
+            团体培训有证书要求时，请在报名前与培训中心确认具体证书形式与查询安排。中国大陆部分相关证书官网查询目前可能受限，已有证书核验请联系原发证培训中心。
+          </p>
           <div className="mt-4 grid gap-3">
+            <Link
+              href="/blog/aha-certificate-verification-mainland-china"
+              className="rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-800 hover:bg-neutral-50 transition-colors"
+            >
+              中国大陆 AHA 证书与官网验证说明
+            </Link>
             <Link
               href="/blog/why-companies-need-first-aid-training"
               className="rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-800 hover:bg-neutral-50 transition-colors"

@@ -137,6 +137,13 @@ export default function CityPage({ city, slug }: CityPageProps) {
           <p className={`mt-3 ${P_CLASS}`}>
             完成培训并通过考核后，学员可获得 AHA Heartsaver 急救员证书，证书有效期为2年。
           </p>
+          <p className={`mt-3 ${P_CLASS}`}>
+            证书形式与当前查询安排请在报名前与培训中心确认。查看
+            <Link href="/blog/aha-certificate-verification-mainland-china" className="mx-1 underline hover:no-underline">
+              中国大陆 AHA 证书与官网验证说明
+            </Link>
+            ，了解查询受限时如何联系原发证培训中心核对。
+          </p>
           <div className="mt-6">
             <CityCtaBlock short={short} />
           </div>
