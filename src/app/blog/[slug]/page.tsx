@@ -66,6 +66,19 @@ export default async function BlogPostPage({ params }: Props) {
 
   if (!post) notFound();
 
+  const renderText = (text: string) => {
+    if (!post.sources?.length) return text;
+    return text.split(/\[(S\d+)\]/g).map((part, index) => {
+      if (index % 2 === 0) return part;
+      const source = post.sources?.find((item) => item.id === part);
+      return source ? (
+        <sup key={`${part}-${index}`} className="ml-1 text-[11px]">
+          <a href={`#source-${source.id}`} aria-label={`来源 ${source.id.slice(1)}：${source.publisher}`} className="underline underline-offset-2">[{source.id.slice(1)}]</a>
+        </sup>
+      ) : `[${part}]`;
+    });
+  };
+
   const related = post.relatedSlugs?.length
     ? post.relatedSlugs
         .map((relatedSlug) => getBlogPostBySlug(relatedSlug))
@@ -113,6 +126,7 @@ export default async function BlogPostPage({ params }: Props) {
       "@type": "WebPage",
       "@id": pageUrl,
     },
+    ...(post.sources?.length ? { citation: post.sources.map((source) => source.url) } : {}),
     ...(ogImage
       ? {
           image: [`${SITE_URL}${ogImage.src}`],
@@ -186,7 +200,7 @@ export default async function BlogPostPage({ params }: Props) {
             <section className="-mt-2">
               {post.lead.map((p) => (
                 <p key={p} className="mt-3 text-neutral-700 leading-relaxed">
-                  {p}
+                  {renderText(p)}
                 </p>
               ))}
             </section>
@@ -197,18 +211,18 @@ export default async function BlogPostPage({ params }: Props) {
               <h2 className="text-xl font-semibold leading-[1.5] text-[var(--foreground)] sm:text-2xl">{section.heading}</h2>
               {section.paragraphs.map((p) => (
                 <p key={p} className="mt-3 text-neutral-700 leading-relaxed">
-                  {p}
+                  {renderText(p)}
                 </p>
               ))}
 
               {section.blocks?.map((block, index) =>
                 block.type === "list" ? (
                   <ul key={index} className="mt-3 list-disc pl-5 text-neutral-700 space-y-2">
-                    {block.items.map((item) => <li key={item}>{item}</li>)}
+                    {block.items.map((item) => <li key={item}>{renderText(item)}</li>)}
                   </ul>
                 ) : (
                   <p key={index} className="mt-3 text-neutral-700 leading-relaxed">
-                    {block.text}
+                    {renderText(block.text)}
                     {block.links?.map((link) => (
                       <a key={link.url} href={link.url} className="ml-1 underline hover:no-underline break-words" target="_blank" rel="noopener noreferrer">{link.text}</a>
                     ))}
@@ -218,12 +232,13 @@ export default async function BlogPostPage({ params }: Props) {
 
               {section.table && (
                 <div className="mt-4 overflow-x-auto rounded-xl border border-neutral-200">
-                  <table className="w-full text-sm">
-                    <thead className="bg-neutral-50">
+                  <table className={`w-full text-sm ${section.table.mobileCards ? "block sm:table" : ""}`}>
+                    <thead className={`bg-neutral-50 ${section.table.mobileCards ? "hidden sm:table-header-group" : ""}`}>
                       <tr>
                         {section.table.headers.map((h) => (
                           <th
                             key={h}
+                            scope="col"
                             className="px-4 py-3 text-left font-semibold text-neutral-900 whitespace-nowrap"
                           >
                             {h}
@@ -231,12 +246,13 @@ export default async function BlogPostPage({ params }: Props) {
                         ))}
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className={section.table.mobileCards ? "block sm:table-row-group" : undefined}>
                       {section.table.rows.map((row) => (
-                        <tr key={row.join("|")} className="border-t border-neutral-200">
+                        <tr key={row.join("|")} className={`border-t border-neutral-200 ${section.table?.mobileCards ? "block first:border-t-0 sm:table-row" : ""}`}>
                           {row.map((cell, idx) => (
-                            <td key={`${idx}-${cell}`} className="px-4 py-3 text-neutral-700 whitespace-nowrap">
-                              {cell}
+                            <td key={`${idx}-${cell}`} className={`px-4 py-3 text-neutral-700 ${section.table?.mobileCards ? "block whitespace-normal break-words leading-7 sm:table-cell sm:align-top" : "whitespace-nowrap"}`}>
+                              {section.table?.mobileCards ? <span className="mb-1 block text-xs font-medium text-neutral-500 sm:hidden">{section.table.headers[idx]}</span> : null}
+                              {renderText(cell)}
                             </td>
                           ))}
                         </tr>
@@ -249,7 +265,7 @@ export default async function BlogPostPage({ params }: Props) {
               {section.bullets && (
                 <ul className="mt-3 list-disc list-inside text-neutral-700 space-y-1">
                   {section.bullets.map((item) => (
-                    <li key={item}>{item}</li>
+                    <li key={item}>{renderText(item)}</li>
                   ))}
                 </ul>
               )}
@@ -359,6 +375,23 @@ export default async function BlogPostPage({ params }: Props) {
             </section>
           ))}
         </div>
+
+        {post.sources?.length ? (
+          <section className="mt-12 border-t border-neutral-200 pt-8" aria-labelledby="article-sources">
+            <h2 id="article-sources" className="text-xl font-semibold text-neutral-900">官方资料与核验说明</h2>
+            <p className="mt-3 text-sm leading-7 text-neutral-600">
+              {post.sourcesVerifiedAt ? `资料核验日期：${post.sourcesVerifiedAt}。` : ""}未标注发布日期的页面，以核验时的页面内容为据。资格要求可能更新，申请时请再次查看具体项目规则。
+            </p>
+            <ol className="mt-4 list-decimal space-y-4 pl-5 text-sm leading-7 text-neutral-700">
+              {post.sources.map((source) => (
+                <li key={source.id} id={`source-${source.id}`} className="scroll-mt-24 break-words">
+                  <a href={source.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">{source.publisher} · {source.title}</a>
+                  <p className="text-xs leading-6 text-neutral-500">{source.date ?? "页面未明确标注更新时间"}{source.note ? `；${source.note}` : ""}</p>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ) : null}
 
         {post.slug === "why-companies-need-first-aid-training" && (
           <section className="mt-8 rounded-xl border border-neutral-200 bg-neutral-50 p-4">

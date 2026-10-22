@@ -7,7 +7,7 @@ export type BlogSection = {
   >;
   bullets?: string[];
   links?: Array<{ label: string; href: string }>;
-  table?: { headers: string[]; rows: string[][] };
+  table?: { headers: string[]; rows: string[][]; mobileCards?: boolean };
   image?: {
     src: string;
     alt: string;
@@ -49,6 +49,15 @@ export type BlogPost = {
   lead?: string[];
   /** FAQ（用于页面展示与 FAQPage schema） */
   faqItems?: Array<{ q: string; a: string }>;
+  sources?: Array<{
+    id: string;
+    title: string;
+    publisher: string;
+    url: string;
+    date?: string | null;
+    note?: string;
+  }>;
+  sourcesVerifiedAt?: string;
   bottomCta?: {
     primary: { label: string; modalTitle: string; qrImageSrc: string; qrAlt: string };
     secondary: { label: string; href: string };
@@ -57,6 +66,341 @@ export type BlogPost = {
 };
 
 export const BLOG_POSTS: BlogPost[] = [
+  {
+    "slug": "fitness-certification-cpr-aed-requirements",
+    "title": "健身教练考证需要 CPR/AED 证书吗？NSCA、ACSM、ACE、NASM 要求与纸质证书说明",
+    "seoTitle": "健身教练CPR/AED证书要求与AHA纸质卡｜都会急救",
+    "excerpt": "对照 NSCA、ACSM、ACE、NASM 的急救资格要求，区分 PADI 的 CPR 与 First Aid 前置条件，并说明中国大陆 AHA 纸质课程完成卡的使用与核验。",
+    "description": "准备 NSCA、ACSM、ACE 或 NASM 健身认证？了解 CPR/AED、实操与提交时间要求，区分 PADI 急救条件，以及大陆 AHA 纸质证书如何使用和核验。",
+    "publishedAt": "2026-10-22",
+    "brand": "都会急救",
+    "organization": "天津一道技术服务有限公司",
+    "topics": [
+      "健身教练CPR AED证书",
+      "NSCA CPR AED",
+      "ACSM CPR AED",
+      "ACE成人CPR",
+      "NASM CPR AED",
+      "PADI急救培训",
+      "AHA纸质证书",
+      "Heartsaver"
+    ],
+    "relatedSlugs": [
+      "aha-certificate-verification-mainland-china",
+      "why-first-aid-hands-on-practice-matters",
+      "reduce-risk-sudden-cardiac-arrest-during-exercise"
+    ],
+    "lead": [
+      "准备健身教练、体能训练或潜水相关认证时，除了专业课程与考试，急救培训证明也是需要提前核对的材料。CPR 指心肺复苏，AED 指自动体外除颤器；它们与 First Aid（急救）相关，但不能把这些课程名称直接当成同一种资格。",
+      "先看结论：NSCA-CPT、CSCS、ACSM-CPT 和 NASM-CPT 均设有 CPR/AED 要求；ACE 对成人 CPR 有明确要求，AED 则存在地区差异。PADI 部分进阶和职业课程要求 CPR 加急救培训，不能仅凭一张写着 CPR/AED 的卡就认定全部满足。"
+    ],
+    "sections": [
+      {
+        "heading": "一、四家常见健身认证，对急救证书分别有什么要求？",
+        "paragraphs": [
+          "下面按具体认证项目比较，资料核验日期为2026年10月22日。表格聚焦急救条件，不替代各项目对年龄、学历、专业背景等其他资格的要求。"
+        ],
+        "table": {
+          "headers": [
+            "认证项目",
+            "急救培训要求",
+            "什么时候需要准备"
+          ],
+          "rows": [
+            [
+              "NSCA-CPT / CSCS",
+              "有效 CPR/AED，含动手技能考核。首次认证应按 NSCA 要求选择课程。",
+              "可以先考，在考试日起1年内补交有效证明；所有资格满足后才取得认证。[S1][S2][S3]"
+            ],
+            [
+              "ACSM-CPT / ACSM-EP",
+              "有效成人 CPR/AED，须有现场、面对面的实操考核。",
+              "申请或报名考试时核对资格；不接受完全没有现场实操的纯线上课程。[S4][S5][S6]"
+            ],
+            [
+              "ACE Certified Personal Trainer",
+              "有效成人 CPR，含现场或虚拟实操技能考核；AED 要求因地区而异。",
+              "注册及参加认证考试时须符合资格，证书应在考试日有效。[S7][S8][S9]"
+            ],
+            [
+              "NASM-CPT（NCCA认证考试）",
+              "有效 CPR/AED。NASM 对其指定线上课程另有接受安排。",
+              "考试前取得，考试当天须出示有效证明；购买学习课程与参加认证考试是不同环节。[S10][S11]"
+            ]
+          ],
+          "mobileCards": true
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "ACE 的官方页面对 AED 必需地区的列举存在差异，但均不能支持“中国大陆报考 ACE 一律强制 AED”的说法。对于实际训练场景，学习 AED 仍有价值；学习建议与考试硬性条件应分开理解。[S7][S8]"
+          },
+          {
+            "type": "paragraph",
+            "text": "ACSM-CEP 属于不同层级，现行资格列有 BLS、ACLS 或 Professional Rescuer CPR，并要求现场实操。不要把一般 Heartsaver 课程直接当作所有 ACSM 认证的通用替代。[S6]"
+          }
+        ]
+      },
+      {
+        "heading": "二、AHA Heartsaver 可以用于健身教练考证吗？",
+        "paragraphs": [
+          "AHA（美国心脏协会）的 Heartsaver CPR AED，以及包含急救内容的 Heartsaver First Aid CPR AED，是可以按目标资格要求核对的培训路径。选择时要核对课程全名、实际完成的模块、技能考核及卡片有效期，不能只看“AHA”或“HS”缩写。",
+          "ACE 等机构列有多个可接受培训提供方，ACSM 也明确强调课程要求而非只限定一家培训机构。因此，正确的说法是“AHA 是可供考虑的培训路径之一”，而不是“这些认证只承认 AHA”。[S5][S9]"
+        ],
+        "bullets": [
+          "需要成人 CPR 和 AED 时，确认这两个模块都实际完成；只学 First Aid 不能自动替代 CPR/AED。",
+          "需要 First Aid 时，确认选择的是包含急救模块的课程，不要只按 CPR/AED 名称报名。",
+          "AHA Heartsaver 是课程系列。现行国际课程页特别注明 Heartsaver Basic 不面向岗位或监管资格要求，不应把所有版本都宣传为“考证通用”。[S14]",
+          "AHA Heartsaver CPR AED 课程完成卡通常有效两年。专业认证的续证周期不等于急救卡有效期，应以卡片及报考规则为准。[S18]"
+        ],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "如果计划将同一份急救证明用于多个认证或雇主审核，优先逐项核对实操与课程级别。NASM 接受的某种线上课程，不代表 NSCA、ACSM 或 PADI 也接受同一课程。[S3][S5][S11][S12]"
+          }
+        ]
+      },
+      {
+        "heading": "三、准备 PADI 救援潜水员、潜水长或教练课程，还要注意 First Aid",
+        "paragraphs": [
+          "PADI 官方说明，Rescue Diver（救援潜水员）、Divemaster（潜水长）和 Instructor（教练）相关课程需要近24个月内的 CPR 与 First Aid 培训。EFR Primary and Secondary Care 是其列明的路径，其他机构课程需要按内容和实操要求核对。[S12]",
+          "PADI 同时明确，单独的 EFR CPR & AED 课程不满足上述三类课程的急救前置条件。可见“学过 CPR/AED”和“已满足 PADI 要求”不是一回事。[S12]",
+          "如果选择 AHA 等其他机构课程，建议先将课程全名、所含模块和实操安排交给 PADI 教练确认。潜水教练路线还有其他资格条件，不能将一张普通学员课程完成卡写成获得教练资格的充分条件。[S12][S13]"
+        ]
+      },
+      {
+        "heading": "四、中国大陆的 AHA 纸质证书，没有电子版还能使用吗？",
+        "paragraphs": [
+          "都会急救目前在中国大陆安排的 AHA 课程，统一发放纸质课程完成卡，不提供 AHA eCard（电子课程完成卡）。这是都会急救当前的发卡安排。",
+          "可以作为课程完成凭证使用。纸质形式本身不会使一张真实、有效的 AHA 课程完成卡失效；没有电子版，也不能单独成为认定证书不正规的依据。具体用于哪项认证，还需满足该项目的课程、实操、有效期及材料提交要求。",
+          "AHA 在2020年12月的国际电子卡说明中曾明确，中国当时暂不强制使用 eCard；2026年国际管理文件也继续规定适用地区纸质卡的管理办法。纸质卡是正式管理的课程完成凭证形式，学员无需仅因没有电子版就重复参加培训。其他培训中心的具体发卡方式，以其当期安排为准。[S15][S17]",
+          "“纸质卡能作为培训凭证使用”与“任何申请都一定审核通过”需要区分。以 NSCA 为例，其2026年认证手册允许提交 CPR/AED 证书正反面的扫描件、复印件等材料供审核，并没有把电子卡列为唯一提交形式。[S3]"
+        ],
+        "bullets": [
+          "留好卡片正反面，核对姓名、课程名称、发证与到期信息、培训中心信息。",
+          "报考平台要求上传文件时，按要求提供清晰扫描件；纸质卡的扫描件不等于 AHA 系统签发的 eCard。",
+          "需要核验真伪或课程记录时，联系原发证培训中心。AHA 官方列明了这条核验渠道。[S16]",
+          "如果接收单位要求特定编号、验证方式或额外证明，先把要求交给培训中心确认，再安排报考。"
+        ],
+        "links": [
+          {
+            "label": "延伸阅读：中国大陆 AHA 证书与官网核验说明",
+            "href": "/blog/aha-certificate-verification-mainland-china"
+          }
+        ]
+      },
+      {
+        "heading": "五、报名前，把这五件事一次问清楚",
+        "paragraphs": [
+          "把目标认证放在课程选择之前，可以减少重复培训或临近考试时补材料的情况。"
+        ],
+        "bullets": [
+          "准确项目：是 NSCA-CPT、CSCS、ACSM-CPT、ACE Certified Personal Trainer、NASM-CPT，还是某一级别的 PADI 课程？",
+          "课程模块：需要成人 CPR、AED、First Aid，还是 BLS 等更高层级？",
+          "实操形式：要求现场考核，允许虚拟技能考核，还是有特定线上课程例外？",
+          "时间安排：何时交材料、考试日是否仍有效，以及培训中心的发卡周期。",
+          "凭证材料：当前发纸质卡还是 eCard，需提交哪些页面，以及遇到核验问题联系谁。"
+        ],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "滑雪、登山及赛事急救跑者等项目的条件由具体组织或赛事制定。计划将同一张急救卡用于这些场景时，也应先核对当期招募或资格文件。"
+          }
+        ]
+      },
+      {
+        "heading": "六、个人考证与企业团体培训，都可以先按用途沟通",
+        "paragraphs": [
+          "个人学员咨询时，可以告诉都会急救：目标认证、预计考试日期和所在城市，便于沟通课程模块、实操安排及发卡方式。",
+          "健身房、工作室或企业组织团体培训时，可以一并说明人数、岗位和场地设备，让培训需求与团队实际使用场景相匹配。具体课程、排期及费用以咨询确认的安排为准。"
+        ],
+        "links": [
+          {
+            "label": "查看个人急救课程",
+            "href": "/programs"
+          },
+          {
+            "label": "查看开课城市",
+            "href": "/cities"
+          },
+          {
+            "label": "了解企业与团体培训",
+            "href": "/enterprise-training"
+          },
+          {
+            "label": "咨询课程与证书安排",
+            "href": "/contact#inquiry"
+          }
+        ]
+      },
+      {
+        "heading": "常见问题",
+        "paragraphs": []
+      }
+    ],
+    "faqItems": [
+      {
+        "q": "NSCA、ACSM、ACE、NASM 都必须考 AHA Heartsaver 吗？",
+        "a": "不是。相关认证对急救培训有要求，但并非只接受 AHA。应按具体项目核对课程模块、实操考核、有效期与提交时间；ACE 的 AED 要求还有地区差异。"
+      },
+      {
+        "q": "没有电子版，AHA 纸质证书就不能用于健身认证吗？",
+        "a": "不能这样判断。都会急救目前在中国大陆安排的AHA课程统一发放纸质课程完成卡，不提供AHA eCard。真实有效的纸质卡不会仅因没有电子版而失效，NSCA也允许提交证书正反面扫描件等材料。具体申请是否符合条件，还取决于课程内容、实操、有效期和接收机构规则。"
+      },
+      {
+        "q": "是不是必须先取得 CPR/AED 证书，才能参加 NSCA 考试？",
+        "a": "NSCA-CPT和CSCS允许未持当前有效CPR/AED证明的候选人先报名考试，并在考试日起一年内补交有效材料；完成全部资格条件后才取得认证。实际安排应查阅当前资格页。"
+      },
+      {
+        "q": "PADI 只提交 CPR/AED 证书就够了吗？",
+        "a": "不一定。PADI救援潜水员、潜水长及教练相关课程要求近24个月内的CPR和First Aid培训，并有实操要求。单独CPR/AED课程不能自动满足这项前置资格，其他机构课程应由PADI教练确认。"
+      },
+      {
+        "q": "纯线上 CPR/AED 课程可以用于所有健身认证吗？",
+        "a": "不可以一概而论。ACSM要求现场实操，ACE要求现场或虚拟技能考核，NASM对指定线上课程有接受安排。打算跨机构使用时，必须逐项核对。"
+      },
+      {
+        "q": "AHA 课程完成卡一般有效多久，如何核验？",
+        "a": "AHA Heartsaver CPR AED课程完成卡通常有效两年，具体以卡片记录为准。需要核验课程完成卡时，可联系原签发培训中心；不要把专业资格的续证周期当成急救卡有效期。"
+      }
+    ],
+    "sources": [
+      {
+        "id": "S1",
+        "title": "NSCA-CPT 考试资格",
+        "publisher": "NSCA",
+        "url": "https://www.nsca.com/certification/nsca-cpt/nsca-cpt-exam-prerequisites/",
+        "date": null
+      },
+      {
+        "id": "S2",
+        "title": "CSCS 考试资格",
+        "publisher": "NSCA",
+        "url": "https://www.nsca.com/certification/cscs/cscs-exam-prerequisites/",
+        "date": null
+      },
+      {
+        "id": "S3",
+        "title": "NSCA Certification Handbook",
+        "publisher": "NSCA",
+        "url": "https://www.nsca.com/globalassets/certification/certification-pdfs/nsca-certification-handbook.pdf",
+        "date": "2026-07-01 生效",
+        "note": "正文第7页：实操；第10页：资格材料与证书正反面扫描/复印件。"
+      },
+      {
+        "id": "S4",
+        "title": "ACSM-CPT 认证与候选手册",
+        "publisher": "ACSM",
+        "url": "https://acsm.org/certification/get-certified/personal-trainer/",
+        "date": null,
+        "note": "链接的2025年7月候选手册列成人CPR/AED及现场实操。"
+      },
+      {
+        "id": "S5",
+        "title": "国际考生 CPR/AED 常见问题",
+        "publisher": "ACSM",
+        "url": "https://acsm.org/certification/get-certified/international/",
+        "date": null
+      },
+      {
+        "id": "S6",
+        "title": "ACSM-EP / CEP 资格更新",
+        "publisher": "ACSM",
+        "url": "https://acsm.org/updated-acsm-ep-and-acsm-cep-certifications-requirements-and-accreditation/",
+        "date": "2026-02-06 修订",
+        "note": "原文章发布于2020-11-04；本文使用页面明确标记的2026修订信息。"
+      },
+      {
+        "id": "S7",
+        "title": "ACE 考试资格与报名",
+        "publisher": "ACE",
+        "url": "https://www.acefitness.org/fitness-certifications/schedule-your-exam/",
+        "date": null
+      },
+      {
+        "id": "S8",
+        "title": "ACE 个人教练认证",
+        "publisher": "ACE",
+        "url": "https://www.acefitness.org/fitness-certifications/personal-trainer-certification/default.aspx",
+        "date": null,
+        "note": "AED地区列表与考试预约页不完全一致；两页均不足以支持中国大陆一律强制AED。"
+      },
+      {
+        "id": "S9",
+        "title": "CPR/AED 提供方及技能考核要求",
+        "publisher": "ACE",
+        "url": "https://www.acefitness.org/fitness-certifications/certified-cpr/",
+        "date": null
+      },
+      {
+        "id": "S10",
+        "title": "NASM-CPT 考试要求",
+        "publisher": "NASM",
+        "url": "https://www.nasm.org/certified-personal-trainer-exam-info",
+        "date": null
+      },
+      {
+        "id": "S11",
+        "title": "NASM / AFAA CPR powered by ASTI",
+        "publisher": "NASM",
+        "url": "https://www.nasm.org/products/nasm-afaa-cpr-powered-by-asti",
+        "date": null
+      },
+      {
+        "id": "S12",
+        "title": "CPR 与急救课程、PADI 前置资格 FAQ",
+        "publisher": "PADI",
+        "url": "https://www.padi.com/education/emergency-first-response",
+        "date": null
+      },
+      {
+        "id": "S13",
+        "title": "其他机构 CPR 与急救培训的审核要求",
+        "publisher": "PADI",
+        "url": "https://pros-blog.padi.com/meeting-cpr-and-first-aid-requirements-for-padi-courses-2/",
+        "date": "2018-11-05",
+        "note": "与当前PADI课程FAQ交叉核对；不将旧文写成新规。"
+      },
+      {
+        "id": "S14",
+        "title": "Heartsaver First Aid CPR AED 课程说明",
+        "publisher": "AHA",
+        "url": "https://international.heart.org/en/courses/heartsaver-first-aid-cpr-aed",
+        "date": null
+      },
+      {
+        "id": "S15",
+        "title": "国际电子课程完成卡 FAQ",
+        "publisher": "AHA",
+        "url": "https://www.heart.org/-/media/a735cdafd2374549b1af09230380a51c.ashx",
+        "date": "2020-12 版本",
+        "note": "中国当时暂不强制eCard，不能据此断言2026年全国一律只有纸质卡。"
+      },
+      {
+        "id": "S16",
+        "title": "课程完成卡与核验说明",
+        "publisher": "AHA",
+        "url": "https://cpr.heart.org/en/resources/course-card-information",
+        "date": "参考指南标注2026-10更新"
+      },
+      {
+        "id": "S17",
+        "title": "2026 国际项目管理手册变更对照",
+        "publisher": "AHA",
+        "url": "https://international.heart.org/en/-/media/International/ECC_News/Intl_PAM-changes-comparison-table_Final-2.pdf?sc_lang=en",
+        "date": "2026版",
+        "note": "包括适用地区纸质课程完成卡管理要求；不是大陆统一发卡公告。"
+      },
+      {
+        "id": "S18",
+        "title": "Heartsaver CPR AED 课程及有效期",
+        "publisher": "AHA",
+        "url": "https://cpr.heart.org/en/cpr-courses-and-kits/heartsaver/heartsaver-cpr-aed-training",
+        "date": null
+      }
+    ],
+    "sourcesVerifiedAt": "2026-10-22"
+  },
   {
     "slug": "outdoor-first-aid-preparation-before-hiking",
     "title": "救护车难以到达的户外活动，急救准备应该多想哪几步？",
