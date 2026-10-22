@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { BLOG_POSTS, getAllBlogSlugs, getBlogPostBySlug } from "@/data/blog";
+import { BLOG_POSTS, DEFAULT_BLOG_AUTHOR, getAllBlogSlugs, getBlogPostBySlug } from "@/data/blog";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import BlogBottomCta from "@/components/BlogBottomCta";
 
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: post.seoTitle ? { absolute: post.seoTitle } : seoTitle,
     description: post.description,
     keywords: post.topics,
-    authors: post.author ? [{ name: post.author }] : [{ name: SITE_NAME }],
+    authors: [{ name: post.author ?? DEFAULT_BLOG_AUTHOR }],
     alternates: { canonical: pageUrl },
     robots: { index: true, follow: true, "max-snippet": -1, "max-image-preview": "large", "max-video-preview": -1 },
     openGraph: {
@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       locale: "zh_CN",
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt ?? post.publishedAt,
-      authors: post.author ? [post.author] : [SITE_NAME],
+      authors: [post.author ?? DEFAULT_BLOG_AUTHOR],
       images: [{ url: ogImage.src, width: ogImage.width, height: ogImage.height, alt: ogImage.alt }],
     },
     twitter: {
@@ -86,7 +86,7 @@ export default async function BlogPostPage({ params }: Props) {
     : BLOG_POSTS.filter((item) => item.slug !== post.slug).slice(0, 3);
   const pageUrl = `${SITE_URL}/blog/${post.slug}`;
   const dateModified = post.updatedAt ?? post.publishedAt;
-  const authorName = post.author ?? SITE_NAME;
+  const authorName = post.author ?? DEFAULT_BLOG_AUTHOR;
   const brandName = post.brand ?? SITE_NAME;
   const organizationName = post.organization ?? LEGAL_NAME;
   const ogImage = post.ogImage;
@@ -108,7 +108,7 @@ export default async function BlogPostPage({ params }: Props) {
     datePublished: post.publishedAt,
     dateModified,
     author: {
-      "@type": post.author ? "Person" : "Organization",
+      "@type": post.authorType ?? "Person",
       name: authorName,
     },
     publisher: {

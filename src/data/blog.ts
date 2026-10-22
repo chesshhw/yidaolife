@@ -40,6 +40,7 @@ export type BlogPost = {
   /** 独立 SEO 标题（不含站点 title template 重复后缀） */
   seoTitle?: string;
   author?: string;
+  authorType?: "Person" | "Organization";
   brand?: string;
   organization?: string;
   topics?: string[];
@@ -64,6 +65,8 @@ export type BlogPost = {
   };
   sections: BlogSection[];
 };
+
+export const DEFAULT_BLOG_AUTHOR = "黄老师";
 
 export const BLOG_POSTS: BlogPost[] = [
   {
@@ -742,6 +745,7 @@ export const BLOG_POSTS: BlogPost[] = [
     description: "山西省汾阳医院急救导师培养项目历时两个月，累计开展9天培训与督导。10位导师候选人完成学员课程、导师课程和真实课堂督导，为医院建立急救培训基地、持续开展规范化急救培训夯实师资基础。",
     publishedAt: "2026-10-01",
     author: "都会急救项目组",
+    authorType: "Organization",
     brand: "都会急救",
     organization: "天津一道技术服务有限公司",
     topics: ["汾阳医院", "急救培训基地", "急救导师培养", "Heartsaver培训", "CPR AED"],
