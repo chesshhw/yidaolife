@@ -71,8 +71,8 @@ const courses: Course[] = [
   {
     id: 4,
     title: "天津野外急救培训（WMA WMW）",
-    subtitle: "户外急救进阶课程｜适合徒步、登山、越野跑人群；新一期排期请咨询确认",
-    highlights: ["小班教学", "判断 + 决策为核心", "适合户外运动人群进阶"],
+    subtitle: "户外急救课程介绍｜旧排期已归档；新一期时间、地点与费用待确认",
+    highlights: ["新一期意向咨询", "判断与决策", "课程与证书要求需确认"],
     badge: "野外急救",
     image: "/images/g5.jpg",
     ctaPrimary: "查看详情",

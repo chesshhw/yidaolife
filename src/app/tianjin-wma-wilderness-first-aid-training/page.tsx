@@ -1,284 +1,98 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-const SITE_URL = "https://www.yidaolife.com";
-const CANONICAL_URL = `${SITE_URL}/tianjin-wma-wilderness-first-aid-training`;
-
-const PAGE_TITLE =
-  "天津野外急救培训WMA（WMW）报名｜2026年5月30日｜户外急救课程｜天津急救培训";
-const PAGE_DESC =
-  "天津WMA野外急救培训（WMW）报名中，适合徒步、登山、越野跑及AHA学员进阶学习。2026年5月30日开课，天津市和平区万通中心，小班教学，支持老学员及早鸟优惠。";
-
+const URL = "https://www.yidaolife.com/tianjin-wma-wilderness-first-aid-training";
+const TITLE = "天津野外急救培训（WMA WMW）｜课程介绍与新一期意向咨询";
+const DESCRIPTION = "了解天津野外急救课程的学习方向与报名前需要确认的信息。2026年5月30日旧排期已归档，新一期时间、地点、费用与证书安排待确认。";
 const FAQ_ITEMS = [
-  {
-    q: "天津野外急救培训需要基础吗？",
-    a: "不需要，零基础也可以学习，课程以实操为主。",
-  },
-  {
-    q: "WMA和AHA急救培训有什么区别？",
-    a: "AHA更偏标准急救流程，WMA更强调复杂环境下的判断与决策。",
-  },
-  {
-    q: "是否提供证书？",
-    a: "完成课程后可获得WMA体系相关培训证明（以实际课程为准）。",
-  },
-  {
-    q: "课程适合企业团建或安全培训吗？",
-    a: "非常适合，尤其适用于户外团队、运动团队及企业安全培训。",
-  },
+  { q: "现在可以报名哪一期？", a: "目前接受新一期意向咨询。具体开课日期、地点、课程版本、时长、费用与余位尚待确认，意向登记不代表报名成功。" },
+  { q: "原来的5月30日活动和早鸟价格还适用吗？", a: "2026年5月30日属于历史排期，原活动价格与优惠不作为当前报名依据。新一期信息确认后会更新。" },
+  { q: "零基础可以参加吗？", a: "请先说明已有急救学习经历和户外活动需求，再确认具体课程的报名条件；不要仅根据旧活动介绍判断资格。" },
+  { q: "课程会发什么证书？", a: "新一期的课程名称、发证机构、考核要求及证明形式需在报名之前确认。若用于职业、赛事或其他资格审核，还应与接收单位确认要求。" },
+  { q: "企业或户外团队可以咨询吗？", a: "可以。请提供活动场景、人数、所在城市和期望日期，沟通培训安排与报价所需信息。" },
 ];
 
-function buildFaqJsonLd() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: FAQ_ITEMS.map(({ q, a }) => ({
-      "@type": "Question",
-      name: q,
-      acceptedAnswer: { "@type": "Answer", text: a },
-    })),
-  };
-}
-
 export const metadata: Metadata = {
-  title: PAGE_TITLE,
-  description: PAGE_DESC,
-  alternates: { canonical: "/tianjin-wma-wilderness-first-aid-training" },
-  openGraph: {
-    title: PAGE_TITLE,
-    description: PAGE_DESC,
-    type: "website",
-    url: CANONICAL_URL,
-    images: [{ url: `${SITE_URL}/images/g5.jpg`, width: 1200, height: 630, alt: "天津野外急救培训 WMA WMW" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: PAGE_TITLE,
-    description: PAGE_DESC,
-    images: ["/images/g5.jpg"],
-  },
+  title: TITLE, description: DESCRIPTION,
+  alternates: { canonical: URL },
+  openGraph: { title: TITLE, description: DESCRIPTION, type: "website", url: URL },
+  twitter: { card: "summary", title: TITLE, description: DESCRIPTION },
 };
 
 export default function TianjinWmaWmwPage() {
-  const faqJsonLd = buildFaqJsonLd();
-
+  const schema = [
+    { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: "首页", item: "https://www.yidaolife.com" },
+      { "@type": "ListItem", position: 2, name: "课程体系", item: "https://www.yidaolife.com/programs" },
+      { "@type": "ListItem", position: 3, name: "天津野外急救培训", item: URL },
+    ] },
+    { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: FAQ_ITEMS.map(({q,a}) => ({
+      "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a },
+    })) },
+  ];
   return (
     <main className="min-h-screen bg-white">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-
-      <section className="border-b border-neutral-100 bg-neutral-50/50">
-        <div className="mx-auto max-w-3xl px-4 py-12 sm:py-16">
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-900">
-            天津野外急救培训（WMA WMW）报名｜户外急救必修课程
-          </h1>
-          <p className="mt-3 text-base text-neutral-700 leading-relaxed">
-            适合徒步、登山、越野跑等户外人群的进阶急救课程。2026年5月30日开课，天津市和平区万通中心，小班教学，
-            支持老学员与早鸟优惠。
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <a
-              href="#signup"
-              className="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white hover:bg-neutral-800 transition-colors"
-            >
-              直接咨询报名
-            </a>
-            <a
-              href="#faq"
-              className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors"
-            >
-              查看常见问题
-            </a>
-          </div>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <section className="border-b border-[var(--border)] bg-[var(--surface)]">
+        <div className="mx-auto max-w-3xl px-5 py-12 sm:px-8 sm:py-16">
+          <p className="eyebrow">户外急救 · 课程咨询</p>
+          <h1 className="mt-4 text-3xl font-semibold leading-[1.45] sm:text-4xl">天津野外急救培训（WMA WMW）</h1>
+          <p className="mt-5 leading-8 text-neutral-700">本页保留野外急救课程的学习方向，并接受新一期意向咨询。旧活动排期已归档，新一期时间、地点、费用及报名条件待确认。</p>
+          <a href="#signup" className="button-primary mt-6">咨询新一期课程</a>
         </div>
       </section>
-
-      <article className="mx-auto max-w-3xl px-4 py-12 sm:py-16 space-y-12">
-        <section>
-          <h2 className="text-xl font-semibold text-neutral-900">一、天津野外急救培训｜为什么越来越多人在学？</h2>
-          <p className="mt-3 text-neutral-700 leading-relaxed">
-            近几年，“户外急救”“野外急救培训”“急救证书培训”等关键词的搜索量明显上升。原因很简单：徒步、露营、越野跑等户外活动越来越普及，
-            但很多人只学过基础急救（如心肺复苏）。
-          </p>
-          <p className="mt-3 text-neutral-700 leading-relaxed">
-            真实户外环境里，你可能会遇到：没有 AED 设备、无法第一时间送医、需要长时间现场处理伤情。也正因如此，越来越多人开始系统学习野外急救
-            （Wilderness First Aid / WMA）。
-          </p>
+      <article className="mx-auto max-w-3xl space-y-10 px-5 py-10 sm:px-8 sm:py-14">
+        <section aria-labelledby="status-heading" className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7">
+          <h2 id="status-heading" className="text-xl font-semibold">当前课程状态</h2>
+          <dl className="mt-4 grid gap-4 text-sm leading-7 sm:grid-cols-2">
+            <div><dt className="text-neutral-500">新一期日期与时长</dt><dd>待确认</dd></div>
+            <div><dt className="text-neutral-500">上课地点与费用</dt><dd>待确认</dd></div>
+            <div><dt className="text-neutral-500">课程版本与证书安排</dt><dd>报名之前单独确认</dd></div>
+            <div><dt className="text-neutral-500">报名状态</dt><dd>接受意向咨询，余位待确认</dd></div>
+          </dl>
+          <details className="mt-5 border-t border-[var(--border)] pt-4">
+            <summary className="cursor-pointer font-medium">查看历史排期说明</summary>
+            <p className="mt-3 text-sm leading-7 text-neutral-600">原页面登记日期为2026年5月30日，登记地点为天津市和平区万通中心。该日期已经过去，仅作历史信息保留；原价格及早鸟优惠不适用于新一期。此处不作为活动实际举办的证明。</p>
+          </details>
+          <p className="mt-4 text-xs text-neutral-500">状态整理日期：2026年10月22日</p>
         </section>
-
         <section>
-          <h2 className="text-xl font-semibold text-neutral-900">二、什么是WMA野外急救（WMW课程）？</h2>
-          <p className="mt-3 text-neutral-700 leading-relaxed">
-            WMA（Wilderness Medical Associates）是国际知名的野外医学培训体系。WMW（Wilderness Medical Workshop）课程更聚焦于资源受限环境下的现场处理：
-            如何在户外突发事件中做出判断、决策，并组织更长时间的照护与转运。
-          </p>
-
-          <div className="mt-4 overflow-x-auto rounded-xl border border-neutral-200">
-            <table className="w-full text-sm">
-              <thead className="bg-neutral-50">
-                <tr>
-                  <th className="px-4 py-3 text-left font-semibold text-neutral-900 whitespace-nowrap">
-                    普通急救培训（AHA等）
-                  </th>
-                  <th className="px-4 py-3 text-left font-semibold text-neutral-900 whitespace-nowrap">
-                    WMA野外急救
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-t border-neutral-200">
-                  <td className="px-4 py-3 text-neutral-700 whitespace-nowrap">标准环境</td>
-                  <td className="px-4 py-3 text-neutral-700 whitespace-nowrap">野外复杂环境</td>
-                </tr>
-                <tr className="border-t border-neutral-200">
-                  <td className="px-4 py-3 text-neutral-700 whitespace-nowrap">快速交接医疗系统</td>
-                  <td className="px-4 py-3 text-neutral-700 whitespace-nowrap">长时间自主处理</td>
-                </tr>
-                <tr className="border-t border-neutral-200">
-                  <td className="px-4 py-3 text-neutral-700 whitespace-nowrap">技术操作为主</td>
-                  <td className="px-4 py-3 text-neutral-700 whitespace-nowrap">判断 + 决策为核心</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="mt-3 text-sm text-neutral-500">
-            关键词覆盖：天津急救培训 / 户外急救课程 / 野外急救培训 / WMA课程
-          </p>
+          <h2 className="text-xl font-semibold">什么情况下需要了解野外急救课程？</h2>
+          <p className="mt-4 leading-8 text-neutral-700">徒步、登山、越野跑或团队户外活动可能发生在医疗资源较远、通信或交通受限的地点。选择课程时，除了基础急救技能，还需要了解风险评估、现场组织和转运决策等学习内容是否适合自己的活动场景。</p>
+          <p className="mt-3 leading-8 text-neutral-700">课程适配需要结合活动环境、已有学习经历和具体课程大纲讨论。基础 CPR/AED 学习与野外急救学习各有侧重，不能直接把不同体系的课程或证书视为相互替代。</p>
         </section>
-
         <section>
-          <h2 className="text-xl font-semibold text-neutral-900">三、天津WMA野外急救培训适合哪些人？</h2>
-          <p className="mt-3 text-neutral-700 leading-relaxed">本次天津野外急救培训，适合：</p>
-          <ul className="mt-3 list-disc list-inside text-neutral-700 space-y-1">
-            <li>徒步 / 登山 / 露营爱好者</li>
-            <li>越野跑 / 马拉松跑者</li>
-            <li>体育老师 / 户外领队 / 教练</li>
-            <li>企业安全负责人</li>
-            <li>已学习AHA急救证书的学员（进阶）</li>
+          <h2 className="text-xl font-semibold">咨询时可讨论的学习方向</h2>
+          <ul className="mt-4 list-disc space-y-2 pl-5 leading-8 text-neutral-700">
+            <li>户外环境风险与现场评估</li><li>伤情观察、急救物资准备与团队分工</li>
+            <li>在救援抵达前的照护与转运决策</li><li>与活动类型相符的情景练习</li>
           </ul>
-          <p className="mt-3 text-neutral-700 leading-relaxed">
-            如果你在搜索“天津急救证培训哪家好 / 天津急救课程推荐”，这门课更偏进阶能力型课程：强调在复杂环境中“看懂风险、做出决策、组织现场处理”。
-          </p>
+          <p className="mt-3 text-sm leading-7 text-neutral-600">以上用于沟通学习需求；新一期实际教学模块、导师配置与考核要求以确认的课程说明为准。</p>
         </section>
-
-        <section>
-          <h2 className="text-xl font-semibold text-neutral-900">四、课程内容（WMA野外急救核心模块）</h2>
-          <p className="mt-3 text-neutral-700 leading-relaxed">本次天津 WMW 课程包含：</p>
-          <ul className="mt-3 list-disc list-inside text-neutral-700 space-y-1">
-            <li>野外伤情评估（Primary &amp; Secondary Survey）</li>
-            <li>出血控制与伤口处理</li>
-            <li>骨折固定（无专业器材）</li>
-            <li>环境伤害处理（中暑 / 失温）</li>
-            <li>搬运与转运决策</li>
-            <li>长时间照护（Extended Care）</li>
-          </ul>
-          <p className="mt-3 text-sm text-neutral-500">
-            SEO关键词自然覆盖：野外急救知识 / 户外急救技能 / 急救培训内容
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-xl font-semibold text-neutral-900">五、天津野外急救培训时间与地点（重点）</h2>
-          <div className="mt-4 rounded-2xl border border-neutral-200 bg-neutral-50 p-5 sm:p-6 text-neutral-800">
-            <p className="text-sm">
-              <strong>培训城市：</strong>天津
-            </p>
-            <p className="mt-2 text-sm">
-              <strong>培训地址：</strong>天津市和平区大沽北路与徐州道交口 万通中心
-            </p>
-            <p className="mt-2 text-sm">
-              <strong>培训日期：</strong>2026年5月30日
-            </p>
-            <p className="mt-2 text-sm">
-              <strong>培训费用：</strong>1200元
-            </p>
-            <div className="mt-4">
-              <p className="text-sm font-medium text-neutral-900">优惠政策（可叠加）：</p>
-              <ul className="mt-2 list-disc list-inside text-sm text-neutral-700 space-y-1">
-                <li>AHA老学员优惠：减200元</li>
-                <li>早鸟报名优惠：减100元</li>
-              </ul>
-              <p className="mt-2 text-sm text-neutral-700">
-                <strong>最低仅需：</strong>900元
-              </p>
-            </div>
+        <section id="signup" className="scroll-mt-24 rounded-xl border border-[var(--border)] p-5 sm:p-7">
+          <h2 className="text-xl font-semibold">咨询新一期安排</h2>
+          <p className="mt-4 leading-8 text-neutral-700">请告诉黄老师：个人或团队参加、人数、所在城市、期望日期、户外活动类型，以及是否有证书用途要求。确认课程与费用后，再决定报名。</p>
+          <p className="mt-3 text-sm leading-7">电话 / 微信：<a href="tel:13512456138" className="underline">13512456138</a></p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link href="/contact" className="button-primary">提交课程咨询</Link>
+            <Link href="/enterprise-training" className="button-secondary">了解团队培训</Link>
           </div>
         </section>
-
-        <section id="signup" className="scroll-mt-24">
-          <h2 className="text-xl font-semibold text-neutral-900">六、报名方式</h2>
-          <div className="mt-4 rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6">
-            <p className="text-neutral-700 leading-relaxed">
-              <strong>联系人：</strong>黄老师
-            </p>
-            <p className="mt-2 text-neutral-700 leading-relaxed">
-              <strong>电话 / 微信：</strong>
-              <a href="tel:13512456138" className="underline hover:no-underline">
-                13512456138
-              </a>
-            </p>
-            <p className="mt-3 text-sm text-neutral-600">
-              建议直接添加微信咨询课程详情及剩余名额。
-            </p>
-          </div>
-        </section>
-
         <section id="faq" className="scroll-mt-24">
-          <h2 className="text-xl font-semibold text-neutral-900">七、常见问题（FAQ）</h2>
-          <div className="mt-4 space-y-2">
-            {FAQ_ITEMS.map(({ q, a }) => (
-              <details key={q} className="group rounded-xl border border-neutral-200 bg-white">
-                <summary className="flex cursor-pointer items-center justify-between px-4 py-3 font-medium text-neutral-900 list-none [&::-webkit-details-marker]:hidden">
-                  {q}
-                  <span className="shrink-0 text-neutral-400 transition-transform group-open:rotate-180" aria-hidden>
-                    ▼
-                  </span>
-                </summary>
-                <p className="border-t border-neutral-100 px-4 py-3 text-sm text-neutral-600">{a}</p>
-              </details>
-            ))}
-          </div>
+          <h2 className="text-xl font-semibold">报名前常见问题</h2>
+          <div className="mt-4 space-y-3">{FAQ_ITEMS.map(({q,a}) => (
+            <details key={q} className="rounded-lg border border-[var(--border)] p-4">
+              <summary className="cursor-pointer font-medium leading-7">{q}</summary>
+              <p className="mt-3 text-sm leading-7 text-neutral-700">{a}</p>
+            </details>
+          ))}</div>
         </section>
-
-        <section>
-          <h2 className="text-xl font-semibold text-neutral-900">八、为什么建议尽早报名？</h2>
-          <ul className="mt-3 list-disc list-inside text-neutral-700 space-y-1">
-            <li>小班教学，名额有限</li>
-            <li>户外安全意识正在快速提升</li>
-            <li>急救能力正在成为“刚需技能”</li>
-          </ul>
-          <p className="mt-3 text-neutral-700 leading-relaxed">
-            很多人搜索“天津急救培训”，是因为已经意识到风险存在；但真正有用的，是在事情发生前具备处理能力。
-          </p>
-        </section>
-
-        <section className="rounded-2xl border border-neutral-200 bg-neutral-50 p-5 sm:p-6">
-          <h2 className="text-lg font-semibold text-neutral-900">你也可以了解这些页面</h2>
-          <div className="mt-4 grid gap-3">
-            <Link
-              href="/programs"
-              className="rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-800 hover:bg-neutral-50 transition-colors"
-            >
-              查看课程体系（/programs）
-            </Link>
-            <Link
-              href="/enterprise-training"
-              className="rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-800 hover:bg-neutral-50 transition-colors"
-            >
-              企业急救培训定制（/enterprise-training）
-            </Link>
-            <Link
-              href="/blog/aed-why-important"
-              className="rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-800 hover:bg-neutral-50 transition-colors"
-            >
-              AED为什么重要？（/blog/aed-why-important）
-            </Link>
-          </div>
-        </section>
+        <nav aria-label="相关课程与准备" className="flex flex-wrap gap-4 border-t border-[var(--border)] pt-6 text-sm">
+          <Link href="/programs" className="underline">课程体系</Link>
+          <Link href="/blog/outdoor-first-aid-preparation-before-hiking" className="underline">徒步前的急救准备</Link>
+          <Link href="/cities" className="underline">查看城市急救课程排期</Link>
+        </nav>
       </article>
     </main>
   );
 }
-

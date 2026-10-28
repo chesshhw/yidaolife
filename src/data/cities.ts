@@ -4,16 +4,14 @@
 
 import { RAW_DATA } from "./cities.raw";
 import { CITY_SCHEDULE_DATES } from "./city-dates";
+import { splitSchedule } from "@/lib/schedule";
 
-/** 清洗展示用地址：删括号内容、日期、暂定/待定、多余标点、合并空格。页面不得出现日期。 */
+/** 清洗展示用地址：去除日期和多余标点，保留暂定/待定及地址补充说明、合并空格。页面不得出现日期。 */
 export function sanitizeLocation(text: string): string {
   let s = text
-    .replace(/[（(].*?[）)]/g, "")
     .replace(/\d{4}年\d{1,2}月\d{1,2}日/g, "")
     .replace(/\d{1,2}月\d{1,2}日/g, "")
     .replace(/有课/g, "")
-    .replace(/暂定/g, "")
-    .replace(/待定/g, "")
     .replace(/[；;,，]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
@@ -194,6 +192,7 @@ const REGION_MAP: Record<string, string> = {
   "延安市": "西北",
   "阿拉善盟": "西北",
   "海西蒙古族藏族自治州江门市": "西北",
+  "海西蒙古族藏族自治州": "西北",
   "哈尔滨市": "东北",
   "沈阳市": "东北",
   "大连市": "东北",
@@ -387,6 +386,7 @@ const SLUG_MAP: Record<string, string> = {
   "酒泉市": "jiuquan",
   "金昌市": "jinchang",
   "海西蒙古族藏族自治州江门市": "haixi",
+  "海西蒙古族藏族自治州": "haixi",
   "喀什地区": "kashi",
   "晋城市": "jincheng",
   "嘉兴市": "jiaxing",
@@ -424,21 +424,13 @@ export function normalizeScheduleDates(raw?: string): string | undefined {
   return raw;
 }
 
-export function parseScheduleDates(raw?: string): { isMinGroup: boolean; dates: string[] } {
-  const normalized = normalizeScheduleDates(raw);
-  if (!normalized) return { isMinGroup: false, dates: [] };
-  if (normalized === "满6人开课") return { isMinGroup: true, dates: [] };
-  return {
-    isMinGroup: false,
-    dates: normalized.split(/,\s*/).map((d) => d.trim()).filter(Boolean),
-  };
+export function parseScheduleDates(raw?: string, asOf?: string) {
+  return splitSchedule(normalizeScheduleDates(raw), asOf);
 }
 
-/** 城市列表卡片展示最近 1-3 个固定日期 */
-export function getCardScheduleDates(raw?: string, limit = 3): string[] {
-  const { isMinGroup, dates } = parseScheduleDates(raw);
-  if (isMinGroup || dates.length === 0) return [];
-  return dates.slice(0, limit);
+/** Only upcoming supplied dates appear on city cards. */
+export function getCardScheduleDates(raw?: string, limit = 3, asOf?: string): string[] {
+  return parseScheduleDates(raw, asOf).dates.slice(0, limit);
 }
 
 export function isMinGroupSchedule(raw?: string): boolean {
@@ -536,6 +528,6 @@ export function getDisplayLocations(locations: string[]): string[] {
 /** 是否有可用于展示的具体培训地址（非 fallback、非仅城市名占位） */
 export function hasSpecificLocations(locations: string[]): boolean {
   return getDisplayLocations(locations).some(
-    (addr) => addr !== FALLBACK_ADDRESS && !/^[\u4e00-\u9fa5]+市$/.test(addr.trim())
+    (addr) => addr !== FALLBACK_ADDRESS && !/待定|待确认|另行通知/.test(addr) && !/^[\u4e00-\u9fa5]+市$/.test(addr.trim())
   );
 }

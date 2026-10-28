@@ -1983,6 +1983,7 @@ export const BLOG_POSTS: BlogPost[] = [
     description:
       "天津野外急救培训（WMA WMW）适合徒步、登山、越野跑等户外人群。本文详细讲解WMA课程内容、适用人群以及与AHA急救的区别，帮助你判断是否需要学习。",
     publishedAt: "2026-03-17",
+    updatedAt: "2026-10-22",
     lead: [
       "徒步、露营、登山、越野跑越来越普及，但真正遇到偏远地区的扭伤、失温、外伤出血或长时间等待救援时，很多人会发现：仅仅“会一点基础急救”并不够。",
       "本文用更偏科普的方式，讲清楚 WMA 野外急救（WMW）在学什么、适合谁，以及和 AHA 急救课程的区别，并给出天津线下学习入口，便于你做判断。",
@@ -2051,12 +2052,12 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "六、天津哪里可以学野外急救？",
         paragraphs: [
-          "如果你希望在天津线下系统学习野外急救，目前已有对应课程可选。例如：",
+          "天津野外急救课程旧排期已归档，目前接受新一期意向咨询；时间、地点、费用、课程版本与证书安排待确认。",
           "天津野外急救培训（WMA WMW）",
           "建议先了解课程的上课日期、地点与适用人群，再结合自己的户外频率和风险暴露做选择。",
         ],
         links: [
-          { label: "天津野外急救培训报名", href: "/tianjin-wma-wilderness-first-aid-training" },
+          { label: "天津野外急救新一期咨询", href: "/tianjin-wma-wilderness-first-aid-training" },
           { label: "WMA野外急救课程详情", href: "/tianjin-wma-wilderness-first-aid-training" },
         ],
       },
@@ -2074,7 +2075,7 @@ export const BLOG_POSTS: BlogPost[] = [
       },
       {
         heading: "了解更多",
-        paragraphs: ["想查看天津线下课程安排与报名入口，可点击："],
+        paragraphs: ["想了解天津野外急救课程当前状态与新一期咨询入口，可点击："],
         links: [{ label: "天津野外急救课程详情（WMA WMW）", href: "/tianjin-wma-wilderness-first-aid-training" }],
       },
     ],

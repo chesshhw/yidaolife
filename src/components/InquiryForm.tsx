@@ -44,7 +44,7 @@ const copy = {
   },
 };
 
-export default function InquiryForm({ initialLanguage = "zh", defaultCity = "", defaultTraining = "" }: { initialLanguage?: "en" | "zh"; defaultCity?: string; defaultTraining?: string }) {
+export default function InquiryForm({ initialLanguage = "zh", defaultCity = "", defaultTraining = "", defaultDate = "" }: { initialLanguage?: "en" | "zh"; defaultCity?: string; defaultTraining?: string; defaultDate?: string }) {
   const [language, setLanguage] = useState(initialLanguage);
   const [token, setToken] = useState("");
   const [availability, setAvailability] = useState<"loading" | "ready" | "unavailable">("loading");
@@ -146,7 +146,7 @@ export default function InquiryForm({ initialLanguage = "zh", defaultCity = "", 
             <div className="mt-5 grid min-w-0 gap-5 sm:grid-cols-2">
           {labels.filter(field => !field.required).map(renderField)}
           <div><label htmlFor="inquiry-participants" className="block text-sm font-medium">{t.participantCount}</label><input id="inquiry-participants" name="participantCount" type="number" min="1" max="99999" step="1" inputMode="numeric" className="mt-2 min-h-12 w-full min-w-0 rounded-lg border border-[#bccac2] px-3 py-3 text-base" /></div>
-          <div><label htmlFor="inquiry-date" className="block text-sm font-medium">{t.preferredDate}</label><input id="inquiry-date" name="preferredDate" type="date" className="mt-2 min-h-12 w-full min-w-0 rounded-lg border border-[#bccac2] px-3 py-3 text-base" /></div>
+          <div><label htmlFor="inquiry-date" className="block text-sm font-medium">{t.preferredDate}</label><input id="inquiry-date" name="preferredDate" type="date" defaultValue={defaultDate} className="mt-2 min-h-12 w-full min-w-0 rounded-lg border border-[#bccac2] px-3 py-3 text-base" /></div>
           <div className="sm:col-span-2"><label htmlFor="inquiry-training" className="block text-sm font-medium">{t.trainingType}</label><select id="inquiry-training" name="trainingType" defaultValue={defaultTraining} className="mt-2 min-h-12 w-full min-w-0 rounded-lg border border-[#bccac2] bg-white px-3 py-3 text-base"><option value="">{t.choose}</option>{TRAINING_TYPES.map((type, index) => <option key={type} value={type}>{language === "en" ? type : ["AHA Heartsaver 急救 / CPR / AED", "企业急救培训", "CPR / AED 培训", "AHA 导师培训", "其他"][index]}</option>)}</select></div>
           <div className="sm:col-span-2"><label htmlFor="inquiry-message" className="block text-sm font-medium">{t.message}</label><textarea id="inquiry-message" name="message" maxLength={3000} rows={4} placeholder={t.messagePlaceholder} className="mt-2 w-full min-w-0 resize-y rounded-lg border border-[#bccac2] px-3 py-3 text-base leading-7" /></div>
             </div>

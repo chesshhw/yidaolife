@@ -85,7 +85,7 @@ function createHarness(options = {}) {
   }).default;
   function render() {
     hookIndex = 0;
-    tree = Component({ initialLanguage: options.initialLanguage || 'en', defaultCity: 'Shanghai', defaultTraining: 'CPR & AED Training' });
+    tree = Component({ initialLanguage: options.initialLanguage || 'en', defaultCity: 'Shanghai', defaultTraining: 'CPR & AED Training', defaultDate: options.defaultDate || '' });
     for (const node of nodes(tree)) if (node.props?.ref && !node.props.ref.current) node.props.ref.current = { open: false, focus() {} };
     return tree;
   }
@@ -107,6 +107,10 @@ function createHarness(options = {}) {
 }
 
 (async () => {
+  const prefilled = createHarness({ defaultDate: '2026-11-07' });
+  await prefilled.mount();
+  await prefilled.submit();
+  assert.equal(prefilled.posts()[0].payload.preferredDate, '2026-11-07', 'Selected city date must survive the collapsed optional section');
   const successful = createHarness();
   await successful.mount();
   const all = nodes(successful.tree());

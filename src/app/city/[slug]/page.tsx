@@ -4,6 +4,9 @@ import CityPage from "@/components/CityPage";
 import { getAllCitySlugs, getCityBySlug } from "@/data/cities";
 import { getCityPageMetadata } from "@/lib/city-landing";
 
+// Evaluate the Shanghai calendar on every request; no stale static schedule after midnight.
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   return getAllCitySlugs().map((slug) => ({ slug }));
 }

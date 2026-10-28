@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { scheduleDateIso, shanghaiDate } from "@/lib/schedule";
 import type { City } from "@/data/cities";
 import { getCityShortName, parseScheduleDates } from "@/data/cities";
 
@@ -22,12 +23,6 @@ export const cityPageStyles = {
   UL_CLASS,
   H3_CLASS,
 };
-
-function toIsoDate(chineseDate: string): string {
-  const m = chineseDate.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
-  if (!m) return chineseDate;
-  return `${m[1]}-${m[2].padStart(2, "0")}-${m[3].padStart(2, "0")}`;
-}
 
 export function getCityPageTitle(city: City): string {
   const short = getCityShortName(city);
@@ -80,11 +75,15 @@ export function getCityFaqItems(city: City): CityFaqItem[] {
     {
       question: "课程结束后有证书吗？",
       answer:
-        "完成课程学习并通过考核后，学员可获得 AHA Heartsaver 急救员证书，证书有效期为2年。",
+        "完成相应课程学习并通过考核后，学员可获得 AHA Heartsaver 课程完成卡，有效期为2年。都会急救目前在中国大陆安排的 AHA 课程统一发放纸质卡，不提供 AHA eCard。",
     },
     {
       question: "证书可以查询吗？",
-      answer: "中国大陆部分相关证书官网查询目前可能受限。证书形式与查询安排请在报名前与培训中心确认；已有证书核验请联系原发证培训中心，核对课程、考核及证书记录。",
+      answer: "已有证书请联系原发证培训中心，核对课程、考核及证书记录。纸质卡与电子卡的查询方式不同，不能仅凭网上未查到记录判断真伪；当前查询安排可查看本站的中国大陆 AHA 证书与官网验证说明。",
+    },
+    {
+      question: "纸质证书能用于入职或健身教练考证吗？",
+      answer: "纸质形式本身不意味着证书无效。具体能否满足申请条件，还取决于接收单位要求的课程内容、现场技能考核和有效期。请在报名前提供准确认证名称或单位要求，逐项核对，不将一类课程视作所有资格的通用证明。",
     },
     {
       question: `${short}企业可以单独预约急救培训吗？`,
@@ -109,10 +108,10 @@ export function getCityFaqItems(city: City): CityFaqItem[] {
   ];
 }
 
-export function buildCityJsonLd(city: City, slug: string) {
+export function buildCityJsonLd(city: City, slug: string, asOf = shanghaiDate()) {
   const short = getCityShortName(city);
   const pageUrl = `${SITE_URL}/city/${slug}`;
-  const { isMinGroup, dates } = parseScheduleDates(city.scheduleDates);
+  const { isMinGroup, dates } = parseScheduleDates(city.scheduleDates, asOf);
   const faqItems = getCityFaqItems(city);
 
   const breadcrumbJsonLd = {
@@ -133,22 +132,6 @@ export function buildCityJsonLd(city: City, slug: string) {
     url: SITE_URL,
     logo: `${SITE_URL}/images/logo.png`,
     areaServed: { "@type": "City", name: short },
-  };
-
-  const localBusinessJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: BRAND_NAME,
-    legalName: LEGAL_NAME,
-    url: pageUrl,
-    image: `${SITE_URL}/images/logo.png`,
-    telephone: "13512456138",
-    areaServed: { "@type": "City", name: short },
-    parentOrganization: {
-      "@type": "Organization",
-      name: LEGAL_NAME,
-      url: SITE_URL,
-    },
   };
 
   const courseJsonLd = {
@@ -173,7 +156,7 @@ export function buildCityJsonLd(city: City, slug: string) {
             "@type": "CourseInstance",
             courseMode: "in person",
             location: { "@type": "Place", name: short },
-            startDate: toIsoDate(date),
+            startDate: scheduleDateIso(date),
           })),
         }),
   };
@@ -188,24 +171,24 @@ export function buildCityJsonLd(city: City, slug: string) {
     })),
   };
 
-  return [breadcrumbJsonLd, organizationJsonLd, localBusinessJsonLd, courseJsonLd, faqJsonLd];
+  return [breadcrumbJsonLd, organizationJsonLd, courseJsonLd, faqJsonLd];
 }
 
 export const TRAINING_IMAGES = [
   {
     src: "/images/g3.jpg?v=eb9351e83ceb",
-    caption: (short: string) => `${short}AHA急救培训课堂`,
-    alt: (short: string) => `${short}AHA急救培训课堂及模拟人设备`,
+    caption: () => "都会急救课堂实拍（非各城市独立场地展示）",
+    alt: () => "都会急救AHA急救培训课堂及模拟人设备",
   },
   {
     src: "/images/g5.jpg",
     caption: () => "企业员工急救培训现场",
-    alt: (short: string) => `${short}企业急救培训AED使用练习`,
+    alt: () => "都会急救企业急救培训AED使用练习",
   },
   {
     src: "/images/g6.jpg?v=bebb2a9ae9b6",
     caption: () => "Heartsaver急救员课程课堂场景",
-    alt: (short: string) => `${short}Heartsaver急救员课程培训现场`,
+    alt: () => "都会急救Heartsaver急救员课程培训现场",
   },
 ] as const;
 

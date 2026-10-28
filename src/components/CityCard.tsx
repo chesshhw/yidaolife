@@ -2,10 +2,10 @@ import Link from "next/link";
 import type { City } from "@/data/cities";
 import { getCardScheduleDates, getCityShortName, getDisplayLocations, isMinGroupSchedule } from "@/data/cities";
 
-export default function CityCard({ city }: { city: City }) {
+export default function CityCard({ city, asOf }: { city: City; asOf: string }) {
   const short = getCityShortName(city);
   const addrs = getDisplayLocations(city.locations);
-  const cardDates = getCardScheduleDates(city.scheduleDates, 3);
+  const cardDates = getCardScheduleDates(city.scheduleDates, 3, asOf);
   const minGroup = isMinGroupSchedule(city.scheduleDates);
   return (
     <li className="min-w-0">
@@ -15,7 +15,7 @@ export default function CityCard({ city }: { city: City }) {
         <p className="mt-2 text-xs leading-6 text-[var(--muted)]">CPR · AED · 气道异物梗阻急救</p>
         <div className="mb-5 mt-4 space-y-2">{addrs.map((addr,i) => <address key={i} className="text-sm not-italic leading-7 text-[var(--muted)]">{addr}</address>)}</div>
         <div className="mt-auto border-t border-[var(--border)] pt-4">
-          {minGroup ? <p className="text-sm font-medium text-[var(--brand)]">满6人开课</p> : cardDates.length > 0 ? <><p className="text-xs text-[var(--muted)]">近期培训时间</p><ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm font-medium leading-7 text-[var(--brand)]">{cardDates.map(date => <li key={date}>{date}</li>)}</ul></> : <p className="text-sm text-[var(--muted)]">咨询最新课程安排</p>}
+          {minGroup ? <p className="text-sm font-medium text-[var(--brand)]">满6人开课</p> : cardDates.length > 0 ? <><p className="text-xs text-[var(--muted)]">近期培训时间</p><ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm font-medium leading-7 text-[var(--brand)]">{cardDates.map(date => <li key={date}>{date}</li>)}</ul></> : <p className="text-sm text-[var(--muted)]">下一期排期待确认</p>}
           <p className="mt-3 text-xs text-[var(--muted)]">查看详情与报名 <span aria-hidden>→</span></p>
         </div>
       </Link>

@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-28",
+  "authority": "用户本次要求核对并更新所附课表、地点表；同日回复确认西安地址和三城市继续培训",
+  "dateRows": 166,
+  "locationRows": 166,
+  "effectiveLocationRows": 169,
+  "overrides": [
+    {
+      "city": "西安市",
+      "location": "西安市高新区天谷七路国家数字出版基地A座1802",
+      "confirmedBy": "负责人会话回复"
+    },
+    {
+      "cities": [
+        "普洱市",
+        "赣州市",
+        "都江堰市"
+      ],
+      "status": "负责人确认仍开展培训，具体时间和地点待补充"
+    }
+  ],
+  "history": "只保留仓库原有过去日期；未补造课表。过去记录不代表实际举办。",
+  "removedFutureDates": [
+    {
+      "city": "广州市",
+      "removed": "2026年11月21日",
+      "replacement": "2026年11月28日"
+    },
+    {
+      "city": "深圳市",
+      "removed": "2026年11月22日",
+      "replacement": "2026年11月7日"
+    }
+  ],
+  "locationRole": "地点表不证明自营分支机构或场地所有权",
+  "businessUnknowns": [
+    "具体上课时段",
+    "费用及包含项目",
+    "余位",
+    "未补充城市的地址及排期"
+  ]
+}

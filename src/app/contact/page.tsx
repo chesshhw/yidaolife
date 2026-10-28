@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import InquiryForm from "@/components/InquiryForm";
+import { getCityInquiryDefaults } from "@/lib/city-inquiry";
 
 const PHONE = "13512456138";
 const PAGE_TITLE = "急救培训报名咨询｜个人课程与企业团体培训";
@@ -21,7 +22,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ContactPage() {
+export default async function ContactPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const defaults = getCityInquiryDefaults(await searchParams);
   return (
     <div>
       <section className="border-b border-[var(--border)] bg-[var(--surface)]">
@@ -35,7 +37,7 @@ export default function ContactPage() {
       </section>
       <div className="site-container grid items-start gap-8 py-12 sm:py-16 lg:grid-cols-[0.7fr_1.3fr] lg:gap-14">
         <aside><p className="eyebrow">在线咨询 · ONLINE ENQUIRY</p><h2 className="section-title mt-4">留下需求，<br />我们通过邮箱联系你</h2><p className="section-intro mt-5">个人报名或企业团体培训均可通过表单留言。姓名、邮箱和培训城市为必填项；人数、单位、手机号和微信等可选填。英文授课需求请一并说明，以便确认安排。</p><Link href="/enterprise-training" className="text-link mt-4">先了解企业培训内容 →</Link><Link href="/en" lang="en" className="text-link mt-3">Individual & corporate enquiries · English</Link><p className="mt-6 break-all text-base text-[var(--brand)]"><a href={`mailto:${INQUIRY_EMAIL}`}>{INQUIRY_EMAIL}</a></p></aside>
-        <InquiryForm />
+        <InquiryForm key={`${defaults.defaultCity}/${defaults.defaultTraining}/${defaults.defaultDate}`} {...defaults} />
       </div>
       <section id="contact-main" className="site-container scroll-mt-28 py-12 sm:py-16">
         <div className="grid gap-6 lg:grid-cols-2">

@@ -1,0 +1,180 @@
+{
+  "title": "都会急救官网90天运营试行",
+  "start": "2026-10-22",
+  "end": "2027-01-19",
+  "timezone": "Asia/Shanghai",
+  "source": "负责人2026-10-22执行书及天津日期更正；2026-10-28提供两份最新课表与地点表并确认西安地址、三城市继续开展培训",
+  "scheduleSource": "trainingDates.json",
+  "locationSource": "trainingLocations.json（同步到src/data/cities.raw.ts）；对账见docs/operations/sources/20261028/reconciliation.json",
+  "confirmedChanges": [
+    {
+      "city": "天津市",
+      "field": "October course date",
+      "old": "2026-10-25",
+      "value": "2026-10-18",
+      "confirmedBy": "负责人在本会话回复",
+      "confirmedAt": "2026-10-22"
+    },
+    {
+      "city": "西安市",
+      "field": "location",
+      "value": "西安市高新区天谷七路国家数字出版基地A座1802",
+      "confirmedAt": "2026-10-28",
+      "confirmedBy": "负责人本会话回复"
+    },
+    {
+      "city": "广州市",
+      "field": "November course date",
+      "old": "2026-11-21",
+      "value": "2026-11-28",
+      "confirmedAt": "2026-10-28",
+      "confirmedBy": "负责人提供trainingDates.json"
+    },
+    {
+      "city": "深圳市",
+      "field": "November course date",
+      "old": "2026-11-22",
+      "value": "2026-11-07",
+      "confirmedAt": "2026-10-28",
+      "confirmedBy": "负责人提供trainingDates.json"
+    },
+    {
+      "cities": [
+        "普洱市",
+        "赣州市",
+        "都江堰市"
+      ],
+      "field": "service status",
+      "value": "仍开展培训，场地与排期待补充",
+      "confirmedAt": "2026-10-28",
+      "confirmedBy": "负责人本会话回复"
+    }
+  ],
+  "businessUnknowns": [
+    "北京、天津、上海各日期对应课程版本、当天时间、当前费用与包含项目、可报名或候补状态",
+    "普洱、赣州、都江堰仍开展培训，但新课表和地点待负责人补充；中山新来源为地点待定，不再展示原两处地址",
+    "城市服务属于本中心、合作点或待协调；地点表不作为自营分支机构或场地所有权证明",
+    "可公开导师姓名、资历、职责、授权范围与有效状态、核验渠道；不同班型师生和设备配置",
+    "野外课程新一期时间、地点、费用、导师、证书与报名条件",
+    "新增真实案例/课堂照片使用许可、可引用客户反馈；不将导师培养案例泛化为普通员工课",
+    "GA4/GSC/Bing及百度后台、有效咨询与付款台账的实际数据/读取权限"
+  ],
+  "phases": [
+    {
+      "days": "1–7",
+      "work": "历史排期、WMA旧活动、sitemap、内容与技术盘点",
+      "status": "prepared_and_locally_checked_pending_publish"
+    },
+    {
+      "days": "8–14",
+      "work": "重点城市决策信息、企业交付与案例入口、授权和导师证据",
+      "status": "scheduled_pending_business_facts"
+    },
+    {
+      "days": "15–30",
+      "work": "首月内容、两篇实质旧文维护、转化台账",
+      "status": "scheduled"
+    },
+    {
+      "days": "31–60",
+      "work": "依据真实查询和咨询完善内容",
+      "status": "scheduled"
+    },
+    {
+      "days": "61–90",
+      "work": "比较业务结果和投入并决定下一阶段",
+      "status": "scheduled"
+    }
+  ],
+  "recurring": [
+    {
+      "id": "automation-8",
+      "when": "每天08:30",
+      "scope": "只读公开页面、课表、结构化日期与入口检查；D30/D60/D90复盘",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "automation",
+      "when": "每周一09:00",
+      "scope": "一篇初稿或同题旧页更新；每月首周经营复盘",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "automation-9",
+      "when": "每周四09:30",
+      "scope": "重点城市与企业咨询路径、业务缺口、每月两篇额外旧文维护",
+      "status": "ACTIVE"
+    }
+  ],
+  "runtime": "Codex本机对话定时任务，需要电脑开机、应用运行、工作区与必要网络可用；不是服务器cron。网页日期归档由请求时计算完成，上线后生效。",
+  "publishing": "沿用已有用户上下文GitHub发布脚本；新文章须审阅，医疗技术内容须真实资质导师复核。不凭本地测试声称上线。",
+  "quietPolicy": "无变化保持安静；新稿、实质变更、新异常/恢复、首次业务资料/权限缺口和月度复盘才通知。",
+  "checkpoints": [
+    "2026-11-20",
+    "2026-12-20",
+    "2027-01-19"
+  ],
+  "initialEditorialPlan": [
+    {
+      "week": 1,
+      "topic": "首次AHA课费用包含与当天安排",
+      "action": "先核对/city、/programs和benefits-of-first-aid-training，缺当前费用/时段；先整理问答草稿不编造"
+    },
+    {
+      "week": 2,
+      "topic": "企业组织培训及人人实操",
+      "action": "更新why-companies-need-first-aid-training或服务页，保留URL"
+    },
+    {
+      "week": 3,
+      "topic": "AED报价主机耗材安装培训维护",
+      "action": "更新before-buying-aed / aed-price-difference，避免重复文章"
+    },
+    {
+      "week": 4,
+      "topic": "真实项目组织与教学交付",
+      "action": "优先深化fenyang-hospital-first-aid-training-base，无新资料不写新案例"
+    }
+  ],
+  "baseline": {
+    "date": "2026-10-22",
+    "searchImpressions": null,
+    "organicVisits": null,
+    "aiCitations": null,
+    "behaviorEvents": null,
+    "qualifiedLeads": null,
+    "paidEnrollments": null,
+    "corporateOpportunities": null,
+    "aedOrders": null,
+    "reason": "本次未取得后台报表和去重业务台账，未知不是零"
+  },
+  "analyticsMapping": {
+    "inquiry_form_start": "表单开始",
+    "inquiry_form_submit": "尝试提交，不是成功",
+    "generate_lead": "服务端接受后触发且按reference去重；不等于人工核实有效咨询",
+    "wechat_copy": "行为",
+    "contact_click": "method=phone/email；行为",
+    "schedule_click": "尚未单独记录，列入后续优化"
+  },
+  "validations": {
+    "html": "本地HTTP检查",
+    "dates": "北京时间日期边界与168城市源表/schema一致性",
+    "mobileVisual": "2026-10-28 Chrome桌面与320/390px手机视口检查；实际微信WebView和大陆移动网络仍待实测",
+    "mainlandNetwork": "待中国大陆移动网络实测",
+    "form": "城市、班型和当前所选日期预填通过浏览器验证；API仅本地mock，未发送表单或邮件"
+  },
+  "evidence": [
+    {
+      "url": "https://developers.google.com/search/updates",
+      "checked": "2026-10-22",
+      "finding": "2026-05-07起停止FAQ富结果；FAQ仍可服务读者"
+    },
+    {
+      "url": "https://learn.chatgpt.com/docs/automations?surface=app",
+      "checked": "2026-10-22",
+      "finding": "本机任务依赖应用运行和工作区可访问"
+    }
+  ],
+  "executionBook": "docs/operations/execution-20261022.txt",
+  "cityPageReview": "outputs/city-pages-20261028/review.html（工作区根目录）；修改已本地验证，生产状态另记"
+}
