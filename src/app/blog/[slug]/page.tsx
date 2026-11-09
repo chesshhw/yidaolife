@@ -367,7 +367,7 @@ export default async function BlogPostPage({ params }: Props) {
                   {post.faqItems.map(({ q, a }) => (
                     <div key={q}>
                       <dt><h3 className="text-base sm:text-lg font-semibold text-neutral-900">{q}</h3></dt>
-                      <dd className="mt-2 text-neutral-700 leading-relaxed">{a}</dd>
+                      <dd className="mt-2 text-neutral-700 leading-relaxed">{renderText(a)}</dd>
                     </div>
                   ))}
                 </dl>
@@ -380,7 +380,7 @@ export default async function BlogPostPage({ params }: Props) {
           <section className="mt-12 border-t border-neutral-200 pt-8" aria-labelledby="article-sources">
             <h2 id="article-sources" className="text-xl font-semibold text-neutral-900">官方资料与核验说明</h2>
             <p className="mt-3 text-sm leading-7 text-neutral-600">
-              {post.sourcesVerifiedAt ? `资料核验日期：${post.sourcesVerifiedAt}。` : ""}未标注发布日期的页面，以核验时的页面内容为据。资格要求可能更新，申请时请再次查看具体项目规则。
+              {post.sourcesVerifiedAt ? `资料核验日期：${post.sourcesVerifiedAt}。` : ""}{post.sourceNote ?? "未标注发布日期的页面，以核验时的页面内容为据。资格要求可能更新，申请时请再次查看具体项目规则。"}
             </p>
             <ol className="mt-4 list-decimal space-y-4 pl-5 text-sm leading-7 text-neutral-700">
               {post.sources.map((source) => (

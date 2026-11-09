@@ -529,25 +529,29 @@
   },
   {
     "url": "https://www.yidaolife.com/blog/aed-price-difference",
-    "title": "AED价格从几千到两三万，到底差在哪？单位该买哪一款？",
+    "title": "AED报价怎么比较？主机、耗材、安装、培训与维护费用清单",
     "publishedAt": "2026-03-17",
-    "updatedAt": null,
+    "updatedAt": "2026-11-09",
     "author": "黄老师",
     "owner": "网站负责人（业务事实确认）/ Codex（维护）",
     "business": "AED",
     "readerIntent": "比较报价组成和使用成本",
     "recommendedPrimaryCta": "/contact",
-    "sources": [],
-    "internalLinks": [
-      "/enterprise-training",
-      "/programs",
-      "/blog/aed-why-important",
-      "/blog/how-to-do-cpr"
+    "sources": [
+      "https://www.nhc.gov.cn/yzygj/c100068/202112/2d793a4c48424f86a5255f54d1518597.shtml",
+      "https://www.documents.philips.com/assets/20211021/61a991a5310b46399feeadc800e9d0d3.pdf"
     ],
-    "sourcesVerifiedAt": null,
-    "inventoryCheckedAt": "2026-10-22",
-    "nextCheck": "2026-10-26",
-    "sourceReviewStatus": "待逐篇核验；发布日期不等于核验日期",
+    "internalLinks": [
+      "/contact#inquiry",
+      "/enterprise-training",
+      "/cities",
+      "/blog/before-buying-aed",
+      "/blog/why-aed-still-need-training"
+    ],
+    "sourcesVerifiedAt": "2026-11-09",
+    "inventoryCheckedAt": "2026-11-09",
+    "nextCheck": "2026-11-16",
+    "sourceReviewStatus": "负责人2026-11-09审核通过；S1核对官方索引通知及发布日期，直接访问412，未核验附件全文；S2官方PDF已核对。",
     "published": {
       "repository": true,
       "liveVerifiedAt": null
@@ -559,6 +563,15 @@
     "indexed": {
       "status": "unknown",
       "evidence": null
+    },
+    "pendingMaintenance": {
+      "preparedAt": "2026-11-09",
+      "approvedAt": "2026-11-09",
+      "type": "weekly_existing_article_revision",
+      "change": "五项报价清单、同口径预算、询价模板与明确来源",
+      "published": null,
+      "submitted": "not_submitted",
+      "indexed": "unknown"
     }
   },
   {
