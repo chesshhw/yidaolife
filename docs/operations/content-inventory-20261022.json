@@ -189,6 +189,15 @@
     "indexed": {
       "status": "unknown",
       "evidence": null
+    },
+    "pendingMaintenance": {
+      "preparedAt": "2026-10-29",
+      "type": "additional_old_article_maintenance",
+      "change": "组织类似项目，先区分员工培训与导师培养",
+      "published": false,
+      "submitted": "not_submitted",
+      "indexed": "unknown",
+      "clinicalTextChanged": false
     }
   },
   {
@@ -288,6 +297,15 @@
     "indexed": {
       "status": "unknown",
       "evidence": null
+    },
+    "pendingMaintenance": {
+      "preparedAt": "2026-10-29",
+      "type": "additional_old_article_maintenance",
+      "change": "把实操要求写进方案，方便组织与交付核对",
+      "published": false,
+      "submitted": "not_submitted",
+      "indexed": "unknown",
+      "clinicalTextChanged": false
     }
   },
   {

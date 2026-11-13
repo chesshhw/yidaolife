@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import EnterprisePlanning from "@/components/EnterprisePlanning";
 
 const SITE_URL = "https://www.yidaolife.com";
 const PAGE_URL = `${SITE_URL}/enterprise-training`;
@@ -10,6 +11,10 @@ const PAGE_DESC =
   "提供企业急救培训服务，课程内容包括 CPR 心肺复苏、AED 自动体外除颤仪使用、气道异物梗阻处理等。支持企业上门培训、多城市培训协调和定制化课程安排。";
 
 const FAQ_ITEMS = [
+  {
+    q: "咨询企业培训前，需要准备哪些信息？",
+    a: "请提供培训城市、预计人数、参训岗位、意向日期与场地，并说明课程完成或用证要求。课程版本、授课语言、实操设备、具体时段及费用包含项目在方案确认时逐项核对。",
+  },
   {
     q: "企业急救培训适合哪些单位？",
     a: "适合企业、学校、健身房、物业、商场、酒店、赛事组织及各类希望提升安全保障能力的机构。",
@@ -127,6 +132,7 @@ export default function EnterpriseTrainingPage() {
         </div>
       </section>
 
+      <EnterprisePlanning />
       <div className="site-container service-content py-12 sm:py-16">
         <section className="mb-12 border-b border-[var(--border)] pb-12 last:border-0">
           <h2 className="text-2xl font-semibold leading-[1.5] text-[var(--foreground)]">为什么企业需要急救培训？</h2>
@@ -261,8 +267,14 @@ export default function EnterpriseTrainingPage() {
             如果您希望为企业、学校、健身房或活动组织安排急救培训，欢迎联系我们获取培训方案与安排建议。
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/contact?city=beijing&training=enterprise#inquiry" className="button-primary">北京企业培训咨询</Link>
+            <Link href="/contact?city=tianjin&training=enterprise#inquiry" className="button-primary">天津企业培训咨询</Link>
+            <Link href="/contact?city=shanghai&training=enterprise#inquiry" className="button-primary">上海企业培训咨询</Link>
+          </div>
+          <p className="mt-4 text-sm leading-7 text-[var(--muted)]">选择城市可带入团体培训需求；其他城市可先查看当地课程页。若由境外团队协调，可使用英文咨询页面。</p>
+          <div className="mt-4 flex flex-wrap gap-3">
             <Link
-              href="/contact"
+              href="/contact#contact-main"
               className="button-secondary"
             >
               微信咨询
@@ -285,6 +297,7 @@ export default function EnterpriseTrainingPage() {
             >
               查看课程体系
             </Link>
+            <Link href="/en/corporate-first-aid-training-china#inquiry" lang="en" className="button-secondary">Corporate enquiries · English</Link>
           </div>
         </section>
       </div>

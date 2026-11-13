@@ -63,12 +63,12 @@
     {
       "days": "1–7",
       "work": "历史排期、WMA旧活动、sitemap、内容与技术盘点",
-      "status": "prepared_and_locally_checked_pending_publish"
+      "status": "pushed_pending_live_verification"
     },
     {
       "days": "8–14",
       "work": "重点城市决策信息、企业交付与案例入口、授权和导师证据",
-      "status": "scheduled_pending_business_facts"
+      "status": "enterprise_content_prepared_pending_publish_and_business_evidence"
     },
     {
       "days": "15–30",
@@ -176,5 +176,18 @@
     }
   ],
   "executionBook": "docs/operations/execution-20261022.txt",
-  "cityPageReview": "outputs/city-pages-20261028/review.html（工作区根目录）；修改已本地验证，生产状态另记"
+  "cityPageReview": "outputs/city-pages-20261028/review.html（工作区根目录）；修改已本地验证，生产状态另记",
+  "thursdayReview": {
+    "preparedAt": "2026-10-29",
+    "report": "outputs/enterprise-20261029/review.html（工作区根目录）",
+    "additionalOldArticlesPrepared": [
+      "fenyang-hospital-first-aid-training-base",
+      "why-first-aid-hands-on-practice-matters"
+    ],
+    "additionalOldArticlesPublished": 0,
+    "newArticles": 0,
+    "clinicalTextChanged": false,
+    "formsChanged": false,
+    "qualificationEvidence": "待负责人提供可公开导师与授权文字资料，不以图片或案例替代核验"
+  }
 }

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import InquiryForm from "@/components/InquiryForm";
 import { ENGLISH_TRAINING } from "@/data/english-training";
+import EnterprisePlanning from "@/components/EnterprisePlanning";
 
 export function generateStaticParams() { return Object.keys(ENGLISH_TRAINING).map(slug => ({ slug })); }
 export const dynamicParams = false;
@@ -69,6 +70,7 @@ export default async function TrainingLandingPage({ params }: { params: Promise<
       </div>
       {!isCorporate && inquiryForm}
     </div>
+    {isCorporate && <EnterprisePlanning language="en" />}
     <section className="border-t border-[var(--border)] bg-[var(--surface)]"><div className="site-container py-12 sm:py-16"><h2 className="section-title">Before you book</h2><div className="mt-8 grid gap-8 md:grid-cols-2">{page.faqs.map(faq => <article key={faq.question}><h3 className="text-lg font-semibold">{faq.question}</h3><p className="mt-3 text-base leading-7 text-[var(--muted)]">{faq.answer}</p></article>)}</div></div></section>
     <nav aria-label="More training options" className="site-container py-10"><p className="text-sm font-semibold text-[var(--brand)]">EXPLORE TRAINING IN CHINA</p><div className="mt-4 flex flex-wrap gap-x-6 gap-y-4">{Object.entries(ENGLISH_TRAINING).filter(([key]) => key !== slug).map(([key, related]) => <Link key={key} href={`/en/${key}`} className="text-sm underline underline-offset-4">{related.city || (key.startsWith("corporate") ? "Corporate training" : key.includes("instructor") ? "Instructor pathway" : "AHA Heartsaver")}</Link>)}</div></nav>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }} />

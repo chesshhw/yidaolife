@@ -112,20 +112,20 @@ export default function InstructorPage() {
             立即申请导师（提交信息）
           </a>
           <a
-            href="tel:13512546138"
+            href="tel:13512456138"
             className="inline-flex items-center justify-center rounded-xl border border-neutral-200 bg-white px-5 py-3 text-sm font-medium text-neutral-900 shadow-sm hover:bg-neutral-50 transition-colors"
           >
-            直接拨打电话：13512546138
+            直接拨打电话：13512456138
           </a>
         </div>
 
         {/* 首屏核心视觉：报名二维码 */}
         <div className="pt-6">
           <Image
-            src="/images/wxpay.png"
+            src="/images/wechat.png"
             alt="导师报名咨询二维码"
-            width={800}
-            height={800}
+            width={898}
+            height={1226}
             priority
             className="h-auto w-full max-w-sm rounded-2xl border border-neutral-200"
           />
@@ -190,13 +190,13 @@ export default function InstructorPage() {
               href="#apply"
               className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-neutral-900 px-5 py-3 text-sm font-medium text-white shadow-sm hover:bg-neutral-800 transition-colors"
             >
-              立即申请导师（名额有限）
+              咨询导师培养安排
             </a>
             <a
-              href="tel:13512546138"
+              href="tel:13512456138"
               className="inline-flex items-center justify-center rounded-xl border border-neutral-200 bg-white px-5 py-3 text-sm font-medium text-neutral-900 shadow-sm hover:bg-neutral-50 transition-colors"
             >
-              电话咨询：13512546138
+              电话咨询：13512456138
             </a>
           </div>
         </section>
@@ -256,22 +256,23 @@ export default function InstructorPage() {
         <section id="apply" className="space-y-4 scroll-mt-24">
           <h2 className="text-xl font-semibold text-neutral-900">立即申请导师</h2>
           <p>
-            2026 名额有限，建议尽早提交申请，优先锁定培训档期。提交后我们会根据你的所在城市与基础情况进行确认与安排。
+            请先提供所在城市、已有课程经历与教学目标。候选人条件、课程及督导安排经核对后确认；咨询不代表已锁定日期、名额或取得导师资格。
           </p>
 
           <div className="space-y-3 rounded-2xl border border-neutral-200 p-5">
+            <a href="/contact#contact-main" className="text-[var(--brand)] underline underline-offset-4">在本机打开联系方式，复制微信号或发送邮件</a>
             <p className="font-medium text-neutral-900">
-              咨询电话：<a className="underline hover:no-underline" href="tel:13512546138">13512546138</a>
+              咨询电话：<a className="underline hover:no-underline" href="tel:13512456138">13512456138</a>
             </p>
             <p className="text-sm text-neutral-500">工作时间：9:00–21:00</p>
 
             <div className="pt-3">
               <p className="mb-2 text-sm text-neutral-500">扫码立即咨询/提交报名信息：</p>
               <Image
-                src="/images/wxpay.png"
+                src="/images/wechat.png"
                 alt="导师报名咨询二维码"
-                width={800}
-                height={800}
+                width={898}
+                height={1226}
                 className="h-auto w-64 max-w-full rounded-2xl border border-neutral-200"
               />
             </div>
@@ -280,7 +281,7 @@ export default function InstructorPage() {
           {/* CTA #3 bottom */}
           <div className="flex flex-wrap gap-3 pt-2">
             <a
-              href="tel:13512546138"
+              href="tel:13512456138"
               className="inline-flex items-center justify-center rounded-xl border border-neutral-200 bg-white px-5 py-3 text-sm font-medium text-neutral-900 shadow-sm hover:bg-neutral-50 transition-colors"
             >
               直接电话咨询

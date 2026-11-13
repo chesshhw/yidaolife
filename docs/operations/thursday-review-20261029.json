@@ -1,0 +1,154 @@
+{
+  "date": "2026-10-29",
+  "automation": "automation-9",
+  "trialDay": 8,
+  "trialEnd": "2027-01-19",
+  "scope": "Enterprise organization information, case-to-service paths and additional old-article maintenance",
+  "publication": {
+    "pushed": false,
+    "published": false,
+    "submitted": "not_submitted",
+    "indexed": "unknown"
+  },
+  "cities": [
+    {
+      "city": "北京",
+      "slug": "beijing",
+      "source": "Owner-provided files, confirmed 2026-10-28; not a new business confirmation",
+      "locations": [
+        "北京市 丰台区石榴中心2号楼714室"
+      ],
+      "isMinGroup": false,
+      "dates": [
+        "2026年10月31日",
+        "2026年11月15日",
+        "2026年11月28日",
+        "2026年12月13日",
+        "2026年12月26日"
+      ],
+      "pastDates": [
+        "2026年9月27日",
+        "2026年10月17日"
+      ],
+      "invalidDates": [],
+      "unknown": [
+        "当天具体时段",
+        "课程版本与选定模块",
+        "当前费用及包含项目",
+        "可报名/候补与余位",
+        "本中心或合作点归属",
+        "实际导师与授权材料"
+      ]
+    },
+    {
+      "city": "上海",
+      "slug": "shanghai",
+      "source": "Owner-provided files, confirmed 2026-10-28; not a new business confirmation",
+      "locations": [
+        "上海市 徐汇区吴中路8号锦辉大厦714室"
+      ],
+      "isMinGroup": false,
+      "dates": [
+        "2026年11月7日",
+        "2026年11月22日",
+        "2026年12月12日",
+        "2026年12月27日"
+      ],
+      "pastDates": [
+        "2026年10月11日",
+        "2026年10月24日"
+      ],
+      "invalidDates": [],
+      "unknown": [
+        "当天具体时段",
+        "课程版本与选定模块",
+        "当前费用及包含项目",
+        "可报名/候补与余位",
+        "本中心或合作点归属",
+        "实际导师与授权材料"
+      ]
+    },
+    {
+      "city": "天津",
+      "slug": "tianjin",
+      "source": "Owner-provided files, confirmed 2026-10-28; not a new business confirmation",
+      "locations": [
+        "天津市 和平区大沽北路与徐州道交口万通中心20层培训教室"
+      ],
+      "isMinGroup": false,
+      "dates": [
+        "2026年11月15日",
+        "2026年12月20日"
+      ],
+      "pastDates": [
+        "2026年10月18日"
+      ],
+      "invalidDates": [],
+      "unknown": [
+        "当天具体时段",
+        "课程版本与选定模块",
+        "当前费用及包含项目",
+        "可报名/候补与余位",
+        "本中心或合作点归属",
+        "实际导师与授权材料"
+      ]
+    }
+  ],
+  "businessGaps": [
+    "可公开导师姓名、适用课程资格与有效状态、发证培训中心及核验渠道尚待负责人材料；未凭图片或项目推断。",
+    "当前费用、人数配置、余位、日期对应课程及场地归属未新增确认；不生成报价或名额。"
+  ],
+  "work": [
+    {
+      "route": "/enterprise-training",
+      "change": "Four planning steps, qualification verification questions, existing Fenyang case and city-prefilled corporate enquiries"
+    },
+    {
+      "route": "/en/corporate-first-aid-training-china",
+      "change": "Equivalent English planning and case; existing form placement preserved"
+    },
+    {
+      "route": "/instructor",
+      "change": "Correct contact phone and reuse established WeChat contact QR; remove unverified scarcity; add same-device contact link"
+    }
+  ],
+  "additionalOldArticleMaintenance": [
+    {
+      "slug": "fenyang-hospital-first-aid-training-base",
+      "change": "Distinguish employee training from instructor development with an organization checklist",
+      "newArticle": false,
+      "medicalTextChanged": false,
+      "status": "prepared_not_published"
+    },
+    {
+      "slug": "why-first-aid-hands-on-practice-matters",
+      "change": "Add a six-part proposal and delivery comparison table",
+      "newArticle": false,
+      "medicalTextChanged": false,
+      "status": "prepared_not_published"
+    }
+  ],
+  "deduplication": {
+    "mondayFirstCourseTopic": "Not repeated; current course fees and timetable remain awaiting confirmation",
+    "mondayWeek2": "Keep why-companies-need-first-aid-training for demand diagnosis, participant selection and shift scheduling; reuse the new enterprise delivery section instead of rewriting it",
+    "week4Case": "Do not count these two additional old-article changes again as a new case; new project details require owner evidence"
+  },
+  "credentialEvidence": {
+    "known": "Company name and existing published project record",
+    "unknown": [
+      "Named instructor credentials, discipline, validity and public permission",
+      "Authorization entity, scope, current validity and verification channel"
+    ],
+    "action": "No invented bios or authority claims; preparation checklist added only"
+  },
+  "validation": {
+    "build": "passed",
+    "operationsChecks": 425,
+    "contentAndBrowserChecks": 184,
+    "metadataPreserved": true,
+    "formsChanged": false,
+    "noFormPost": true,
+    "live": "unknown_network_EACCES"
+  },
+  "review": "outputs/enterprise-20261029/review.html (workspace root)"
+}
