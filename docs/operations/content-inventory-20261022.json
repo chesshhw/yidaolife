@@ -1,5 +1,43 @@
 [
   {
+    "url": "https://www.yidaolife.com/blog/experienced-aha-instructor-teaching-quality",
+    "title": "有经验的AHA导师，应该是什么样？",
+    "publishedAt": "2026-11-17",
+    "updatedAt": null,
+    "author": "黄老师",
+    "owner": "网站负责人（业务事实确认）/ Codex（维护）",
+    "business": "导师",
+    "readerIntent": "理解导师教学质量与导师手册、实操反馈及客观考核之间的关系",
+    "recommendedPrimaryCta": "/cities",
+    "sources": [
+      "https://cpr.heart.org/en/-/media/CPR2-Files/Course-Materials/2026-Course-Materials/2026-Instructor-Essentials-Instructor-Candidate-Workbook.pdf",
+      "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support",
+      "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/resuscitation-education-science"
+    ],
+    "internalLinks": [
+      "/blog/why-first-aid-hands-on-practice-matters",
+      "/cities",
+      "/enterprise-training",
+      "/blog/fenyang-hospital-first-aid-training-base"
+    ],
+    "sourcesVerifiedAt": "2026-11-17",
+    "inventoryCheckedAt": "2026-11-17",
+    "nextCheck": "2026-12-17",
+    "sourceReviewStatus": "负责人确认成人CPR案例并于2026-11-17审核批准发布；公开AHA教材与指南已核对。不宣称另行核验作者资质。",
+    "published": {
+      "repository": true,
+      "liveVerifiedAt": null
+    },
+    "submitted": {
+      "status": "not_submitted",
+      "evidence": null
+    },
+    "indexed": {
+      "status": "unknown",
+      "evidence": null
+    }
+  },
+  {
     "url": "https://www.yidaolife.com/blog/fitness-certification-cpr-aed-requirements",
     "title": "健身教练考证需要 CPR/AED 证书吗？NSCA、ACSM、ACE、NASM 要求与纸质证书说明",
     "publishedAt": "2026-10-22",

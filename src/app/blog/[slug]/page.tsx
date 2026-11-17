@@ -262,6 +262,12 @@ export default async function BlogPostPage({ params }: Props) {
                 </div>
               )}
 
+              {section.afterTableParagraphs?.map((p) => (
+                <p key={p} className="mt-3 text-neutral-700 leading-relaxed">
+                  {renderText(p)}
+                </p>
+              ))}
+
               {section.bullets && (
                 <ul className="mt-3 list-disc list-inside text-neutral-700 space-y-1">
                   {section.bullets.map((item) => (
