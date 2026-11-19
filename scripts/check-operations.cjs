@@ -13,7 +13,7 @@ const arg = name => args[args.indexOf(name)+1];
 const base = args.includes('--base') ? arg('--base').replace(/\/$/,'') : null;
 const asOf = shanghaiDate();
 const report = {checkedAt:new Date().toISOString(),asOf,timezone:'Asia/Shanghai',base,
-  checks:[],issues:[],businessVerification:'Schedules and locations reconciled against owner-supplied 2026-10-28 files; Xi’an address corrected by owner. Puer, Ganzhou and Dujiangyan remain available with dates/venues pending. Fees, seats and venue affiliation remain unverified. See docs/operations/sources/20261028/reconciliation.json.',
+  checks:[],issues:[],businessVerification:'Schedules reconciled against owner-supplied 2026-11-19 file with prior history retained; locations retain the 2026-10-28 source and owner-corrected Xi’an address. Puer, Ganzhou and Dujiangyan remain available with dates/venues pending. Fees, seats and venue affiliation remain unverified. See docs/operations/sources/20261119/reconciliation.json and docs/operations/sources/20261028/reconciliation.json.',
   formDelivery:'Not tested: no real enquiry sent',publication:'Not inferred from local checks'};
 function check(name,passed,detail) { report.checks.push({name,passed,detail}); if(!passed) report.issues.push({name,detail}); }
 function datesIn(value,result=[]) {

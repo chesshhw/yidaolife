@@ -3,7 +3,7 @@
   "start": "2026-10-22",
   "end": "2027-01-19",
   "timezone": "Asia/Shanghai",
-  "source": "负责人2026-10-22执行书及天津日期更正；2026-10-28提供两份最新课表与地点表并确认西安地址、三城市继续开展培训",
+  "source": "负责人2026-10-22执行书及天津日期更正；2026-10-28提供两份最新课表与地点表并确认西安地址、三城市继续开展培训；2026-11-19负责人提供最新课表，常熟改为12月12日",
   "scheduleSource": "trainingDates.json",
   "locationSource": "trainingLocations.json（同步到src/data/cities.raw.ts）；对账见docs/operations/sources/20261028/reconciliation.json",
   "confirmedChanges": [
@@ -48,6 +48,20 @@
       "value": "仍开展培训，场地与排期待补充",
       "confirmedAt": "2026-10-28",
       "confirmedBy": "负责人本会话回复"
+    },
+    {
+      "city": "常熟市",
+      "field": "upcoming course dates",
+      "old": [
+        "2026-11-21",
+        "2026-12-26"
+      ],
+      "value": [
+        "2026-12-12"
+      ],
+      "confirmedAt": "2026-11-19",
+      "confirmedBy": "负责人本会话提供trainingDates.json并要求更新网站",
+      "evidence": "docs/operations/sources/20261119/reconciliation.json"
     }
   ],
   "businessUnknowns": [

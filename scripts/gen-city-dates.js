@@ -30,7 +30,7 @@ for (const { city, date } of rows) {
   }
   dates[key] = values.join(", ");
 }
-const header = "/**\n * 城市课表：用户于2026-10-28提供的trainingDates.json及原有历史日期。\n * 天津2026年10月18日由负责人于2026-10-22确认；仅保留于历史。\n * 用户源表和核对记录见docs/operations/sources/20261028。\n * 由scripts/gen-city-dates.js生成；不推算日期。\n */\nexport const CITY_SCHEDULE_DATES: Record<string, string> = ";
+const header = "/**\n * 城市课表：用户于2026-11-19提供的trainingDates.json及原有历史日期。\n * 天津2026年10月18日由负责人于2026-10-22确认；仅保留于历史。\n * 最新源表和核对记录见docs/operations/sources/20261119；地点仍以20261028记录为准。\n * 由scripts/gen-city-dates.js生成；不推算日期。\n */\nexport const CITY_SCHEDULE_DATES: Record<string, string> = ";
 const sorted = Object.fromEntries(Object.entries(dates).sort(([a], [b]) => a.localeCompare(b, "zh-CN")));
 fs.writeFileSync(path.join(__dirname, "../src/data/city-dates.ts"), header + JSON.stringify(sorted, null, 2) + ";\n", "utf8");
 console.log("Wrote", Object.keys(dates).length, "city schedules");

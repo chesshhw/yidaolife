@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-19",
+  "authority": "负责人在本会话提供桌面 trainingDates.json 并要求更新网站培训日期",
+  "sourceFile": "trainingDates.json",
+  "sourceSha256": "8962d0d0a7c779c0d11559dd77716cb5b565fa033a21f9f77e614b36be35de8c",
+  "providedRows": 166,
+  "effectiveRows": 166,
+  "changes": [
+    {
+      "city": "常熟市",
+      "previous": "2026年10月24日, 2026年11月21日, 2026年12月26日",
+      "provided": "2026年12月12日",
+      "effective": "2026年10月24日, 2026年12月12日",
+      "removedUpcoming": [
+        "2026年11月21日",
+        "2026年12月26日"
+      ],
+      "addedUpcoming": [
+        "2026年12月12日"
+      ]
+    }
+  ],
+  "history": "保留仓库原有过去日期与本次来源提供的过去日期；历史记录不代表课程实际举办。不保留被新表替换的未来日期。",
+  "locations": "本次未提供新地址，沿用负责人2026-10-28确认的地点与西安地址更正。",
+  "businessUnknowns": [
+    "当天时段",
+    "课程版本与选定模块",
+    "费用及包含项目",
+    "余位和报名状态",
+    "场地归属与授课资质"
+  ]
+}
