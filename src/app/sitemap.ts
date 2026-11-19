@@ -31,7 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
   const cityPages: MetadataRoute.Sitemap = getAllCitySlugs().map((slug) => ({
     url: `${SITE_URL}/city/${slug}`,
-    lastModified: ["changshu", "jinhua"].includes(slug) ? scheduleUpdatedAt : cityPagesUpdatedAt,
+    lastModified: ["changshu", "jinhua", "xian"].includes(slug) ? scheduleUpdatedAt : cityPagesUpdatedAt,
     changeFrequency: "weekly" as const,
     priority: 0.8,
   }));

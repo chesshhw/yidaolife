@@ -1,4 +1,4 @@
-// 用户2026-10-28提供地点表；西安按同日回复更正，金华按2026-11-19用户提供地点更新。其他未列出的既有城市保留网址、地点待确认。
+// 用户2026-10-28提供地点表；西安、金华按2026-11-19用户提供地点更新。其他未列出的既有城市保留网址、地点待确认。
 export const RAW_DATA: Array<{city:string;location:string}> = [
   {
     "city": "北京市",
@@ -14,7 +14,7 @@ export const RAW_DATA: Array<{city:string;location:string}> = [
   },
   {
     "city": "西安市",
-    "location": "西安市，高新区天谷七路国家数字出版基地A座1802"
+    "location": "西安市，雁塔区天谷七路西安国家数字出版基地"
   },
   {
     "city": "广州市",
