@@ -3,9 +3,9 @@
   "start": "2026-10-22",
   "end": "2027-01-19",
   "timezone": "Asia/Shanghai",
-  "source": "负责人2026-10-22执行书及天津日期更正；2026-10-28提供两份最新课表与地点表并确认西安地址、三城市继续开展培训；2026-11-19负责人提供最新课表，常熟改为12月12日",
+  "source": "负责人2026-10-22执行书及天津日期更正；2026-10-28提供两份最新课表与地点表并确认西安地址、三城市继续开展培训；2026-11-19负责人提供最新课表，常熟改为12月12日；同日稍后负责人补充金华12月26日与横店义工服务发展中心",
   "scheduleSource": "trainingDates.json",
-  "locationSource": "trainingLocations.json（同步到src/data/cities.raw.ts）；对账见docs/operations/sources/20261028/reconciliation.json",
+  "locationSource": "trainingLocations.json（同步到src/data/cities.raw.ts）；对账见docs/operations/sources/20261028/reconciliation.json；金华按2026-11-19单城更新，见docs/operations/sources/20261119-jinhua/reconciliation.json",
   "confirmedChanges": [
     {
       "city": "天津市",
@@ -62,6 +62,22 @@
       "confirmedAt": "2026-11-19",
       "confirmedBy": "负责人本会话提供trainingDates.json并要求更新网站",
       "evidence": "docs/operations/sources/20261119/reconciliation.json"
+    },
+    {
+      "city": "金华市",
+      "field": "schedule and location",
+      "old": {
+        "date": "满6人开课",
+        "location": "待定"
+      },
+      "value": {
+        "city": "金华市",
+        "date": "2026年12月26日",
+        "location": "金华市，横店义工服务发展中心"
+      },
+      "confirmedAt": "2026-11-19",
+      "confirmedBy": "负责人本会话提供两份桌面JSON并要求仅更新金华日期和地点",
+      "evidence": "docs/operations/sources/20261119-jinhua/reconciliation.json"
     }
   ],
   "businessUnknowns": [

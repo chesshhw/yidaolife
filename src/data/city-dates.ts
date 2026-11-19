@@ -1,7 +1,7 @@
 /**
  * 城市课表：用户于2026-11-19提供的trainingDates.json及原有历史日期。
  * 天津2026年10月18日由负责人于2026-10-22确认；仅保留于历史。
- * 最新源表和核对记录见docs/operations/sources/20261119；地点仍以20261028记录为准。
+ * 最新源表见docs/operations/sources/20261119；金华单城补充见20261119-jinhua。
  * 由scripts/gen-city-dates.js生成；不推算日期。
  */
 export const CITY_SCHEDULE_DATES: Record<string, string> = {
@@ -58,7 +58,7 @@ export const CITY_SCHEDULE_DATES: Record<string, string> = {
   "嘉兴市": "满6人开课",
   "江门市": "满6人开课",
   "金昌市": "满6人开课",
-  "金华市": "满6人开课",
+  "金华市": "2026年12月26日",
   "锦州市": "2026年10月24日, 2026年11月21日, 2026年12月26日",
   "晋城市": "满6人开课",
   "晋中市": "满6人开课",

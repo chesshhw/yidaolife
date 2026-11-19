@@ -1,4 +1,4 @@
-// 用户2026-10-28提供地点表；西安按同日回复更正，未列出的既有城市保留网址、地点待确认。
+// 用户2026-10-28提供地点表；西安按同日回复更正，金华按2026-11-19用户提供地点更新。其他未列出的既有城市保留网址、地点待确认。
 export const RAW_DATA: Array<{city:string;location:string}> = [
   {
     "city": "北京市",
@@ -406,7 +406,7 @@ export const RAW_DATA: Array<{city:string;location:string}> = [
   },
   {
     "city": "金华市",
-    "location": "金华市，待定"
+    "location": "金华市，横店义工服务发展中心"
   },
   {
     "city": "衢州市",
